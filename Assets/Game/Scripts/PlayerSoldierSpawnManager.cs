@@ -59,7 +59,7 @@ namespace Game.Scripts
                 if (touch.phase == TouchPhase.Ended)
                 {
                     SpawnSoldiers();
-                    spawnPointPool.SetAllItemsToSleep();
+                    spawnPointPool.ReleaseAll();
                     points.Clear();
                     spawnPointsIndices.Clear();
                     lineRenderer.positionCount = 0;
@@ -102,6 +102,11 @@ namespace Game.Scripts
                             var shouldAddSpawnPoint = isNewSpawnPointIsFarEnough && canSpawnOneMoreSoldier;
                             
                             AddPoint(worldPoint, shouldAddSpawnPoint);
+
+                            // if (!canSpawnOneMoreSoldier)
+                            // {
+                            //     RecalculateSpawnPointsIndices();
+                            // }
                         }
                     }
                 }
@@ -167,6 +172,21 @@ namespace Game.Scripts
             }
 
             levelManager.SpawnedSoldiers += spawnPointsIndices.Count;
+        }
+
+        private void RecalculateSpawnPointsIndices()
+        {
+            var spawnPointsAmount = spawnPointsIndices.Count;
+            var newInterval = points.Count / spawnPointsAmount;
+            
+            spawnPointsIndices.Clear();
+            spawnPointPool.ReleaseAll();
+            
+            for (int i = 0; i < spawnPointsAmount; i++)
+            {
+                spawnPointsIndices.Add(i * newInterval);
+                spawnPointPool.GetNewObject();
+            }
         }
     }
 }

@@ -83,6 +83,16 @@ namespace Gamelogic.Extensions
 		{
 			SetToSleep(obj);
 		}
+		
+		public void ReleaseAll()
+		{
+			for (int i = firstSleepingObjectIndex - 1; i >= 0; i--)
+			{
+				SetToSleep(poolObjects[i]);
+			}
+
+			firstSleepingObjectIndex = 0;
+		}
 
 		/// <summary>
 		/// Increases thew capacity of the pool. 
@@ -108,16 +118,6 @@ namespace Gamelogic.Extensions
 			{
 				Kill(obj);
 			}
-		}
-
-		public void SetAllItemsToSleep()
-		{
-			for (int i = firstSleepingObjectIndex - 1; i >= 0; i--)
-			{
-				SetToSleep(poolObjects[i]);
-			}
-
-			firstSleepingObjectIndex = 0;
 		}
 
 		private void Kill(T obj)
