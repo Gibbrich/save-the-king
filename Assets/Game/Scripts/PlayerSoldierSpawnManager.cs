@@ -47,7 +47,7 @@ namespace Game.Scripts
             soldiersParent.transform.parent = transform;
             
             spawnPointPool = new Pool<GameObject>(50, CreateSpawnPoint, Destroy, WakeUpSpawnPoint, SetToSleepSpawnPoint);
-            soldiersPool = new Pool<GameObject>(levelManager.soldiersCount, CreateSoldier, Destroy, WakeUpSoldier, SetAsleepSoldier);
+            soldiersPool = new Pool<GameObject>(50, CreateSoldier, Destroy, WakeUpSoldier, SetAsleepSoldier);
         }
 
         private void Update()
@@ -95,7 +95,12 @@ namespace Game.Scripts
                         if (sqrDistance >= minDistanceSquare)
                         {
                             var previousSpawnPointIndex = spawnPointsIndices[spawnPointsIndices.Count - 1];
-                            var shouldAddSpawnPoint = (worldPoint - points[previousSpawnPointIndex]).sqrMagnitude >= spawnPointDistanceSquare;
+                            var isNewSpawnPointIsFarEnough = (worldPoint - points[previousSpawnPointIndex]).sqrMagnitude >= spawnPointDistanceSquare;
+                            // check for available humans to spawn
+                            var canSpawnOneMoreSoldier = levelManager.SpawnedSoldiers + spawnPointsIndices.Count + 1 <= levelManager.maxAvailableSoldiers;
+
+                            var shouldAddSpawnPoint = isNewSpawnPointIsFarEnough && canSpawnOneMoreSoldier;
+                            
                             AddPoint(worldPoint, shouldAddSpawnPoint);
                         }
                     }
@@ -160,6 +165,8 @@ namespace Game.Scripts
                 soldier.transform.position = point;
                 soldier.transform.rotation = Quaternion.AngleAxis(angleDeg, Vector3.up);
             }
+
+            levelManager.SpawnedSoldiers += spawnPointsIndices.Count;
         }
     }
 }

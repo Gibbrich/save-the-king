@@ -4,6 +4,8 @@ namespace Game.Scripts
 {
     public class LevelManager : MonoBehaviour
     {
-        public int soldiersCount;
+        public int maxAvailableSoldiers;
+
+        public int SpawnedSoldiers { get; set; }
     }
 }
