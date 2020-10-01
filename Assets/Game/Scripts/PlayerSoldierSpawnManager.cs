@@ -8,13 +8,16 @@ using UnityEngine;
 namespace Game.Scripts
 {
     [RequireComponent(typeof(LineRenderer))]
-    public class PlayerInputController : MonoBehaviour
+    public class PlayerSoldierSpawnManager : MonoBehaviour
     {
+        public LevelManager levelManager;
+        public GameObject king;
         public GameObject spawnPointPrefab;
+        public GameObject soldierPrefab;
         public float minPointDistance;
         public float lineRenderHeight = 0.5f;
         public float spawnPointDistance = 0.5f;
-        public float spawnPointRadius = 0.1f;
+        public float soldierRotationOffset = 90f;
 
         private LineRenderer lineRenderer;
         private List<Vector3> points;
@@ -24,6 +27,9 @@ namespace Game.Scripts
         private Camera camera;
         private RaycastHit[] results = new RaycastHit[1];
         private Pool<GameObject> spawnPointPool;
+        private Pool<GameObject> soldiersPool;
+        private GameObject spawnPointsParent;
+        private GameObject soldiersParent;
 
         private void Start()
         {
@@ -33,7 +39,15 @@ namespace Game.Scripts
             minDistanceSquare = Mathf.Pow(minPointDistance, 2);
             spawnPointDistanceSquare = Mathf.Pow(spawnPointDistance, 2);
             camera = Camera.main;
+            
+            spawnPointsParent = new GameObject("spawnPointsParent");
+            spawnPointsParent.transform.parent = transform;
+            
+            soldiersParent = new GameObject("soldiersParent");
+            soldiersParent.transform.parent = transform;
+            
             spawnPointPool = new Pool<GameObject>(50, CreateSpawnPoint, Destroy, WakeUpSpawnPoint, SetToSleepSpawnPoint);
+            soldiersPool = new Pool<GameObject>(levelManager.soldiersCount, CreateSoldier, Destroy, WakeUpSoldier, SetAsleepSoldier);
         }
 
         private void Update()
@@ -42,10 +56,13 @@ namespace Game.Scripts
             if (touchCount > 0)
             {
                 var touch = TouchManager.GetTouch(0);
-                if (touch.phase == TouchPhase.Began)
+                if (touch.phase == TouchPhase.Ended)
                 {
-                    points.Clear();
+                    SpawnSoldiers();
                     spawnPointPool.SetAllItemsToSleep();
+                    points.Clear();
+                    spawnPointsIndices.Clear();
+                    lineRenderer.positionCount = 0;
                 }
                 else
                 {
@@ -100,12 +117,7 @@ namespace Game.Scripts
             }
         }
 
-        private GameObject CreateSpawnPoint()
-        {
-            var spawnPoint = Instantiate(spawnPointPrefab, transform);
-            spawnPoint.transform.localScale = new Vector3(spawnPointRadius, spawnPointRadius, spawnPointRadius);
-            return spawnPoint;
-        }
+        private GameObject CreateSpawnPoint() => Instantiate(spawnPointPrefab, spawnPointsParent.transform);
 
         private void WakeUpSpawnPoint(GameObject spawnPoint)
         {
@@ -115,5 +127,39 @@ namespace Game.Scripts
         }
 
         private void SetToSleepSpawnPoint(GameObject spawnPoint) => spawnPoint.SetActive(false);
+
+        private GameObject CreateSoldier() => Instantiate(soldierPrefab, soldiersParent.transform);
+
+        private void WakeUpSoldier(GameObject soldier)
+        {
+            soldier.SetActive(true);
+        }
+
+        private void SetAsleepSoldier(GameObject soldier)
+        {
+            soldier.SetActive(false);
+        }
+
+        private void SpawnSoldiers()
+        {
+            var midPointId = points.Count / 2;
+            var midPoint = points[midPointId];
+            var midPoint2d = new Vector2(midPoint.x, midPoint.z);
+            
+            var kingPosition = king.transform.position;
+            var kingPosition2d = new Vector2(kingPosition.x, kingPosition.z);
+            
+            var direction = midPoint2d - kingPosition2d;
+            var angleDeg = soldierRotationOffset - Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+            for (int i = 0; i < spawnPointsIndices.Count; i++)
+            {
+                var pointId = spawnPointsIndices[i];
+                var point = points[pointId];
+                var soldier = soldiersPool.GetNewObject();
+                soldier.transform.position = point;
+                soldier.transform.rotation = Quaternion.AngleAxis(angleDeg, Vector3.up);
+            }
+        }
     }
 }
