@@ -97,11 +97,8 @@ namespace Game.Scripts
                             var previousSpawnPointIndex = spawnPointsIndices[spawnPointsIndices.Count - 1];
                             var isNewSpawnPointIsFarEnough = (worldPoint - points[previousSpawnPointIndex]).sqrMagnitude >= spawnPointDistanceSquare;
                             // check for available humans to spawn
-                            var canSpawnOneMoreSoldier = levelManager.SpawnedSoldiers + spawnPointsIndices.Count + 1 <= levelManager.maxAvailableSoldiers;
 
-                            var shouldAddSpawnPoint = isNewSpawnPointIsFarEnough && canSpawnOneMoreSoldier;
-                            
-                            AddPoint(worldPoint, shouldAddSpawnPoint);
+                            AddPoint(worldPoint, isNewSpawnPointIsFarEnough);
 
                             // if (!canSpawnOneMoreSoldier)
                             // {
@@ -113,17 +110,21 @@ namespace Game.Scripts
             }
         }
 
-        private void AddPoint(Vector3 worldPoint, bool shouldAddSpawnPoint)
+        private void AddPoint(Vector3 worldPoint, bool isNewSpawnPointIsFarEnough)
         {
             points.Add(worldPoint);
             var pointsCount = points.Count;
             lineRenderer.positionCount = pointsCount;
             lineRenderer.SetPosition(pointsCount - 1, worldPoint);
+
+            var upcomingSoldiers = spawnPointsIndices.Count + 1;
+            var canSpawnOneMoreSoldier = levelManager.SpawnedSoldiers + upcomingSoldiers <= levelManager.maxAvailableSoldiers;
             
-            if (shouldAddSpawnPoint)
+            if (isNewSpawnPointIsFarEnough && canSpawnOneMoreSoldier)
             {
                 spawnPointsIndices.Add(points.Count - 1);
                 spawnPointPool.GetNewObject();
+                levelManager.UpdateMaxAvailableSoldiersCount(upcomingSoldiers);
             }
         }
 
