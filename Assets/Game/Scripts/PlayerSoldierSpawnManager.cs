@@ -57,11 +57,14 @@ namespace Game.Scripts
                 var touch = TouchManager.GetTouch(0);
                 if (touch.phase == TouchPhase.Ended)
                 {
-                    SpawnSoldiers();
-                    spawnPointPool.ReleaseAll();
-                    points.Clear();
-                    spawnPointsHolder.SpawnPoints.Clear();
-                    lineRenderer.positionCount = 0;
+                    if (spawnPointsHolder.SpawnPoints.Count > 0)
+                    {
+                        SpawnSoldiers();
+                        spawnPointPool.ReleaseAll();
+                        points.Clear();
+                        spawnPointsHolder.SpawnPoints.Clear();
+                        lineRenderer.positionCount = 0;
+                    }
                 }
                 else
                 {
@@ -72,6 +75,11 @@ namespace Game.Scripts
 
         private void AddPointIfNeed(Vector2 screenPoint)
         {
+            if (spawnPointsHolder.SpawnPoints.Count >= levelManager.maxAvailableSoldiers - levelManager.SpawnedSoldiers)
+            {
+                return;
+            }
+            
             var ray = camera.ScreenPointToRay(new Vector3(screenPoint.x, screenPoint.y, camera.nearClipPlane));
             var hitsCount = Physics.RaycastNonAlloc(ray, results, 30f);
             if (hitsCount >= 1)
@@ -163,7 +171,7 @@ namespace Game.Scripts
                 var spawnPointIdOffset = result - i;
                 spawnPoint.transform.position = spawnPointsHolder.SpawnPoints[spawnPointsHolder.SpawnPoints.Count - spawnPointIdOffset];
             }
-            levelManager.UpdateMaxAvailableSoldiersCount(spawnPointsHolder.SpawnPoints.Count + 1);
+            levelManager.UpdateMaxAvailableSoldiersCount(spawnPointsHolder.SpawnPoints.Count);
         }
     }
 }
