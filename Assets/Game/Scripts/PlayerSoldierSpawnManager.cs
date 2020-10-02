@@ -21,7 +21,7 @@ namespace Game.Scripts
 
         private LineRenderer lineRenderer;
         private List<Vector3> points;
-        private List<int> spawnPointsIndices;
+        private List<Vector3> spawnPoints;
         private float minDistanceSquare;
         private float spawnPointDistanceSquare;
         private Camera camera;
@@ -35,7 +35,7 @@ namespace Game.Scripts
         {
             lineRenderer = GetComponent<LineRenderer>();
             points = new List<Vector3>();
-            spawnPointsIndices = new List<int>();
+            spawnPoints = new List<Vector3>();
             minDistanceSquare = Mathf.Pow(minPointDistance, 2);
             spawnPointDistanceSquare = Mathf.Pow(spawnPointDistance, 2);
             camera = Camera.main;
@@ -61,7 +61,7 @@ namespace Game.Scripts
                     SpawnSoldiers();
                     spawnPointPool.ReleaseAll();
                     points.Clear();
-                    spawnPointsIndices.Clear();
+                    spawnPoints.Clear();
                     lineRenderer.positionCount = 0;
                 }
                 else
@@ -86,7 +86,7 @@ namespace Game.Scripts
                 
                     if (points.Count == 0)
                     {
-                        AddPoint(worldPoint, true);
+                        AddPoint(worldPoint);
                     }
                     else
                     {
@@ -94,46 +94,28 @@ namespace Game.Scripts
                         var sqrDistance = (worldPoint - lastPoint).sqrMagnitude;
                         if (sqrDistance >= minDistanceSquare)
                         {
-                            var previousSpawnPointIndex = spawnPointsIndices[spawnPointsIndices.Count - 1];
-                            var isNewSpawnPointIsFarEnough = (worldPoint - points[previousSpawnPointIndex]).sqrMagnitude >= spawnPointDistanceSquare;
-                            // check for available humans to spawn
-
-                            AddPoint(worldPoint, isNewSpawnPointIsFarEnough);
-
-                            // if (!canSpawnOneMoreSoldier)
-                            // {
-                            //     RecalculateSpawnPointsIndices();
-                            // }
+                            AddPoint(worldPoint);
                         }
                     }
                 }
             }
         }
 
-        private void AddPoint(Vector3 worldPoint, bool isNewSpawnPointIsFarEnough)
+        private void AddPoint(Vector3 worldPoint)
         {
             points.Add(worldPoint);
             var pointsCount = points.Count;
             lineRenderer.positionCount = pointsCount;
             lineRenderer.SetPosition(pointsCount - 1, worldPoint);
 
-            var upcomingSoldiers = spawnPointsIndices.Count + 1;
-            var canSpawnOneMoreSoldier = levelManager.SpawnedSoldiers + upcomingSoldiers <= levelManager.maxAvailableSoldiers;
-            
-            if (isNewSpawnPointIsFarEnough && canSpawnOneMoreSoldier)
-            {
-                spawnPointsIndices.Add(points.Count - 1);
-                spawnPointPool.GetNewObject();
-                levelManager.UpdateMaxAvailableSoldiersCount(upcomingSoldiers);
-            }
+            AddSpawnPointIfNeed(worldPoint);
         }
 
         private GameObject CreateSpawnPoint() => Instantiate(spawnPointPrefab, spawnPointsParent.transform);
 
         private void WakeUpSpawnPoint(GameObject spawnPoint)
         {
-            var spawnPointsIndex = spawnPointsIndices[spawnPointsIndices.Count - 1];
-            spawnPoint.transform.position = points[spawnPointsIndex];
+            spawnPoint.transform.position = spawnPoints[spawnPoints.Count - 1];
             spawnPoint.SetActive(true);
         }
 
@@ -163,30 +145,39 @@ namespace Game.Scripts
             var direction = midPoint2d - kingPosition2d;
             var angleDeg = soldierRotationOffset - Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-            for (int i = 0; i < spawnPointsIndices.Count; i++)
+            for (int i = 0; i < spawnPoints.Count; i++)
             {
-                var pointId = spawnPointsIndices[i];
-                var point = points[pointId];
+                var point = spawnPoints[i];
                 var soldier = soldiersPool.GetNewObject();
                 soldier.transform.position = point;
                 soldier.transform.rotation = Quaternion.AngleAxis(angleDeg, Vector3.up);
             }
 
-            levelManager.SpawnedSoldiers += spawnPointsIndices.Count;
+            levelManager.SpawnedSoldiers += spawnPoints.Count;
         }
 
-        private void RecalculateSpawnPointsIndices()
+        private void AddSpawnPointIfNeed(Vector3 linePosition)
         {
-            var spawnPointsAmount = spawnPointsIndices.Count;
-            var newInterval = points.Count / spawnPointsAmount;
-            
-            spawnPointsIndices.Clear();
-            spawnPointPool.ReleaseAll();
-            
-            for (int i = 0; i < spawnPointsAmount; i++)
+            if (spawnPoints.Count == 0)
             {
-                spawnPointsIndices.Add(i * newInterval);
+                spawnPoints.Add(linePosition);
                 spawnPointPool.GetNewObject();
+                levelManager.UpdateMaxAvailableSoldiersCount(spawnPoints.Count + 1);
+            }
+            else
+            {
+                var previousSpawnPoint = spawnPoints[spawnPoints.Count - 1];
+                var distanceToPreviousSpawnPointSquare = (linePosition - previousSpawnPoint).sqrMagnitude;
+                if (distanceToPreviousSpawnPointSquare >= spawnPointDistanceSquare)
+                {
+                    var distanceToNewSpawnPointSquare = distanceToPreviousSpawnPointSquare - spawnPointDistanceSquare;
+                    var lerpCoefficient = 1 - distanceToNewSpawnPointSquare / distanceToPreviousSpawnPointSquare;
+                    var newSpawnPoint = Vector3.Lerp(linePosition, previousSpawnPoint, lerpCoefficient);
+                
+                    spawnPoints.Add(newSpawnPoint);
+                    spawnPointPool.GetNewObject();
+                    levelManager.UpdateMaxAvailableSoldiersCount(spawnPoints.Count + 1);
+                }
             }
         }
     }
