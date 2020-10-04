@@ -13,7 +13,7 @@ namespace Game.Scripts
         public LevelManager levelManager;
         public GameObject king;
         public GameObject spawnPointPrefab;
-        public GameObject soldierPrefab;
+        public Unit soldierPrefab;
         public float minPointDistance;
         public float lineRenderHeight = 0.5f;
         public float spawnPointDistance = 0.5f;
@@ -26,7 +26,7 @@ namespace Game.Scripts
         private Camera camera;
         private RaycastHit[] results = new RaycastHit[1];
         private Pool<GameObject> spawnPointPool;
-        private Pool<GameObject> soldiersPool;
+        private Pool<Unit> soldiersPool;
         private GameObject spawnPointsParent;
         private GameObject soldiersParent;
         private SpawnPointsHolder.SpawnPointsHolder spawnPointsHolder;
@@ -46,7 +46,7 @@ namespace Game.Scripts
             soldiersParent.transform.parent = transform;
             
             spawnPointPool = new Pool<GameObject>(50, CreateSpawnPoint, Destroy, WakeUpSpawnPoint, SetToSleepSpawnPoint);
-            soldiersPool = new Pool<GameObject>(50, CreateSoldier, Destroy, WakeUpSoldier, SetAsleepSoldier);
+            soldiersPool = new Pool<Unit>(50, CreateSoldier, DestroySoldier, WakeUpSoldier, SetAsleepSoldier);
         }
 
         private void Update()
@@ -70,6 +70,15 @@ namespace Game.Scripts
                 {
                     AddPointIfNeed(touch.position);
                 }
+            }
+        }
+
+        public void OnBattleStart()
+        {
+            var soldiers = soldiersPool.GetActiveObjects();
+            for (var i = 0; i < soldiers.Count; i++)
+            {
+                soldiers[i].Enable();
             }
         }
 
@@ -127,16 +136,29 @@ namespace Game.Scripts
 
         private void SetToSleepSpawnPoint(GameObject spawnPoint) => spawnPoint.SetActive(false);
 
-        private GameObject CreateSoldier() => Instantiate(soldierPrefab, soldiersParent.transform);
-
-        private void WakeUpSoldier(GameObject soldier)
+        private void DestroySoldier(Unit soldier)
         {
-            soldier.SetActive(true);
+            soldier.OnDeath = null;
+            Destroy(soldier.gameObject);
         }
 
-        private void SetAsleepSoldier(GameObject soldier)
+        private Unit CreateSoldier()
         {
-            soldier.SetActive(false);
+            var unit = Instantiate(soldierPrefab, soldiersParent.transform);
+            unit.Disable();
+            unit.OnDeath = SetAsleepSoldier;
+            return unit;
+        }
+
+        private void WakeUpSoldier(Unit soldier)
+        {
+            soldier.gameObject.SetActive(true);
+        }
+
+        private void SetAsleepSoldier(Unit soldier)
+        {
+            soldier.Disable();
+            soldier.gameObject.SetActive(false);
         }
 
         private void SpawnSoldiers()
@@ -159,7 +181,7 @@ namespace Game.Scripts
                 soldier.transform.rotation = Quaternion.AngleAxis(angleDeg, Vector3.up);
             }
 
-            levelManager.SpawnedSoldiers += spawnPointsHolder.SpawnPoints.Count;
+            levelManager.UpdateSpawnedSoldiers(spawnPointsHolder.SpawnPoints.Count);
         }
 
         private void AddSpawnPointIfNeed(Vector3 linePosition)

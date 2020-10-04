@@ -6,8 +6,9 @@ namespace Game.Scripts
 {
     public class EnemySpawner : MonoBehaviour
     {
+        public LevelManager levelManager;
         public GameObject king;
-        public GameObject enemyPrefab;
+        public Unit enemyPrefab;
         public float distanceBetweenEnemies;
         public int enemiesInRow;
         public int enemiesInColumn;
@@ -15,24 +16,31 @@ namespace Game.Scripts
         public float nextWaveSpawnDelay;
         public float soldierRotationOffset = 90f;
 
-        private Pool<GameObject> enemyPool;
+        private Pool<Unit> enemyPool;
         private float lastSpawnTime;
         private bool isFirstWave = true;
 
         private void Start()
         {
-            enemyPool = new Pool<GameObject>(50, CreateEnemy, Destroy, WakeUpEnemy, SetToSleepEnemy);
-            lastSpawnTime = Time.timeSinceLevelLoad;
+            enemyPool = new Pool<Unit>(50, CreateEnemy, DestroyEnemy, WakeUpEnemy, SetToSleepEnemy);
         }
 
         private void Update()
         {
-            var delay = isFirstWave ? firstWaveSpawnDelay : nextWaveSpawnDelay;
-            if (Time.timeSinceLevelLoad - lastSpawnTime >= delay)
+            if (levelManager.IsBattleStarted)
             {
-                isFirstWave = false;
-                SpawnWave();
+                var delay = isFirstWave ? firstWaveSpawnDelay : nextWaveSpawnDelay;
+                if (Time.timeSinceLevelLoad - lastSpawnTime >= delay)
+                {
+                    isFirstWave = false;
+                    SpawnWave();
+                }
             }
+        }
+
+        public void OnBattleStart()
+        {
+            lastSpawnTime = Time.timeSinceLevelLoad;
         }
 
         private void SpawnWave()
@@ -63,16 +71,30 @@ namespace Game.Scripts
             }
         }
 
-        private GameObject CreateEnemy() => Instantiate(enemyPrefab, transform);
-
-        private void WakeUpEnemy(GameObject enemy)
+        private Unit CreateEnemy()
         {
-            enemy.SetActive(true);
+            var unit = Instantiate(enemyPrefab, transform);
+            unit.Disable();
+            unit.OnDeath = SetToSleepEnemy;
+            return unit;
+        }
+
+        private void DestroyEnemy(Unit enemy)
+        {
+            enemy.OnDeath = null;
+            Destroy(enemy.gameObject);
+        }
+
+        private void WakeUpEnemy(Unit enemy)
+        {
+            enemy.gameObject.SetActive(true);
+            enemy.Enable();
         }
         
-        private void SetToSleepEnemy(GameObject enemy)
+        private void SetToSleepEnemy(Unit enemy)
         {
-            enemy.SetActive(false);
+            enemy.Disable();
+            enemy.gameObject.SetActive(false);
         }
     }
 }

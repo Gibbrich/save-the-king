@@ -1,9 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI; 
 using UnityEngine.AI;
 using System.Linq;
+using JetBrains.Annotations;
+using Random = UnityEngine.Random;
 
 public class Unit : MonoBehaviour {
 	
@@ -15,6 +18,8 @@ public class Unit : MonoBehaviour {
 	public AudioClip attackAudio;
 	public AudioClip runAudio;
 	
+	public LevelData levelData;
+
 	//not visible in the inspector
 	[HideInInspector]
 	public Transform currentTarget;
@@ -25,6 +30,8 @@ public class Unit : MonoBehaviour {
 	private NavMeshAgent agent;
 	private GameObject health;
 	private GameObject healthbar;
+
+	private Collider collider;
 	
 	[HideInInspector]
 	private float startLives;
@@ -37,8 +44,10 @@ public class Unit : MonoBehaviour {
 	
 	private ParticleSystem dustEffect;
 	private int maxAlliesPerEnemy;
+	private bool isInitialized;
 	
-	private bool dead;
+	public bool isDead;
+	[CanBeNull] public Action<Unit> OnDeath = unit => { Destroy(unit.gameObject); };
 	
 	void Start(){
 		//if this an archer or enemy, don't use the spread option
@@ -70,6 +79,9 @@ public class Unit : MonoBehaviour {
 		
 		//find the area so the character can walk around
 		area = GameObject.FindObjectOfType<WalkArea>();
+
+		collider = GetComponent<Collider>();
+		isInitialized = true;
 	}
 	
 	void FixedUpdate(){
@@ -83,12 +95,16 @@ public class Unit : MonoBehaviour {
 		}
 		
 		//find closest enemy
-		if(currentTarget == null && GameObject.FindGameObjectsWithTag(attackTag).Length > 0)
-			currentTarget = findCurrentTarget();	
-		
+		if (currentTarget == null && GameObject.FindGameObjectsWithTag(attackTag).Length > 0)
+		{
+			currentTarget = findCurrentTarget();
+		}
+
 		//if character ran out of lives, it should die
-		if(lives < 1 && !dead)
+		if (lives < 1 && !isDead)
+		{
 			StartCoroutine(die());
+		}
 		
 		//play dusteffect when running and stop it when the character is not running
 		if(dustEffect && animator.GetBool("Attacking") == false && !dustEffect.isPlaying)
@@ -139,6 +155,54 @@ public class Unit : MonoBehaviour {
 			}
 		}
 	}
+
+	public void Enable()
+	{
+		isDead = false;
+		startLives = lives;
+		//enable all the components
+		agent.enabled = true;
+		this.enabled = true;
+		collider.enabled = true;
+		source.Play();
+		
+		health.SetActive(true);
+		
+		//show particles
+		foreach(ParticleSystem particles in GetComponentsInChildren<ParticleSystem>()){
+			particles.gameObject.SetActive(true);
+		}
+		
+		animator.SetBool("Start", true);
+	}
+	
+	public void Disable() {
+		if (!isInitialized)
+		{
+			Start();
+		}
+		//disable the navmesh agent component
+		agent.enabled = false;
+		
+		//disable the unit script
+		spread = levelData.spreadUnits;
+		enabled = false;
+		
+		//disable the collider
+		collider.enabled = false;
+		
+		//disable the health object
+		health.SetActive(false);
+		
+		//disable any particles
+		foreach(ParticleSystem particles in GetComponentsInChildren<ParticleSystem>()){
+			particles.gameObject.SetActive(false);
+		}
+		
+		//make sure it's playing an idle animation
+		animator.SetBool("Start", false);
+	}
+
 	
 	//randomly walk around
 	public void walkRandomly(){
@@ -284,13 +348,16 @@ public class Unit : MonoBehaviour {
 	}
 	
 	public IEnumerator die(){
-		dead = true;
+		isDead = true;
 		
 		//create the ragdoll at the current position
-		Instantiate(ragdoll, transform.position, transform.rotation);
+		if (ragdoll)
+		{
+			Instantiate(ragdoll, transform.position, transform.rotation);
+		}
 		
 		//wait a moment and destroy the original unit
 		yield return new WaitForEndOfFrame();
-		Destroy(gameObject);
+		OnDeath?.Invoke(this);
 	}
 }
