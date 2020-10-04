@@ -8,7 +8,7 @@ namespace Game.Scripts
     {
         public LevelManager levelManager;
         public GameObject king;
-        public Unit enemyPrefab;
+        public OptimizedUnit enemyPrefab;
         public float distanceBetweenEnemies;
         public int enemiesInRow;
         public int enemiesInColumn;
@@ -16,13 +16,13 @@ namespace Game.Scripts
         public float nextWaveSpawnDelay;
         public float soldierRotationOffset = 90f;
 
-        private Pool<Unit> enemyPool;
+        private Pool<OptimizedUnit> enemyPool;
         private float lastSpawnTime;
         private bool isFirstWave = true;
 
         private void Start()
         {
-            enemyPool = new Pool<Unit>(50, CreateEnemy, DestroyEnemy, WakeUpEnemy, SetToSleepEnemy);
+            enemyPool = new Pool<OptimizedUnit>(50, CreateEnemy, DestroyEnemy, WakeUpEnemy, SetToSleepEnemy);
         }
 
         private void Update()
@@ -71,7 +71,7 @@ namespace Game.Scripts
             }
         }
 
-        private Unit CreateEnemy()
+        private OptimizedUnit CreateEnemy()
         {
             var unit = Instantiate(enemyPrefab, transform);
             unit.Disable();
@@ -79,19 +79,19 @@ namespace Game.Scripts
             return unit;
         }
 
-        private void DestroyEnemy(Unit enemy)
+        private void DestroyEnemy(OptimizedUnit enemy)
         {
             enemy.OnDeath = null;
             Destroy(enemy.gameObject);
         }
 
-        private void WakeUpEnemy(Unit enemy)
+        private void WakeUpEnemy(OptimizedUnit enemy)
         {
             enemy.gameObject.SetActive(true);
             enemy.Enable();
         }
         
-        private void SetToSleepEnemy(Unit enemy)
+        private void SetToSleepEnemy(OptimizedUnit enemy)
         {
             enemy.Disable();
             enemy.gameObject.SetActive(false);

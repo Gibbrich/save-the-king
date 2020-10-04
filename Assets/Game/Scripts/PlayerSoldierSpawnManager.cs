@@ -13,7 +13,7 @@ namespace Game.Scripts
         public LevelManager levelManager;
         public GameObject king;
         public GameObject spawnPointPrefab;
-        public Unit soldierPrefab;
+        public OptimizedUnit soldierPrefab;
         public float minPointDistance;
         public float lineRenderHeight = 0.5f;
         public float spawnPointDistance = 0.5f;
@@ -26,7 +26,7 @@ namespace Game.Scripts
         private Camera camera;
         private RaycastHit[] results = new RaycastHit[1];
         private Pool<GameObject> spawnPointPool;
-        private Pool<Unit> soldiersPool;
+        private Pool<OptimizedUnit> soldiersPool;
         private GameObject spawnPointsParent;
         private GameObject soldiersParent;
         private SpawnPointsHolder.SpawnPointsHolder spawnPointsHolder;
@@ -46,7 +46,7 @@ namespace Game.Scripts
             soldiersParent.transform.parent = transform;
             
             spawnPointPool = new Pool<GameObject>(50, CreateSpawnPoint, Destroy, WakeUpSpawnPoint, SetToSleepSpawnPoint);
-            soldiersPool = new Pool<Unit>(50, CreateSoldier, DestroySoldier, WakeUpSoldier, SetAsleepSoldier);
+            soldiersPool = new Pool<OptimizedUnit>(50, CreateSoldier, DestroySoldier, WakeUpSoldier, SetAsleepSoldier);
         }
 
         private void Update()
@@ -136,13 +136,13 @@ namespace Game.Scripts
 
         private void SetToSleepSpawnPoint(GameObject spawnPoint) => spawnPoint.SetActive(false);
 
-        private void DestroySoldier(Unit soldier)
+        private void DestroySoldier(OptimizedUnit soldier)
         {
             soldier.OnDeath = null;
             Destroy(soldier.gameObject);
         }
 
-        private Unit CreateSoldier()
+        private OptimizedUnit CreateSoldier()
         {
             var unit = Instantiate(soldierPrefab, soldiersParent.transform);
             unit.Disable();
@@ -150,12 +150,12 @@ namespace Game.Scripts
             return unit;
         }
 
-        private void WakeUpSoldier(Unit soldier)
+        private void WakeUpSoldier(OptimizedUnit soldier)
         {
             soldier.gameObject.SetActive(true);
         }
 
-        private void SetAsleepSoldier(Unit soldier)
+        private void SetAsleepSoldier(OptimizedUnit soldier)
         {
             soldier.Disable();
             soldier.gameObject.SetActive(false);
