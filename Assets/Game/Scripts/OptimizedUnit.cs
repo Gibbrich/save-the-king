@@ -10,6 +10,7 @@ namespace Game.Scripts
     [RequireComponent(typeof(Health))]
     public class OptimizedUnit : MonoBehaviour
     {
+        public float attackRange;
         public bool shouldMoveToEnemy;
         public float damage;
         public string attackTag;
@@ -31,8 +32,11 @@ namespace Game.Scripts
         private bool isInitialized;
         private bool isDeadTriggered;
         [CanBeNull] public Action<OptimizedUnit> OnDeath = unit => { Destroy(unit.gameObject); };
-        private static readonly int Attacking = Animator.StringToHash("Attacking");
-        private static readonly int Start1 = Animator.StringToHash("Start");
+        
+        private static readonly int State = Animator.StringToHash("State");
+        private static readonly int IdleState = 0;
+        private static readonly int AttackState = 1;
+        private static readonly int MoveState = 2;
 
 
         void Start()
@@ -62,10 +66,7 @@ namespace Game.Scripts
         private void IdleUpdate()
         {
             //find closest enemy
-            if (currentTarget == null)
-            {
-                currentTarget = FindTarget();
-            }
+            currentTarget = FindTarget();
             
             if (currentTarget)
             {
@@ -116,12 +117,12 @@ namespace Game.Scripts
 
         private void IdleStart()
         {
-            animator.SetBool(Start1, true);
+            animator.SetInteger(State, IdleState);
         }
 
         private void IdleStop()
         {
-            animator.SetBool(Start1, false);
+            
         }
 
         private void MoveStart()
@@ -137,6 +138,8 @@ namespace Game.Scripts
             //play the running audio
             source.clip = runAudio;
             source.Play();
+            
+            animator.SetInteger(State, MoveState);
         }
 
         private void MoveStop()
@@ -161,7 +164,7 @@ namespace Game.Scripts
             var currentTargetPosition = currentTarget.gameObject.transform.position;
             currentTargetPosition.y = transform.position.y;
             transform.LookAt(currentTargetPosition);
-            animator.SetBool(Attacking, true);
+            animator.SetInteger(State, AttackState);
 
             //play the attack audio
             source.clip = attackAudio;
@@ -205,11 +208,10 @@ namespace Game.Scripts
 
         private void AttackStop()
         {
-            animator.SetBool(Attacking, false);
             source.Stop();
         }
 
-        private bool IsTargetWithinAttackRange(Vector3 target) => (target - transform.position).sqrMagnitude <= Mathf.Pow(agent.stoppingDistance, 2);
+        private bool IsTargetWithinAttackRange(Vector3 target) => (target - transform.position).sqrMagnitude <= Mathf.Pow(attackRange, 2);
 
         void Update()
         {
