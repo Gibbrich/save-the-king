@@ -94,6 +94,16 @@ namespace Gamelogic.Extensions
 			firstSleepingObjectIndex = 0;
 		}
 
+		public List<T> GetActiveObjects()
+		{
+			var objects = new List<T>();
+			for (int i = 0; i < firstSleepingObjectIndex; i++)
+			{
+				objects.Add(poolObjects[i]);
+			}
+			return objects;
+		}
+
 		/// <summary>
 		/// Increases thew capacity of the pool. 
 		/// </summary>
