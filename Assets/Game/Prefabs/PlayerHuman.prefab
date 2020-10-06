@@ -969,6 +969,7 @@ MonoBehaviour:
   attackAudio: {fileID: 8300000, guid: 19c7077c998d6194397011ec1aecceea, type: 3}
   runAudio: {fileID: 8300000, guid: cd41989856d1c6e4abe027a567d456cb, type: 3}
   health: {fileID: 3145426359586027964}
+  attackTargetStopDistance: 1.5
 --- !u!1 &4324070059215658109
 GameObject:
   m_ObjectHideFlags: 0

@@ -104,6 +104,8 @@ namespace Gamelogic.Extensions
 			return objects;
 		}
 
+		public int GetActiveObjectsCount() => firstSleepingObjectIndex;
+
 		/// <summary>
 		/// Increases thew capacity of the pool. 
 		/// </summary>
