@@ -22,7 +22,7 @@ namespace Game.Scripts
 
         public void UpdateMaxAvailableSoldiersCount(int upcomingSoldiers)
         {
-            var availableSoldiersLeft = maxAvailableSoldiers - SpawnedSoldiers - upcomingSoldiers;
+            var availableSoldiersLeft = GetSpawnPointsLimit() - upcomingSoldiers;
             uiManager.SetAvailableSoldiersToSpawnAmount(availableSoldiersLeft);
         }
 
@@ -40,5 +40,7 @@ namespace Game.Scripts
                 playerSoldierSpawnManager.OnBattleStart();
             }
         }
+
+        public int GetSpawnPointsLimit() => maxAvailableSoldiers - SpawnedSoldiers;
     }
 }

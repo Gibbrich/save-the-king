@@ -80,7 +80,7 @@ namespace Game.Scripts
                 }
                 else
                 {
-                    if (spawnPointsHolder.SpawnPoints.Count < levelManager.maxAvailableSoldiers - levelManager.SpawnedSoldiers)
+                    if (spawnPointsHolder.SpawnPoints.Count < levelManager.GetSpawnPointsLimit())
                     {
                         AddPointIfNeed(touch.position);
                     }
@@ -241,6 +241,19 @@ namespace Game.Scripts
             if (levelManager.Phase == LevelPhase.TACTIC)
             {
                 levelManager.UpdateMaxAvailableSoldiersCount(spawnPointsHolder.SpawnPoints.Count);
+            }
+        }
+
+        private int GetSpawnPointsLimit()
+        {
+            switch (levelManager.Phase)
+            {
+                case LevelPhase.TACTIC:
+                    return levelManager.GetSpawnPointsLimit();
+                case LevelPhase.BATTLE:
+                    return soldiersPool.GetActiveObjectsCount();
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 

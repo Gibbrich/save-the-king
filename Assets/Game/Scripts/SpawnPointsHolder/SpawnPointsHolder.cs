@@ -16,7 +16,7 @@ namespace Game.Scripts
             SpawnPoints = new List<Vector3>();
         }
 
-        public int AddSpawnPointsIfNeed(Vector3 linePosition)
+        public int AddSpawnPointsIfNeed(Vector3 linePosition, int pointsToSpawnLimit)
         {
             if (SpawnPoints.Count == 0)
             {
@@ -26,7 +26,8 @@ namespace Game.Scripts
             else
             {
                 var result = 0;
-                while (ShouldAddSpawnPoint(linePosition))
+                var remainedLimit = pointsToSpawnLimit;
+                while (ShouldAddSpawnPoint(linePosition, remainedLimit))
                 {
                     var previousSpawnPoint = SpawnPoints[SpawnPoints.Count - 1];
                     // can't use squared vector length here as calculations incorrect :(
@@ -37,17 +38,18 @@ namespace Game.Scripts
 
                     SpawnPoints.Add(newSpawnPoint);
                     result++;
+                    remainedLimit--;
                 }
 
                 return result;
             }
         }
 
-        private bool ShouldAddSpawnPoint(Vector3 linePosition)
+        private bool ShouldAddSpawnPoint(Vector3 linePosition, int pointsToSpawnLimit)
         {
             var previousSpawnPoint = SpawnPoints[SpawnPoints.Count - 1];
             var distanceToPreviousSpawnPointSquare = (linePosition - previousSpawnPoint).sqrMagnitude;
-            return distanceToPreviousSpawnPointSquare >= spawnPointDistanceSquare;
+            return distanceToPreviousSpawnPointSquare >= spawnPointDistanceSquare && SpawnPoints.Count < pointsToSpawnLimit;
         }
     }
 }
