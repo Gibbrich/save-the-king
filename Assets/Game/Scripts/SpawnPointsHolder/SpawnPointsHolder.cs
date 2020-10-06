@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Game.Scripts.SpawnPointsHolder
+namespace Game.Scripts
 {
     public class SpawnPointsHolder
     {

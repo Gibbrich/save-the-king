@@ -29,13 +29,13 @@ namespace Game.Scripts
         private Pool<OptimizedUnit> soldiersPool;
         private GameObject spawnPointsParent;
         private GameObject soldiersParent;
-        private SpawnPointsHolder.SpawnPointsHolder spawnPointsHolder;
+        private SpawnPointsHolder spawnPointsHolder;
 
         private void Start()
         {
             lineRenderer = GetComponent<LineRenderer>();
             points = new List<Vector3>();
-            spawnPointsHolder = new SpawnPointsHolder.SpawnPointsHolder(spawnPointDistance);
+            spawnPointsHolder = new SpawnPointsHolder(spawnPointDistance);
             minDistanceSquare = Mathf.Pow(minPointDistance, 2);
             camera = Camera.main;
             
@@ -51,6 +51,21 @@ namespace Game.Scripts
 
         private void Update()
         {
+            switch (levelManager.Phase)
+            {
+                case LevelPhase.TACTIC:
+                    TacticPhaseUpdate();
+                    break;
+                case LevelPhase.BATTLE:
+                    BattlePhaseUpdate();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private void TacticPhaseUpdate()
+        {
             var touchCount = TouchManager.TouchCount;
             if (touchCount > 0)
             {
@@ -60,15 +75,47 @@ namespace Game.Scripts
                     if (spawnPointsHolder.SpawnPoints.Count > 0)
                     {
                         SpawnSoldiers();
-                        spawnPointPool.ReleaseAll();
-                        points.Clear();
-                        spawnPointsHolder.SpawnPoints.Clear();
-                        lineRenderer.positionCount = 0;
+                        ResetSpawnLineState();
                     }
                 }
                 else
                 {
-                    AddPointIfNeed(touch.position);
+                    if (spawnPointsHolder.SpawnPoints.Count < levelManager.maxAvailableSoldiers - levelManager.SpawnedSoldiers)
+                    {
+                        AddPointIfNeed(touch.position);
+                    }
+                }
+            }
+        }
+
+        private void ResetSpawnLineState()
+        {
+            spawnPointPool.ReleaseAll();
+            points.Clear();
+            spawnPointsHolder.SpawnPoints.Clear();
+            lineRenderer.positionCount = 0;
+        }
+
+        private void BattlePhaseUpdate()
+        {
+            var touchCount = TouchManager.TouchCount;
+            if (touchCount > 0)
+            {
+                var touch = TouchManager.GetTouch(0);
+                if (touch.phase == TouchPhase.Ended)
+                {
+                    if (spawnPointsHolder.SpawnPoints.Count > 0)
+                    {
+                        MoveSoldiers();
+                        ResetSpawnLineState();
+                    }
+                }
+                else
+                {
+                    if (spawnPointsHolder.SpawnPoints.Count < soldiersPool.GetActiveObjectsCount())
+                    {
+                        AddPointIfNeed(touch.position);
+                    }
                 }
             }
         }
@@ -84,11 +131,6 @@ namespace Game.Scripts
 
         private void AddPointIfNeed(Vector2 screenPoint)
         {
-            if (spawnPointsHolder.SpawnPoints.Count >= levelManager.maxAvailableSoldiers - levelManager.SpawnedSoldiers)
-            {
-                return;
-            }
-            
             var ray = camera.ScreenPointToRay(new Vector3(screenPoint.x, screenPoint.y, camera.nearClipPlane));
             var hitsCount = Physics.RaycastNonAlloc(ray, results, 30f);
             if (hitsCount >= 1)
@@ -146,9 +188,11 @@ namespace Game.Scripts
         {
             var unit = Instantiate(soldierPrefab, soldiersParent.transform);
             unit.Disable();
-            unit.OnDeath = SetAsleepSoldier;
+            unit.OnDeath = ReleaseToPool;
             return unit;
         }
+
+        private void ReleaseToPool(OptimizedUnit unit) => soldiersPool.Release(unit);
 
         private void WakeUpSoldier(OptimizedUnit soldier)
         {
@@ -193,7 +237,49 @@ namespace Game.Scripts
                 var spawnPointIdOffset = result - i;
                 spawnPoint.transform.position = spawnPointsHolder.SpawnPoints[spawnPointsHolder.SpawnPoints.Count - spawnPointIdOffset];
             }
-            levelManager.UpdateMaxAvailableSoldiersCount(spawnPointsHolder.SpawnPoints.Count);
+
+            if (levelManager.Phase == LevelPhase.TACTIC)
+            {
+                levelManager.UpdateMaxAvailableSoldiersCount(spawnPointsHolder.SpawnPoints.Count);
+            }
+        }
+
+        private void MoveSoldiers()
+        {
+            var aliveSoldiers = soldiersPool.GetActiveObjects();
+            var aliveSoldiersPositions = aliveSoldiers.Select(unit => unit.transform.position).ToList();
+            var matrix = new DistanceMatrix(aliveSoldiersPositions, spawnPointsHolder.SpawnPoints);
+            var idleSoldiersIds = new List<int>();
+            var commonSoldierIds = new List<int>();
+            for (int i = 0; i < aliveSoldiers.Count; i++)
+            {
+                if (aliveSoldiers[i].GetState() == SoldierState.IDLE)
+                {
+                    idleSoldiersIds.Add(i);
+                }
+                else
+                {
+                    commonSoldierIds.Add(i);
+                }
+            }
+
+            for (int i = 0; i < spawnPointsHolder.SpawnPoints.Count; i++)
+            {
+                // first move idle soldiers then use other soldier ids
+                var soldiersIds = idleSoldiersIds.Count > 0 ? idleSoldiersIds : commonSoldierIds;
+                SetNavigationTarget(soldiersIds, matrix, aliveSoldiers);
+            }
+        }
+
+        private void SetNavigationTarget(
+            List<int> soldierIds, 
+            DistanceMatrix matrix, 
+            List<OptimizedUnit> aliveSoldiers)
+        {
+            var destination = matrix.GetNearestDestination(soldierIds);
+            var soldier = aliveSoldiers[destination.soldierId];
+            soldier.MoveToTarget(destination.destination, true);
+            soldierIds.Remove(destination.soldierId);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Game.Scripts
 
         private void Update()
         {
-            if (levelManager.IsBattleStarted)
+            if (levelManager.Phase == LevelPhase.BATTLE)
             {
                 var delay = isFirstWave ? firstWaveSpawnDelay : nextWaveSpawnDelay;
                 if (Time.timeSinceLevelLoad - lastSpawnTime >= delay)
@@ -75,9 +75,11 @@ namespace Game.Scripts
         {
             var unit = Instantiate(enemyPrefab, transform);
             unit.Disable();
-            unit.OnDeath = SetToSleepEnemy;
+            unit.OnDeath = ReleaseToPool;
             return unit;
         }
+        
+        private void ReleaseToPool(OptimizedUnit unit) => enemyPool.Release(unit);
 
         private void DestroyEnemy(OptimizedUnit enemy)
         {

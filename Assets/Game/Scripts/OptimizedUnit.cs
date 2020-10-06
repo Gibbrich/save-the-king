@@ -17,8 +17,11 @@ namespace Game.Scripts
         public AudioClip attackAudio;
         public AudioClip runAudio;
         public Health health;
+        public float attackTargetStopDistance;
+        public float navigationStoppingDistance = 0.1f;
 
-        private Health currentTarget;
+        private Health attackTarget;
+        private Vector3 navigationTarget;
 
         private NavMeshAgent agent;
         private Collider collider;
@@ -26,8 +29,6 @@ namespace Game.Scripts
         private AudioSource source;
 
         private StateMachine<SoldierState> stateMachine;
-
-        private float defaultStoppingDistance;
 
         private bool isInitialized;
         private bool isDeadTriggered;
@@ -48,9 +49,6 @@ namespace Game.Scripts
             agent = gameObject.GetComponent<NavMeshAgent>();
             animator = gameObject.GetComponent<Animator>();
 
-            //get default stopping distance
-            defaultStoppingDistance = agent.stoppingDistance;
-
             collider = GetComponent<Collider>();
             isInitialized = true;
 
@@ -63,30 +61,44 @@ namespace Game.Scripts
             stateMachine.CurrentState = SoldierState.IDLE;
         }
 
+        public SoldierState GetState() => stateMachine.CurrentState;
+
+        public void MoveToTarget(Vector3 navigationTarget, bool shouldResetAttackTarget = false)
+        {
+            if (shouldResetAttackTarget)
+            {
+                attackTarget = null;
+            }
+
+            this.navigationTarget = navigationTarget;
+            stateMachine.CurrentState = SoldierState.MOVE;
+        }
+
         private void IdleUpdate()
         {
             //find closest enemy
-            currentTarget = FindTarget();
+            attackTarget = FindAttackTarget();
             
-            if (currentTarget)
+            if (attackTarget)
             {
-                if (IsTargetWithinAttackRange(currentTarget.transform.position))
+                var targetPosition = attackTarget.transform.position;
+                if (IsTargetWithinAttackRange(targetPosition))
                 {
                     stateMachine.CurrentState = SoldierState.ATTACK;
                 }
                 else if (shouldMoveToEnemy)
                 {
-                    stateMachine.CurrentState = SoldierState.MOVE;
+                    MoveToTarget(targetPosition);
                 }
             }
         }
 
         [CanBeNull]
-        private Health FindTarget()
+        private Health FindAttackTarget()
         {
             //find closest enemy
             var potentialTargets = GameObject.FindGameObjectsWithTag(attackTag);
-            if (currentTarget == null && potentialTargets.Length > 0)
+            if (attackTarget == null && potentialTargets.Length > 0)
             {
                 //find all potential targets (enemies of this character)
                 Transform target = null;
@@ -128,14 +140,14 @@ namespace Game.Scripts
         private void MoveStart()
         {
             //if there are targets, make sure to use the default stopping distance
-            agent.stoppingDistance = defaultStoppingDistance;
+            agent.stoppingDistance = attackTarget ? attackTargetStopDistance : navigationStoppingDistance;
 
             //move the agent around and set its destination to the enemy target
             agent.isStopped = false;
-            var currentTargetPosition = currentTarget.gameObject.transform.position;
-            agent.destination = currentTargetPosition;
+            agent.destination = navigationTarget;
             
             //play the running audio
+            source.Stop();
             source.clip = runAudio;
             source.Play();
             
@@ -149,60 +161,73 @@ namespace Game.Scripts
 
         private void MoveUpdate()
         {
-            if (currentTarget.IsDead())
+            if (attackTarget)
             {
-                SwitchTarget();
-            } 
-            else if (IsTargetWithinAttackRange(currentTarget.transform.position))
+                if (attackTarget.IsDead())
+                {
+                    SwitchTarget();
+                } 
+                else if (IsTargetWithinAttackRange(attackTarget.transform.position))
+                {
+                    stateMachine.CurrentState = SoldierState.ATTACK;
+                }
+                else if (shouldMoveToEnemy)
+                {
+                    agent.SetDestination(attackTarget.transform.position);
+                }
+            } else if (IsTargetWithinStoppingDistance(navigationTarget, navigationStoppingDistance + 0.2f))
             {
-                stateMachine.CurrentState = SoldierState.ATTACK;
+                stateMachine.CurrentState = SoldierState.IDLE;
             }
         }
 
         private void AttackStart()
         {
-            var currentTargetPosition = currentTarget.gameObject.transform.position;
+            var currentTargetPosition = attackTarget.gameObject.transform.position;
             currentTargetPosition.y = transform.position.y;
             transform.LookAt(currentTargetPosition);
             animator.SetInteger(State, AttackState);
 
             //play the attack audio
+            source.Stop();
             source.clip = attackAudio;
             source.Play();
         }
 
         private void SwitchTarget()
         {
-            currentTarget = null;
-            var target = FindTarget();
+            attackTarget = null;
+            var target = FindAttackTarget();
             if (target == null)
             {
                 stateMachine.CurrentState = SoldierState.IDLE;
             }
             else
             {
-                currentTarget = target;
-                if (!IsTargetWithinAttackRange(target.transform.position))
+                attackTarget = target;
+                var targetPosition = target.transform.position;
+                if (!IsTargetWithinAttackRange(targetPosition))
                 {
-                    stateMachine.CurrentState = SoldierState.MOVE;
+                    MoveToTarget(targetPosition);
                 }
             }
         }
 
         private void AttackUpdate()
         {
-            if (currentTarget.IsDead())
+            var targetPosition = attackTarget.gameObject.transform.position;
+            if (attackTarget.IsDead())
             {
                 SwitchTarget();
             } 
-            else if (!IsTargetWithinAttackRange(currentTarget.gameObject.transform.position))
+            else if (!IsTargetWithinAttackRange(targetPosition))
             {
-                stateMachine.CurrentState = SoldierState.MOVE;
+                MoveToTarget(targetPosition);
             }
             else
             {
                 //apply damage to the enemy
-                currentTarget.CurrentHitPoints -= Time.deltaTime * damage;
+                attackTarget.CurrentHitPoints -= Time.deltaTime * damage;
             }
         }
 
@@ -212,6 +237,9 @@ namespace Game.Scripts
         }
 
         private bool IsTargetWithinAttackRange(Vector3 target) => (target - transform.position).sqrMagnitude <= Mathf.Pow(attackRange, 2);
+
+        private bool IsTargetWithinStoppingDistance(Vector3 target, float stoppingDistance) =>
+            (target - transform.position).sqrMagnitude <= Mathf.Pow(stoppingDistance, 2);
 
         void Update()
         {
@@ -236,7 +264,6 @@ namespace Game.Scripts
             agent.enabled = true;
             this.enabled = true;
             collider.enabled = true;
-            source.Play();
 
             //show particles
             foreach (ParticleSystem particles in GetComponentsInChildren<ParticleSystem>())

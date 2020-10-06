@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Game.Scripts.SpawnPointsHolder;
+using Game.Scripts;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;

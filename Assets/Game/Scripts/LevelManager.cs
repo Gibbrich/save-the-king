@@ -13,7 +13,7 @@ namespace Game.Scripts
 
         public int SpawnedSoldiers { get; private set; }
 
-        public bool IsBattleStarted { get; private set; }
+        public LevelPhase Phase { get; private set; } = LevelPhase.TACTIC;
 
         private void Start()
         {
@@ -31,11 +31,12 @@ namespace Game.Scripts
             SpawnedSoldiers += soldiersAmount;
             if (SpawnedSoldiers == maxAvailableSoldiers)
             {
-                IsBattleStarted = true;
+                Phase = LevelPhase.BATTLE;
                 for (int i = 0; i < spawners.Count; i++)
                 {
                     spawners[i].OnBattleStart();
                 }
+
                 playerSoldierSpawnManager.OnBattleStart();
             }
         }
