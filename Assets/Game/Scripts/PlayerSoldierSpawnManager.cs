@@ -166,7 +166,14 @@ namespace Game.Scripts
             lineRenderer.positionCount = pointsCount;
             lineRenderer.SetPosition(pointsCount - 1, worldPoint);
 
-            AddSpawnPointIfNeed(worldPoint);
+            // set last line renderer point position equal spawn point position
+            // to avoid tail without spawn point
+            var spawnPointsAdded = AddSpawnPointsIfNeed(worldPoint);
+            if (spawnPointsAdded > 0)
+            {
+                var lastSpawnPoint = spawnPointsHolder.SpawnPoints[spawnPointsHolder.SpawnPoints.Count - 1];
+                lineRenderer.SetPosition(lineRenderer.positionCount - 1, lastSpawnPoint);
+            }
         }
 
         private GameObject CreateSpawnPoint() => Instantiate(spawnPointPrefab, spawnPointsParent.transform);
@@ -228,9 +235,9 @@ namespace Game.Scripts
             levelManager.UpdateSpawnedSoldiers(spawnPointsHolder.SpawnPoints.Count);
         }
 
-        private void AddSpawnPointIfNeed(Vector3 linePosition)
+        private int AddSpawnPointsIfNeed(Vector3 linePosition)
         {
-            var result = spawnPointsHolder.AddSpawnPointsIfNeed(linePosition);
+            var result = spawnPointsHolder.AddSpawnPointsIfNeed(linePosition, GetSpawnPointsLimit());
             for (int i = 0; i < result; i++)
             {
                 var spawnPoint = spawnPointPool.GetNewObject();
@@ -242,6 +249,8 @@ namespace Game.Scripts
             {
                 levelManager.UpdateMaxAvailableSoldiersCount(spawnPointsHolder.SpawnPoints.Count);
             }
+
+            return result;
         }
 
         private int GetSpawnPointsLimit()
