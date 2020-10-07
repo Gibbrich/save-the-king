@@ -181,11 +181,16 @@ namespace Game.Scripts
             }
         }
 
-        private void AttackStart()
+        private void RotateToTarget()
         {
             var currentTargetPosition = attackTarget.gameObject.transform.position;
             currentTargetPosition.y = transform.position.y;
             transform.LookAt(currentTargetPosition);
+        }
+
+        private void AttackStart()
+        {
+            RotateToTarget();
             animator.SetInteger(State, AttackState);
 
             //play the attack audio
@@ -210,19 +215,22 @@ namespace Game.Scripts
                 {
                     MoveToTarget(targetPosition);
                 }
+                else
+                {
+                    RotateToTarget();
+                }
             }
         }
 
         private void AttackUpdate()
         {
-            var targetPosition = attackTarget.gameObject.transform.position;
-            if (attackTarget.IsDead())
+            if (attackTarget == null || attackTarget.IsDead())
             {
                 SwitchTarget();
             } 
-            else if (!IsTargetWithinAttackRange(targetPosition))
+            else if (!IsTargetWithinAttackRange(attackTarget.gameObject.transform.position))
             {
-                MoveToTarget(targetPosition);
+                MoveToTarget(attackTarget.gameObject.transform.position);
             }
             else
             {
