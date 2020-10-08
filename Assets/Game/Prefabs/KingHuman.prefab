@@ -820,7 +820,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10f33f9a3014453d857d0ad5deec67e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHitPoints: 275
+  maxHitPoints: 230
 --- !u!114 &2549756956432417732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -833,9 +833,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 353c1f52323b4feab983edd3e864039b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRange: 2
+  attackRange: 1.8
   shouldMoveToEnemy: 0
-  damage: 20
+  damage: 25
   attackTag: Enemy
   attackAudio: {fileID: 8300000, guid: 19c7077c998d6194397011ec1aecceea, type: 3}
   runAudio: {fileID: 8300000, guid: cd41989856d1c6e4abe027a567d456cb, type: 3}
@@ -846,8 +846,8 @@ MonoBehaviour:
   - {fileID: 8661223774264331038}
   - {fileID: 5638144887972631518}
   deathEffect: {fileID: 975861425140038292}
-  happyEmojiEffect: {fileID: 0}
-  angryEmojiEffect: {fileID: 0}
+  hitEffect: {fileID: 0}
+  swordEnd: {fileID: 0}
 --- !u!136 &7254101609411885287
 CapsuleCollider:
   m_ObjectHideFlags: 0

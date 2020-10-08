@@ -136,8 +136,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   angryEmojiEffect: {fileID: 6894863700450181635}
-  angerEmojiSpawnProbability: 0.3
-  spawnInterval: 1
+  angerEmojiSpawnProbability: 0.017
+  spawnInterval: 3
 --- !u!1 &735431140216242737
 GameObject:
   m_ObjectHideFlags: 0
@@ -836,10 +836,10 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.2
-  m_Speed: 3.5
-  m_Acceleration: 8
+  m_Speed: 4.5
+  m_Acceleration: 12
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 160
   m_StoppingDistance: 1.5
   m_AutoTraverseOffMeshLink: 0
   m_AutoBraking: 1
@@ -970,7 +970,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10f33f9a3014453d857d0ad5deec67e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHitPoints: 120
+  maxHitPoints: 85
 --- !u!114 &3301190563922020601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1960,6 +1960,21 @@ PrefabInstance:
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6716674763658615307, guid: c374075ded6b3c6419318918bfe477a6,
+        type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6716674763658615307, guid: c374075ded6b3c6419318918bfe477a6,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6716674763658615307, guid: c374075ded6b3c6419318918bfe477a6,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 2.3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c374075ded6b3c6419318918bfe477a6, type: 3}
 --- !u!1 &716924067185199795 stripped
@@ -2272,6 +2287,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FX_Hit
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: f0d85051d19edfc45b05793cee213b1c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: f0d85051d19edfc45b05793cee213b1c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2314,6 +2333,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: f0d85051d19edfc45b05793cee213b1c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2644967752069613317, guid: f0d85051d19edfc45b05793cee213b1c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3539517182809638955, guid: f0d85051d19edfc45b05793cee213b1c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4711380309396160145, guid: f0d85051d19edfc45b05793cee213b1c,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
