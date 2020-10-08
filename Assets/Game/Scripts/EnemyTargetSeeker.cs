@@ -57,8 +57,17 @@ namespace Game.Scripts
                 }
             }
 
-            var distanceToKing = distances[kingPosition];
-            var id = distanceToKing <= minDistance && minDistance > Mathf.Pow(toleranceRadius, 2) ? kingPosition : targetId;
+            int id;
+            if (king)
+            {
+                var distanceToKing = distances[kingPosition];
+                id = distanceToKing <= minDistance && minDistance > Mathf.Pow(toleranceRadius, 2) ? kingPosition : targetId;
+            }
+            else
+            {
+                id = targetId;
+            }
+            
 
             return potentialTargets[id].GetComponent<Health>();
         }

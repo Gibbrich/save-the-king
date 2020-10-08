@@ -194,7 +194,7 @@ namespace Game.Scripts
             {
                 attackTarget = target;
                 var targetPosition = target.transform.position;
-                if (!IsTargetWithinAttackRange(targetPosition))
+                if (!IsTargetWithinAttackRange(targetPosition) && shouldMoveToEnemy)
                 {
                     MoveToTarget(targetPosition);
                 }
@@ -211,7 +211,7 @@ namespace Game.Scripts
             {
                 SwitchTarget();
             } 
-            else if (!IsTargetWithinAttackRange(attackTarget.gameObject.transform.position))
+            else if (!IsTargetWithinAttackRange(attackTarget.gameObject.transform.position) && shouldMoveToEnemy)
             {
                 MoveToTarget(attackTarget.gameObject.transform.position);
             }
