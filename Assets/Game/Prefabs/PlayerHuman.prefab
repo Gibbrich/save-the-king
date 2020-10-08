@@ -763,6 +763,8 @@ GameObject:
   - component: {fileID: 7999144358641596399}
   - component: {fileID: 3145426359586027964}
   - component: {fileID: 3301190563922020601}
+  - component: {fileID: 4682842347091150765}
+  - component: {fileID: 7958150905523148441}
   m_Layer: 0
   m_Name: PlayerHuman
   m_TagString: Knight
@@ -964,13 +966,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackRange: 1.5
   shouldMoveToEnemy: 0
-  damage: 20
+  damage: 10
   attackTag: Enemy
   attackAudio: {fileID: 8300000, guid: 19c7077c998d6194397011ec1aecceea, type: 3}
   runAudio: {fileID: 8300000, guid: cd41989856d1c6e4abe027a567d456cb, type: 3}
   health: {fileID: 3145426359586027964}
   attackTargetStopDistance: 1.1
   navigationStoppingDistance: 0.1
+--- !u!114 &4682842347091150765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3863136614459551049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13ef5f21fcc343c09616ca652c014cf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7958150905523148441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3863136614459551049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13ef5f21fcc343c09616ca652c014cf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4324070059215658109
 GameObject:
   m_ObjectHideFlags: 0
