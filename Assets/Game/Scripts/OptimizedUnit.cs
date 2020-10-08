@@ -19,6 +19,8 @@ namespace Game.Scripts
         public Health health;
         public float attackTargetStopDistance;
         public float navigationStoppingDistance = 0.1f;
+        public ParticleSystem deathEffect;
+        public Renderer renderer;
 
         private Health attackTarget;
         private Vector3 navigationTarget;
@@ -260,12 +262,7 @@ namespace Game.Scripts
             agent.enabled = true;
             this.enabled = true;
             collider.enabled = true;
-
-            //show particles
-            foreach (ParticleSystem particles in GetComponentsInChildren<ParticleSystem>())
-            {
-                particles.gameObject.SetActive(true);
-            }
+            renderer.enabled = true;
         }
 
         public void Disable()
@@ -283,20 +280,15 @@ namespace Game.Scripts
 
             //disable the collider
             collider.enabled = false;
-
-            //disable any particles
-            foreach (ParticleSystem particles in GetComponentsInChildren<ParticleSystem>())
-            {
-                particles.gameObject.SetActive(false);
-            }
         }
 
         public IEnumerator die()
         {
             isDeadTriggered = true;
 
-            //wait a moment and destroy the original unit
-            yield return new WaitForEndOfFrame();
+            deathEffect.Play();
+            Disable();
+            yield return new WaitForSeconds(deathEffect.main.duration);
             OnDeath?.Invoke(this);
         }
     }
