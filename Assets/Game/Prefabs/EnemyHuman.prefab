@@ -982,7 +982,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10f33f9a3014453d857d0ad5deec67e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHitPoints: 120
+  maxHitPoints: 85
 --- !u!114 &3572172651815642849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -997,7 +997,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackRange: 1.3
   shouldMoveToEnemy: 1
-  damage: 15
+  damage: 10
   attackTag: Knight
   attackAudio: {fileID: 8300000, guid: 19c7077c998d6194397011ec1aecceea, type: 3}
   runAudio: {fileID: 8300000, guid: cd41989856d1c6e4abe027a567d456cb, type: 3}
@@ -1022,7 +1022,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c26f520e65a54507af2a52b9518565eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toleranceRadius: 3
+  toleranceRadius: 2
 --- !u!1 &4324070059215658109
 GameObject:
   m_ObjectHideFlags: 0
@@ -1870,6 +1870,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FX_Hit
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: f0d85051d19edfc45b05793cee213b1c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: f0d85051d19edfc45b05793cee213b1c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1912,6 +1916,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: f0d85051d19edfc45b05793cee213b1c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2644967752069613317, guid: f0d85051d19edfc45b05793cee213b1c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3539517182809638955, guid: f0d85051d19edfc45b05793cee213b1c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4711380309396160145, guid: f0d85051d19edfc45b05793cee213b1c,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
