@@ -764,6 +764,7 @@ GameObject:
   - component: {fileID: 8395935629903126677}
   - component: {fileID: 6021317938058663041}
   - component: {fileID: 4634659553801600640}
+  - component: {fileID: 8929334006336987497}
   m_Layer: 0
   m_Name: KingHuman
   m_TagString: Knight
@@ -985,6 +986,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8929334006336987497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3863136614459551049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13ef5f21fcc343c09616ca652c014cf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4324070059215658109
 GameObject:
   m_ObjectHideFlags: 0

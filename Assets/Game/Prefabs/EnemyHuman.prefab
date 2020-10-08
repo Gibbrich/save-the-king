@@ -763,6 +763,7 @@ GameObject:
   - component: {fileID: 7344166565543910076}
   - component: {fileID: 3668544839087094414}
   - component: {fileID: 3572172651815642849}
+  - component: {fileID: -3818634266046471349}
   m_Layer: 0
   m_Name: EnemyHuman
   m_TagString: Enemy
@@ -971,6 +972,19 @@ MonoBehaviour:
   health: {fileID: 3668544839087094414}
   attackTargetStopDistance: 1.1
   navigationStoppingDistance: 0.1
+--- !u!114 &-3818634266046471349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3863136614459551049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c26f520e65a54507af2a52b9518565eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toleranceRadius: 3
 --- !u!1 &4324070059215658109
 GameObject:
   m_ObjectHideFlags: 0

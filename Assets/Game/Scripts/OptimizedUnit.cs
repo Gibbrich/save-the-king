@@ -27,6 +27,7 @@ namespace Game.Scripts
         private Collider collider;
         private Animator animator;
         private AudioSource source;
+        private TargetSeeker targetSeeker;
 
         private StateMachine<SoldierState> stateMachine;
 
@@ -53,6 +54,8 @@ namespace Game.Scripts
             isInitialized = true;
 
             health = GetComponent<Health>();
+
+            targetSeeker = GetComponent<TargetSeeker>();
             
             stateMachine = new StateMachine<SoldierState>();
             stateMachine.AddState(SoldierState.IDLE, IdleStart, IdleUpdate, IdleStop);
@@ -96,30 +99,10 @@ namespace Game.Scripts
         [CanBeNull]
         private Health FindAttackTarget()
         {
-            //find closest enemy
             var potentialTargets = GameObject.FindGameObjectsWithTag(attackTag);
             if (attackTarget == null && potentialTargets.Length > 0)
             {
-                //find all potential targets (enemies of this character)
-                Transform target = null;
-
-                //if we want this character to communicate with his allies
-                //if we're using the simple method:
-                float closestDistance = Mathf.Infinity;
-
-                foreach (GameObject potentialTarget in potentialTargets)
-                {
-                    //check if there are enemies left to attack and check per enemy if its closest to this character
-                    var distance = (transform.position - potentialTarget.transform.position).sqrMagnitude;
-                    if (distance < closestDistance)
-                    {
-                        //if this enemy is closest to character, set closest distance to distance between character and enemy
-                        closestDistance = distance;
-                        target = potentialTarget.transform;
-                    }
-                }
-
-                return target != null ? target.GetComponent<Health>() : null;
+                return targetSeeker.GetTarget(potentialTargets);
             }
             else
             {
@@ -266,6 +249,11 @@ namespace Game.Scripts
 
         public void Enable()
         {
+            if (!isInitialized)
+            {
+                Start();
+            }
+            
             isDeadTriggered = false;
             health.CurrentHitPoints = health.maxHitPoints;
             //enable all the components
