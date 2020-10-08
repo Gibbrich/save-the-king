@@ -188,6 +188,61 @@ PrefabInstance:
       propertyPath: m_Name
       value: KingHuman
       objectReference: {fileID: 0}
+    - target: {fileID: 4699446987897779222, guid: 2662d9a1b4f578f478772de48f47de2e,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.007
+      objectReference: {fileID: 0}
+    - target: {fileID: 4699446987897779222, guid: 2662d9a1b4f578f478772de48f47de2e,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.007
+      objectReference: {fileID: 0}
+    - target: {fileID: 4699446987897779222, guid: 2662d9a1b4f578f478772de48f47de2e,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.007
+      objectReference: {fileID: 0}
+    - target: {fileID: 4699446987897779222, guid: 2662d9a1b4f578f478772de48f47de2e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.057
+      objectReference: {fileID: 0}
+    - target: {fileID: 4699446987897779222, guid: 2662d9a1b4f578f478772de48f47de2e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.035
+      objectReference: {fileID: 0}
+    - target: {fileID: 4699446987897779222, guid: 2662d9a1b4f578f478772de48f47de2e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.041
+      objectReference: {fileID: 0}
+    - target: {fileID: 4699446989722008327, guid: 2662d9a1b4f578f478772de48f47de2e,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 4699446989722008327, guid: 2662d9a1b4f578f478772de48f47de2e,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 4699446989722008327, guid: 2662d9a1b4f578f478772de48f47de2e,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 5815672609603393680, guid: 2662d9a1b4f578f478772de48f47de2e,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: dde048d3b1491e449b80a9f53f14a3a1, type: 2}
+    - target: {fileID: 7885932372677023117, guid: 2662d9a1b4f578f478772de48f47de2e,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: dde048d3b1491e449b80a9f53f14a3a1, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2662d9a1b4f578f478772de48f47de2e, type: 3}
 --- !u!1001 &132992600
@@ -1970,9 +2025,9 @@ MonoBehaviour:
     type: 3}
   soldierPrefab: {fileID: 3301190563922020601, guid: d39321e906b3b684abdb5e0f73e0598a,
     type: 3}
-  minPointDistance: 0.35
+  minPointDistance: 0.5
   lineRenderHeight: 0.2
-  spawnPointDistance: 0.35
+  spawnPointDistance: 0.5
   soldierRotationOffset: 90
 --- !u!120 &1906208469
 LineRenderer:
@@ -2276,12 +2331,12 @@ PrefabInstance:
     - target: {fileID: 2198678138481463557, guid: 76ca3454483ac4909a4c85ddcda42729,
         type: 3}
       propertyPath: enemiesInRow
-      value: 25
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2198678138481463557, guid: 76ca3454483ac4909a4c85ddcda42729,
         type: 3}
       propertyPath: enemiesInColumn
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2198678138481463557, guid: 76ca3454483ac4909a4c85ddcda42729,
         type: 3}
