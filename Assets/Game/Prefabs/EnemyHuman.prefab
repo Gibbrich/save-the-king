@@ -973,8 +973,12 @@ MonoBehaviour:
   health: {fileID: 3668544839087094414}
   attackTargetStopDistance: 1.1
   navigationStoppingDistance: 0.1
+  renderingObjects:
+  - {fileID: 8661223774264331038}
+  - {fileID: 5638144887972631518}
   deathEffect: {fileID: 5556719849371107851}
-  renderer: {fileID: 9095000067785335383}
+  happyEmojiEffect: {fileID: 0}
+  angryEmojiEffect: {fileID: 0}
 --- !u!114 &-3818634266046471349
 MonoBehaviour:
   m_ObjectHideFlags: 0

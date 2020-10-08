@@ -7,7 +7,7 @@ namespace Game.Scripts
         public Health GetTarget(GameObject[] potentialTargets)
         {
             //find all potential targets (enemies of this character)
-            GameObject target = null;
+            Health target = null;
 
             //if we want this character to communicate with his allies
             //if we're using the simple method:
@@ -19,13 +19,17 @@ namespace Game.Scripts
                 var distance = (transform.position - potentialTarget.transform.position).sqrMagnitude;
                 if (distance < closestDistance)
                 {
-                    //if this enemy is closest to character, set closest distance to distance between character and enemy
-                    closestDistance = distance;
-                    target = potentialTarget;
+                    var health = potentialTarget.GetComponent<Health>();
+                    if (!health.IsDead())
+                    {
+                        //if this enemy is closest to character, set closest distance to distance between character and enemy
+                        closestDistance = distance;
+                        target = health;
+                    }
                 }
             }
 
-            return target != null ? target.GetComponent<Health>() : null;
+            return target;
         }
     }
 }

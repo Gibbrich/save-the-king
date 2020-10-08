@@ -300,7 +300,7 @@ namespace Game.Scripts
         {
             var destination = matrix.GetNearestDestination(soldierIds);
             var soldier = aliveSoldiers[destination.soldierId];
-            soldier.MoveToTarget(destination.destination, true);
+            soldier.MoveToNavigationTarget(destination.destination);
             soldierIds.Remove(destination.soldierId);
         }
     }
