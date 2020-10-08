@@ -22,12 +22,11 @@ namespace Game.Scripts
         public float navigationStoppingDistance = 0.1f;
         public List<GameObject> renderingObjects;
         public ParticleSystem deathEffect;
-        public ParticleSystem happyEmojiEffect;
-        public ParticleSystem angryEmojiEffect;
 
         private Health attackTarget;
         private Vector3? navigationTarget;
 
+        private AngerEmojiController angerEmojiController;
         private NavMeshAgent agent;
         private Collider collider;
         private Animator animator;
@@ -61,6 +60,7 @@ namespace Game.Scripts
             health = GetComponent<Health>();
 
             targetSeeker = GetComponent<TargetSeeker>();
+            angerEmojiController = GetComponentInChildren<AngerEmojiController>();
             
             stateMachine = new StateMachine<SoldierState>();
             stateMachine.AddState(SoldierState.IDLE, IdleStart, IdleUpdate, IdleStop);
@@ -193,6 +193,11 @@ namespace Game.Scripts
             source.Stop();
             source.clip = attackAudio;
             source.Play();
+
+            if (angerEmojiController)
+            {
+                angerEmojiController.CanSpawnEmoji = true;
+            }
         }
 
         private void SwitchTarget()
@@ -238,6 +243,11 @@ namespace Game.Scripts
         private void AttackStop()
         {
             source.Stop();
+            
+            if (angerEmojiController)
+            {
+                angerEmojiController.CanSpawnEmoji = false;
+            }
         }
 
         private bool IsTargetWithinAttackRange(Vector3 target) => (target - transform.position).sqrMagnitude <= Mathf.Pow(attackRange, 2);

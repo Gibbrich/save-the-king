@@ -31,6 +31,21 @@ Transform:
   m_Father: {fileID: 1995360227764678508}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4460151852299572744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 716924067185199795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02e75cd2a6a44ee7b1fd473c3f6a01de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  angryEmojiEffect: {fileID: 6894863700450181635}
+  angerEmojiSpawnProbability: 0.3
+  spawnInterval: 1
 --- !u!1 &258055283038896367
 GameObject:
   m_ObjectHideFlags: 0
@@ -980,8 +995,6 @@ MonoBehaviour:
   - {fileID: 8661223774264331038}
   - {fileID: 5638144887972631518}
   deathEffect: {fileID: 2736450153317719518}
-  happyEmojiEffect: {fileID: 0}
-  angryEmojiEffect: {fileID: 0}
 --- !u!114 &4682842347091150765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1911,9 +1924,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c374075ded6b3c6419318918bfe477a6, type: 3}
+--- !u!1 &716924067185199795 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 822488269309792955, guid: c374075ded6b3c6419318918bfe477a6,
+    type: 3}
+  m_PrefabInstance: {fileID: 187205173987399688}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2692793746090623909 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2866452892762659757, guid: c374075ded6b3c6419318918bfe477a6,
+    type: 3}
+  m_PrefabInstance: {fileID: 187205173987399688}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &6894863700450181635 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6716674763658615307, guid: c374075ded6b3c6419318918bfe477a6,
     type: 3}
   m_PrefabInstance: {fileID: 187205173987399688}
   m_PrefabAsset: {fileID: 0}
