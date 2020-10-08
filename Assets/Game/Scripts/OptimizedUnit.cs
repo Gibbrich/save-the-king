@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Gamelogic.Extensions;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -19,10 +20,15 @@ namespace Game.Scripts
         public Health health;
         public float attackTargetStopDistance;
         public float navigationStoppingDistance = 0.1f;
+        public List<GameObject> renderingObjects;
+        public ParticleSystem deathEffect;
+        public ParticlesBatch hitEffect;
+        public GameObject swordEnd;
 
         private Health attackTarget;
-        private Vector3 navigationTarget;
+        private Vector3? navigationTarget;
 
+        private AngerEmojiController angerEmojiController;
         private NavMeshAgent agent;
         private Collider collider;
         private Animator animator;
@@ -56,6 +62,7 @@ namespace Game.Scripts
             health = GetComponent<Health>();
 
             targetSeeker = GetComponent<TargetSeeker>();
+            angerEmojiController = GetComponentInChildren<AngerEmojiController>();
             
             stateMachine = new StateMachine<SoldierState>();
             stateMachine.AddState(SoldierState.IDLE, IdleStart, IdleUpdate, IdleStop);
@@ -66,23 +73,36 @@ namespace Game.Scripts
 
         public SoldierState GetState() => stateMachine.CurrentState;
 
-        public void MoveToTarget(Vector3 navigationTarget, bool shouldResetAttackTarget = false)
+        public void MoveToNavigationTarget(Vector3 navigationTarget)
         {
-            if (shouldResetAttackTarget)
-            {
-                attackTarget = null;
-            }
-
+            attackTarget = null;
             this.navigationTarget = navigationTarget;
             stateMachine.CurrentState = SoldierState.MOVE;
         }
+
+        public void OnAttackAnimation()
+        {
+            if (hitEffect)
+            {
+                hitEffect.transform.position = swordEnd.transform.position;
+                hitEffect.PlayAll();
+            }
+        }
+
+        private void MoveToAttackTarget()
+        {
+            this.navigationTarget = null;
+            stateMachine.CurrentState = SoldierState.MOVE;
+        }
+
+        private bool IsAttackTargetAvailable() => attackTarget && !attackTarget.IsDead();
 
         private void IdleUpdate()
         {
             //find closest enemy
             attackTarget = FindAttackTarget();
             
-            if (attackTarget)
+            if (IsAttackTargetAvailable())
             {
                 var targetPosition = attackTarget.transform.position;
                 if (IsTargetWithinAttackRange(targetPosition))
@@ -91,7 +111,7 @@ namespace Game.Scripts
                 }
                 else if (shouldMoveToEnemy)
                 {
-                    MoveToTarget(targetPosition);
+                    MoveToAttackTarget();
                 }
             }
         }
@@ -100,7 +120,7 @@ namespace Game.Scripts
         private Health FindAttackTarget()
         {
             var potentialTargets = GameObject.FindGameObjectsWithTag(attackTag);
-            if (attackTarget == null && potentialTargets.Length > 0)
+            if (!IsAttackTargetAvailable() && potentialTargets.Length > 0)
             {
                 return targetSeeker.GetTarget(potentialTargets);
             }
@@ -123,11 +143,11 @@ namespace Game.Scripts
         private void MoveStart()
         {
             //if there are targets, make sure to use the default stopping distance
-            agent.stoppingDistance = attackTarget ? attackTargetStopDistance : navigationStoppingDistance;
+            agent.stoppingDistance = IsAttackTargetAvailable() ? attackTargetStopDistance : navigationStoppingDistance;
 
             //move the agent around and set its destination to the enemy target
             agent.isStopped = false;
-            agent.destination = navigationTarget;
+            agent.destination = IsAttackTargetAvailable() ? attackTarget.transform.position : navigationTarget.Value;
             
             //play the running audio
             source.Stop();
@@ -158,7 +178,11 @@ namespace Game.Scripts
                 {
                     agent.SetDestination(attackTarget.transform.position);
                 }
-            } else if (IsTargetWithinStoppingDistance(navigationTarget, navigationStoppingDistance + 0.2f))
+            } else if (navigationTarget.HasValue && IsTargetWithinStoppingDistance(navigationTarget.Value, navigationStoppingDistance + 0.2f))
+            {
+                stateMachine.CurrentState = SoldierState.IDLE;
+            }
+            else
             {
                 stateMachine.CurrentState = SoldierState.IDLE;
             }
@@ -180,13 +204,18 @@ namespace Game.Scripts
             source.Stop();
             source.clip = attackAudio;
             source.Play();
+
+            if (angerEmojiController)
+            {
+                angerEmojiController.CanSpawnEmoji = true;
+            }
         }
 
         private void SwitchTarget()
         {
             attackTarget = null;
             var target = FindAttackTarget();
-            if (target == null)
+            if (target == null || target.IsDead())
             {
                 stateMachine.CurrentState = SoldierState.IDLE;
             }
@@ -194,9 +223,9 @@ namespace Game.Scripts
             {
                 attackTarget = target;
                 var targetPosition = target.transform.position;
-                if (!IsTargetWithinAttackRange(targetPosition))
+                if (!IsTargetWithinAttackRange(targetPosition) && shouldMoveToEnemy)
                 {
-                    MoveToTarget(targetPosition);
+                    MoveToAttackTarget();
                 }
                 else
                 {
@@ -207,13 +236,13 @@ namespace Game.Scripts
 
         private void AttackUpdate()
         {
-            if (attackTarget == null || attackTarget.IsDead())
+            if (!IsAttackTargetAvailable())
             {
                 SwitchTarget();
             } 
-            else if (!IsTargetWithinAttackRange(attackTarget.gameObject.transform.position))
+            else if (!IsTargetWithinAttackRange(attackTarget.gameObject.transform.position) && shouldMoveToEnemy)
             {
-                MoveToTarget(attackTarget.gameObject.transform.position);
+                MoveToAttackTarget();
             }
             else
             {
@@ -225,6 +254,11 @@ namespace Game.Scripts
         private void AttackStop()
         {
             source.Stop();
+            
+            if (angerEmojiController)
+            {
+                angerEmojiController.CanSpawnEmoji = false;
+            }
         }
 
         private bool IsTargetWithinAttackRange(Vector3 target) => (target - transform.position).sqrMagnitude <= Mathf.Pow(attackRange, 2);
@@ -260,11 +294,10 @@ namespace Game.Scripts
             agent.enabled = true;
             this.enabled = true;
             collider.enabled = true;
-
-            //show particles
-            foreach (ParticleSystem particles in GetComponentsInChildren<ParticleSystem>())
+            
+            for (int i = 0; i < renderingObjects.Count; i++)
             {
-                particles.gameObject.SetActive(true);
+                renderingObjects[i].SetActive(true);
             }
         }
 
@@ -283,20 +316,18 @@ namespace Game.Scripts
 
             //disable the collider
             collider.enabled = false;
-
-            //disable any particles
-            foreach (ParticleSystem particles in GetComponentsInChildren<ParticleSystem>())
-            {
-                particles.gameObject.SetActive(false);
-            }
         }
 
         public IEnumerator die()
         {
             isDeadTriggered = true;
-
-            //wait a moment and destroy the original unit
-            yield return new WaitForEndOfFrame();
+            deathEffect.Play();
+            Disable();
+            for (int i = 0; i < renderingObjects.Count; i++)
+            {
+                renderingObjects[i].SetActive(false);
+            }
+            yield return new WaitForSeconds(deathEffect.main.duration);
             OnDeath?.Invoke(this);
         }
     }

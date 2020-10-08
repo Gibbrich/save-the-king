@@ -42,6 +42,7 @@ namespace Game.Scripts
 
             var minDistance = float.MaxValue;
             var targetId = -1;
+            Health target = null;
             
             for (int i = 0; i < distances.Count; i++)
             {
@@ -52,15 +53,28 @@ namespace Game.Scripts
                 
                 if (distances[i] < minDistance)
                 {
-                    minDistance = distances[i];
-                    targetId = i;
+                    var health = potentialTargets[i].GetComponent<Health>();
+                    if (!health.IsDead())
+                    {
+                        //if this enemy is closest to character, set closest distance to distance between character and enemy
+                        minDistance = distances[i];
+                        targetId = i;
+                        target = health;
+                    }
                 }
             }
 
-            var distanceToKing = distances[kingPosition];
-            var id = distanceToKing <= minDistance && minDistance > Mathf.Pow(toleranceRadius, 2) ? kingPosition : targetId;
-
-            return potentialTargets[id].GetComponent<Health>();
+            if (king && !king.unit.health.IsDead())
+            {
+                var distanceToKing = distances[kingPosition];
+                var unitHealth = distanceToKing <= minDistance && minDistance > Mathf.Pow(toleranceRadius, 2) ? king.unit.health : target;
+                
+                return unitHealth;
+            }
+            else
+            {
+                return target;
+            }
         }
     }
 }
