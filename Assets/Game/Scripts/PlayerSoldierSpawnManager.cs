@@ -241,6 +241,7 @@ namespace Game.Scripts
                 var soldier = soldiersPool.GetNewObject();
                 soldier.transform.position = point;
                 soldier.transform.rotation = Quaternion.AngleAxis(angleDeg, Vector3.up);
+                soldier.SetVisibility(true);
             }
 
             levelManager.UpdateSpawnedSoldiers(spawnPointsHolder.SpawnPoints.Count);

@@ -295,6 +295,14 @@ namespace Game.Scripts
             }
         }
 
+        public void SetVisibility(bool isVisible)
+        {
+            for (int i = 0; i < renderingObjects.Count; i++)
+            {
+                renderingObjects[i].SetActive(isVisible);
+            }
+        }
+
         public void Disable()
         {
             if (!isInitialized)
@@ -317,10 +325,7 @@ namespace Game.Scripts
             isDeadTriggered = true;
             deathEffect.Play();
             Disable();
-            for (int i = 0; i < renderingObjects.Count; i++)
-            {
-                renderingObjects[i].SetActive(false);
-            }
+            SetVisibility(false);
             yield return new WaitForSeconds(deathEffect.main.duration);
             OnDeath?.Invoke(this);
         }
