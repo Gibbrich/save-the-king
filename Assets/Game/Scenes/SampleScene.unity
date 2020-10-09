@@ -488,7 +488,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 9.450226e+9, z: 4.5891e-41, w: 9.1517904e-12}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 1.4266253e+10}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -913,7 +913,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levels:
-  - {fileID: 3791502543795534598, guid: fa36efeb9cc14446fbe66dc89ea913a5, type: 3}
+  - {fileID: 7145008783724439005, guid: fa36efeb9cc14446fbe66dc89ea913a5, type: 3}
+  nextLevelLoadDelay: 2
 --- !u!4 &932999491
 Transform:
   m_ObjectHideFlags: 0
