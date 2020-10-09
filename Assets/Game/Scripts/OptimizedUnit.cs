@@ -22,7 +22,6 @@ namespace Game.Scripts
         public float navigationStoppingDistance = 0.1f;
         public List<GameObject> renderingObjects;
         public ParticleSystem deathEffect;
-        public ParticlesBatch hitEffect;
         public GameObject swordEnd;
 
         private Health attackTarget;
@@ -78,15 +77,6 @@ namespace Game.Scripts
             attackTarget = null;
             this.navigationTarget = navigationTarget;
             stateMachine.CurrentState = SoldierState.MOVE;
-        }
-
-        public void OnAttackAnimation()
-        {
-            if (hitEffect)
-            {
-                hitEffect.transform.position = swordEnd.transform.position;
-                hitEffect.PlayAll();
-            }
         }
 
         private void MoveToAttackTarget()
