@@ -22,7 +22,6 @@ namespace Game.Scripts
         public float navigationStoppingDistance = 0.1f;
         public List<GameObject> renderingObjects;
         public ParticleSystem deathEffect;
-        public ParticlesBatch hitEffect;
         public GameObject swordEnd;
 
         private Health attackTarget;
@@ -78,15 +77,6 @@ namespace Game.Scripts
             attackTarget = null;
             this.navigationTarget = navigationTarget;
             stateMachine.CurrentState = SoldierState.MOVE;
-        }
-
-        public void OnAttackAnimation()
-        {
-            if (hitEffect)
-            {
-                hitEffect.transform.position = swordEnd.transform.position;
-                hitEffect.PlayAll();
-            }
         }
 
         private void MoveToAttackTarget()
@@ -178,9 +168,13 @@ namespace Game.Scripts
                 {
                     agent.SetDestination(attackTarget.transform.position);
                 }
-            } else if (navigationTarget.HasValue && IsTargetWithinStoppingDistance(navigationTarget.Value, navigationStoppingDistance + 0.2f))
+            } 
+            else if (navigationTarget.HasValue)
             {
-                stateMachine.CurrentState = SoldierState.IDLE;
+                if (IsTargetWithinStoppingDistance(navigationTarget.Value, navigationStoppingDistance + 0.2f))
+                {
+                    stateMachine.CurrentState = SoldierState.IDLE;
+                }
             }
             else
             {

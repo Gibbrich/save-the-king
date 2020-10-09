@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Gamelogic.Extensions;
 using UnityEngine;
 
@@ -7,34 +8,33 @@ namespace Game.Scripts
     public class EnemySpawner : MonoBehaviour
     {
         public LevelManager levelManager;
-        public GameObject king;
         public OptimizedUnit enemyPrefab;
         public float distanceBetweenEnemies;
-        public int enemiesInRow;
-        public int enemiesInColumn;
-        public float firstWaveSpawnDelay;
-        public float nextWaveSpawnDelay;
+        public List<Wave> waves;
         public float soldierRotationOffset = 90f;
 
         private Pool<OptimizedUnit> enemyPool;
         private float lastSpawnTime;
-        private bool isFirstWave = true;
+        private int currentWaveId = 0;
+        private King king;
 
         private void Start()
         {
             enemyPool = new Pool<OptimizedUnit>(50, CreateEnemy, DestroyEnemy, WakeUpEnemy, SetToSleepEnemy);
+            king = FindObjectOfType<King>();
         }
 
         private void Update()
         {
-            if (levelManager.Phase == LevelPhase.BATTLE)
+            if (levelManager.Phase == LevelPhase.BATTLE && 
+                waves.Count > 0 && 
+                currentWaveId < waves.Count && 
+                Time.timeSinceLevelLoad - lastSpawnTime >= waves[currentWaveId].spawnDelay &&
+                king && !king.unit.health.IsDead())
             {
-                var delay = isFirstWave ? firstWaveSpawnDelay : nextWaveSpawnDelay;
-                if (Time.timeSinceLevelLoad - lastSpawnTime >= delay)
-                {
-                    isFirstWave = false;
-                    SpawnWave();
-                }
+                SpawnWave();
+                currentWaveId++;
+                lastSpawnTime = Time.timeSinceLevelLoad;
             }
         }
 
@@ -53,6 +53,9 @@ namespace Game.Scripts
             var direction = kingPosition2d - position;
             var angleDeg = soldierRotationOffset - Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
+            var enemiesInRow = waves[currentWaveId].enemiesInRow;
+            var enemiesInColumn = waves[currentWaveId].enemiesInColumn;
+            
             var groupOffsetX = (enemiesInRow - 1) * distanceBetweenEnemies / 2;
             var groupOffsetZ = (enemiesInColumn - 1) * distanceBetweenEnemies / 2;
             var groupOffset = new Vector3(groupOffsetX, 0, groupOffsetZ);

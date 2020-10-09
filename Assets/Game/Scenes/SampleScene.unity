@@ -320,9 +320,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2198678138481463557, guid: 76ca3454483ac4909a4c85ddcda42729,
         type: 3}
+      propertyPath: waves.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2198678138481463557, guid: 76ca3454483ac4909a4c85ddcda42729,
+        type: 3}
       propertyPath: king
       value: 
-      objectReference: {fileID: 391521354}
+      objectReference: {fileID: 0}
     - target: {fileID: 2198678138481463557, guid: 76ca3454483ac4909a4c85ddcda42729,
         type: 3}
       propertyPath: levelManager
@@ -359,6 +364,18 @@ PrefabInstance:
       propertyPath: firstWaveSpawnDelay
       value: 13
       objectReference: {fileID: 0}
+    - target: {fileID: 2198678138481463557, guid: 76ca3454483ac4909a4c85ddcda42729,
+        type: 3}
+      propertyPath: waves.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: efbbc55f9aba843ee990d30660721116,
+        type: 2}
+    - target: {fileID: 2198678138481463557, guid: 76ca3454483ac4909a4c85ddcda42729,
+        type: 3}
+      propertyPath: waves.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1e9202714735d46f190b6118d0ffb196,
+        type: 2}
     - target: {fileID: 2198678138481463558, guid: 76ca3454483ac4909a4c85ddcda42729,
         type: 3}
       propertyPath: m_Name
@@ -598,7 +615,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 4.3061943e-12}
+  m_BoundingSphereOverride: {x: 0, y: 6.087898e+10, z: 1e-45, w: 6.0878815e+10}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -979,9 +996,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2198678138481463557, guid: 76ca3454483ac4909a4c85ddcda42729,
         type: 3}
+      propertyPath: waves.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2198678138481463557, guid: 76ca3454483ac4909a4c85ddcda42729,
+        type: 3}
       propertyPath: king
       value: 
-      objectReference: {fileID: 391521354}
+      objectReference: {fileID: 0}
     - target: {fileID: 2198678138481463557, guid: 76ca3454483ac4909a4c85ddcda42729,
         type: 3}
       propertyPath: levelManager
@@ -1018,6 +1040,18 @@ PrefabInstance:
       propertyPath: firstWaveSpawnDelay
       value: 13
       objectReference: {fileID: 0}
+    - target: {fileID: 2198678138481463557, guid: 76ca3454483ac4909a4c85ddcda42729,
+        type: 3}
+      propertyPath: waves.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: efbbc55f9aba843ee990d30660721116,
+        type: 2}
+    - target: {fileID: 2198678138481463557, guid: 76ca3454483ac4909a4c85ddcda42729,
+        type: 3}
+      propertyPath: waves.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1e9202714735d46f190b6118d0ffb196,
+        type: 2}
     - target: {fileID: 2198678138481463558, guid: 76ca3454483ac4909a4c85ddcda42729,
         type: 3}
       propertyPath: m_Name
@@ -1989,9 +2023,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2198678138481463557, guid: 76ca3454483ac4909a4c85ddcda42729,
         type: 3}
+      propertyPath: waves.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2198678138481463557, guid: 76ca3454483ac4909a4c85ddcda42729,
+        type: 3}
       propertyPath: king
       value: 
-      objectReference: {fileID: 391521354}
+      objectReference: {fileID: 0}
     - target: {fileID: 2198678138481463557, guid: 76ca3454483ac4909a4c85ddcda42729,
         type: 3}
       propertyPath: levelManager
@@ -2028,6 +2067,18 @@ PrefabInstance:
       propertyPath: firstWaveSpawnDelay
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2198678138481463557, guid: 76ca3454483ac4909a4c85ddcda42729,
+        type: 3}
+      propertyPath: waves.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: efbbc55f9aba843ee990d30660721116,
+        type: 2}
+    - target: {fileID: 2198678138481463557, guid: 76ca3454483ac4909a4c85ddcda42729,
+        type: 3}
+      propertyPath: waves.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1e9202714735d46f190b6118d0ffb196,
+        type: 2}
     - target: {fileID: 2198678138481463558, guid: 76ca3454483ac4909a4c85ddcda42729,
         type: 3}
       propertyPath: m_Name
@@ -2256,7 +2307,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiManager: {fileID: 1453024911}
-  maxAvailableSoldiers: 20
+  maxAvailableSoldiers: 25
   spawners:
   - {fileID: 2198678138446878524}
   playerSoldierSpawnManager: {fileID: 1906208468}
@@ -2599,9 +2650,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2198678138481463557, guid: 76ca3454483ac4909a4c85ddcda42729,
         type: 3}
+      propertyPath: waves.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2198678138481463557, guid: 76ca3454483ac4909a4c85ddcda42729,
+        type: 3}
       propertyPath: king
       value: 
-      objectReference: {fileID: 391521354}
+      objectReference: {fileID: 0}
     - target: {fileID: 2198678138481463557, guid: 76ca3454483ac4909a4c85ddcda42729,
         type: 3}
       propertyPath: levelManager
@@ -2638,6 +2694,18 @@ PrefabInstance:
       propertyPath: firstWaveSpawnDelay
       value: 13
       objectReference: {fileID: 0}
+    - target: {fileID: 2198678138481463557, guid: 76ca3454483ac4909a4c85ddcda42729,
+        type: 3}
+      propertyPath: waves.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: efbbc55f9aba843ee990d30660721116,
+        type: 2}
+    - target: {fileID: 2198678138481463557, guid: 76ca3454483ac4909a4c85ddcda42729,
+        type: 3}
+      propertyPath: waves.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1e9202714735d46f190b6118d0ffb196,
+        type: 2}
     - target: {fileID: 2198678138481463558, guid: 76ca3454483ac4909a4c85ddcda42729,
         type: 3}
       propertyPath: m_Name
