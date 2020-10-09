@@ -10,6 +10,7 @@ namespace Game.Scripts
         public List<Level> levels;
         public float nextLevelLoadDelay = 2f;
         private int nextLevelId = 0;
+        private int visibleLevel;
         private UIManager uiManager;
         private PlayerSoldierSpawnManager playerSoldierSpawnManager;
         private King king;
@@ -21,6 +22,7 @@ namespace Game.Scripts
             uiManager = FindObjectOfType<UIManager>();
             playerSoldierSpawnManager = FindObjectOfType<PlayerSoldierSpawnManager>();
             king = FindObjectOfType<King>();
+            king.OnKingDeath += OnKingDeath;
             LoadNextLevel();
         }
         
@@ -30,6 +32,7 @@ namespace Game.Scripts
             if (result)
             {
                 playerSoldierSpawnManager.OnBattleStart();
+                uiManager.SetState(new UIManager.UIManagerState.StartBattle());
             }
         }
         
@@ -50,23 +53,30 @@ namespace Game.Scripts
             CurrentLevel.OnLevelLoad += OnLevelLoad;
             CurrentLevel.OnEnemyDeath += OnEnemyDeath;
             nextLevelId++;
+            visibleLevel++;
             if (nextLevelId >= levels.Count)
             {
                 nextLevelId = 0;
             }
+            
+            uiManager.SetState(new UIManager.UIManagerState.PlaceHumans());
         }
 
         private void OnLevelLoad()
         {
-            // todo - update UI - level progress
+            uiManager.UpdateLevelInfo(visibleLevel, CurrentLevel.TotalEnemiesCount);
+            uiManager.UpdateLevelProgress(0);
             CurrentLevel.OnLevelLoad -= OnLevelLoad;
         }
 
         private void OnEnemyDeath()
         {
-            // todo - update level progress
-            if (CurrentLevel.GetRemainedEnemies() == 0)
+            var remainedEnemies = CurrentLevel.GetRemainedEnemies();
+            uiManager.UpdateLevelProgress(CurrentLevel.TotalEnemiesCount - remainedEnemies);
+
+            if (remainedEnemies == 0)
             {
+                uiManager.SetState(new UIManager.UIManagerState.Victory());
                 playerSoldierSpawnManager.OnLevelComplete();
                 // todo - launch level complete king animation
                 // refresh King hp
@@ -81,6 +91,11 @@ namespace Game.Scripts
         {
             yield return new WaitForSecondsRealtime(nextLevelLoadDelay);
             LoadNextLevel();
+        }
+
+        private void OnKingDeath()
+        {
+            uiManager.SetState(new UIManager.UIManagerState.Loose());
         }
     }
 }

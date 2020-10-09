@@ -624,7 +624,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backgroundPanel: {fileID: 2878772361649646415}
-  startBattleImage: {fileID: 6333530452638088242}
+  startBattleImage: {fileID: 5402790014297742174}
   victoryBanner: {fileID: 8975080838999490059}
   levelFailedBanner: {fileID: 1617746032320734900}
   protectTheKingLabel: {fileID: 2426222612140600391}
@@ -722,6 +722,7 @@ GameObject:
   - component: {fileID: 8722507884601390002}
   - component: {fileID: 3062924544135351406}
   - component: {fileID: 6333530452638088242}
+  - component: {fileID: 5402790014297742174}
   m_Layer: 5
   m_Name: Swords_Battle_Start
   m_TagString: Untagged
@@ -817,6 +818,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 3062924544135351406}
+--- !u!114 &5402790014297742174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034079161697702080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 740fd0762148415a806d40c8a5baa489, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hideDelay: 1
+  element: {fileID: 6333530452638088242}
 --- !u!1 &3094184544136989180
 GameObject:
   m_ObjectHideFlags: 0

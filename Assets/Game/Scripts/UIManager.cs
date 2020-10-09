@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public UiAnimatableElement backgroundPanel;
-    public UiAnimatableElement startBattleImage;
+    public BattleStartController startBattleImage;
     public UiAnimatableElement victoryBanner;
     public UiAnimatableElement levelFailedBanner;
     public UiAnimatableElement protectTheKingLabel;
@@ -133,9 +133,14 @@ public class UIManager : MonoBehaviour
         availableSoldiersToSpawn.SetAvailableSoldiersToSpawnAmount(amount);
     }
 
-    public void UpdateLevelInfo(int currentLevel)
+    public void UpdateLevelInfo(int currentLevel, int maxScore)
     {
-        levelProgress.UpdateLevelInfo(currentLevel);
+        levelProgress.UpdateLevelInfo(currentLevel, maxScore);
+    }
+
+    public void UpdateLevelProgress(int currentProgress)
+    {
+        levelProgress.UpdateLevelProgress(currentProgress);
     }
 
     public abstract class UIManagerState

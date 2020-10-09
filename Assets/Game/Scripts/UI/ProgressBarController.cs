@@ -11,10 +11,16 @@ namespace Game.Scripts.UI
         public UiAnimatableElement element;
         public Slider slider;
         
-        public void UpdateLevelInfo(int currentLevel)
+        public void UpdateLevelInfo(int currentLevel, int maxScore)
         {
             currentLevelLabel.text = currentLevel.ToString();
             nextLevelLabel.text = (currentLevel + 1).ToString();
+            slider.maxValue = maxScore;
+        }
+
+        public void UpdateLevelProgress(int currentProgress)
+        {
+            slider.value = currentProgress;
         }
         
         public void Show(bool withAnimation)

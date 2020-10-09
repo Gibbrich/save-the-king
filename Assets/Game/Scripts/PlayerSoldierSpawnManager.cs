@@ -254,11 +254,11 @@ namespace Game.Scripts
                 var spawnPoint = spawnPointPool.GetNewObject();
                 var spawnPointIdOffset = result - i;
                 spawnPoint.transform.position = spawnPointsHolder.SpawnPoints[spawnPointsHolder.SpawnPoints.Count - spawnPointIdOffset];
-            }
-
-            if (levelManager.CurrentLevel.Phase == LevelPhase.TACTIC)
-            {
-                levelManager.UpdateMaxAvailableSoldiersCount(spawnPointsHolder.SpawnPoints.Count);
+                
+                if (levelManager.CurrentLevel.Phase == LevelPhase.TACTIC)
+                {
+                    levelManager.UpdateMaxAvailableSoldiersCount(spawnPointsHolder.SpawnPoints.Count);
+                }
             }
 
             return result;
