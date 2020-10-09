@@ -983,7 +983,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackRange: 1.5
   shouldMoveToEnemy: 0
-  damage: 10
+  damage: 12
   attackTag: Enemy
   attackAudio: {fileID: 8300000, guid: 19c7077c998d6194397011ec1aecceea, type: 3}
   runAudio: {fileID: 8300000, guid: cd41989856d1c6e4abe027a567d456cb, type: 3}
@@ -994,7 +994,6 @@ MonoBehaviour:
   - {fileID: 8661223774264331038}
   - {fileID: 5638144887972631518}
   deathEffect: {fileID: 2736450153317719518}
-  hitEffect: {fileID: 0}
   swordEnd: {fileID: 6781056564363585604}
 --- !u!114 &4682842347091150765
 MonoBehaviour:
