@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f8352ec19ea4572adc91ce9896c9679, type: 3}
-  m_Name: DelayedWave
+  m_Name: 2DefaultWave 1
   m_EditorClassIdentifier: 
   enemiesInRow: 5
-  enemiesInColumn: 1
-  spawnDelay: 13
+  enemiesInColumn: 2
+  spawnDelay: 1
