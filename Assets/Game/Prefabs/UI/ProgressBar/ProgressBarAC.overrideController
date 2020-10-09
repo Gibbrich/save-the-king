@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ProgressBarAC
+  m_Controller: {fileID: 9100000, guid: 6c0f79d6145a442aea1bcb04d29a1453, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 4964445a9db7545778f17d42481d7655, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: dfbdbd0701e3542efad3d5f69099fc8b, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: d984808e3c57749b085cd565977cc927, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 104574ad49b6f418ab38ce158c64aa9f, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 8b1e9d8eaa9754f2cad025457ca465cd, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 708bb1e56d8d94e11bf8c2af7ac79c0c, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 9e9567d8258884af1adedb39b785dda8, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: ed85430f1acf34515ba9f0911f86e479, type: 2}
