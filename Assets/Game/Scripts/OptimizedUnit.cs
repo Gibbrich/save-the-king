@@ -215,15 +215,20 @@ namespace Game.Scripts
             }
             else
             {
-                attackTarget = target;
                 var targetPosition = target.transform.position;
-                if (!IsTargetWithinAttackRange(targetPosition) && shouldMoveToEnemy)
+                if (IsTargetWithinAttackRange(targetPosition))
                 {
+                    attackTarget = target;
+                    RotateToTarget();
+                }
+                else if (shouldMoveToEnemy)
+                {
+                    attackTarget = target;
                     MoveToAttackTarget();
                 }
                 else
                 {
-                    RotateToTarget();
+                    stateMachine.CurrentState = SoldierState.IDLE;
                 }
             }
         }
