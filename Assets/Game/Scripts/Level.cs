@@ -14,9 +14,22 @@ namespace Game.Scripts
 
         public LevelPhase Phase { get; private set; } = LevelPhase.TACTIC;
 
+        public int TotalEnemiesCount { get; private set; }
+
+        public event Action OnLevelLoad = () => { };
+        public event Action OnEnemyDeath = () => { };
+
         private void Start()
         {
             spawners = GetComponentsInChildren<EnemySpawner>();
+
+            for (int i = 0; i < spawners.Length; i++)
+            {
+                spawners[i].OnEnemyDeath += () => OnEnemyDeath.Invoke();
+            }
+
+            TotalEnemiesCount = GetRemainedEnemies();
+            OnLevelLoad.Invoke();
         }
 
         public bool UpdateSpawnedSoldiers(int soldiersAmount)
@@ -36,5 +49,18 @@ namespace Game.Scripts
         }
 
         public int GetSpawnPointsLimit() => maxAvailableSoldiers - SpawnedSoldiers;
+
+        public int GetRemainedEnemies()
+        {
+            int remainedEnemies = 0;
+
+            for (int i = 0; i < spawners.Length; i++)
+            {
+                var spawner = spawners[i];
+                remainedEnemies += spawner.GetRemainedEnemiesCount();
+            }
+
+            return remainedEnemies;
+        }
     }
 }

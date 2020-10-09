@@ -16,8 +16,10 @@ namespace Game.Scripts
 
         private Pool<OptimizedUnit> enemyPool;
         private float lastSpawnTime;
-        private int currentWaveId = 0;
+        private int nextWaveId = 0;
         private King king;
+
+        public event Action OnEnemyDeath = () => { };
 
         private void Start()
         {
@@ -30,14 +32,26 @@ namespace Game.Scripts
         {
             if (levelManager.CurrentLevel.Phase == LevelPhase.BATTLE && 
                 waves.Count > 0 && 
-                currentWaveId < waves.Count && 
-                Time.timeSinceLevelLoad - lastSpawnTime >= waves[currentWaveId].spawnDelay &&
+                nextWaveId < waves.Count && 
+                Time.timeSinceLevelLoad - lastSpawnTime >= waves[nextWaveId].spawnDelay &&
                 king && !king.unit.health.IsDead())
             {
                 SpawnWave();
-                currentWaveId++;
+                nextWaveId++;
                 lastSpawnTime = Time.timeSinceLevelLoad;
             }
+        }
+
+        public int GetRemainedEnemiesCount()
+        {
+            var currentlyActive = enemyPool.GetActiveObjectsCount();
+            for (int i = nextWaveId; i < waves.Count; i++)
+            {
+                var wave = waves[i];
+                currentlyActive += wave.enemiesInColumn * wave.enemiesInRow;
+            }
+
+            return currentlyActive;
         }
 
         public void OnBattleStart()
@@ -55,8 +69,8 @@ namespace Game.Scripts
             var direction = kingPosition2d - position;
             var angleDeg = soldierRotationOffset - Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-            var enemiesInRow = waves[currentWaveId].enemiesInRow;
-            var enemiesInColumn = waves[currentWaveId].enemiesInColumn;
+            var enemiesInRow = waves[nextWaveId].enemiesInRow;
+            var enemiesInColumn = waves[nextWaveId].enemiesInColumn;
             
             var groupOffsetX = (enemiesInRow - 1) * distanceBetweenEnemies / 2;
             var groupOffsetZ = (enemiesInColumn - 1) * distanceBetweenEnemies / 2;
@@ -84,7 +98,11 @@ namespace Game.Scripts
             return unit;
         }
         
-        private void ReleaseToPool(OptimizedUnit unit) => enemyPool.Release(unit);
+        private void ReleaseToPool(OptimizedUnit unit)
+        {
+            enemyPool.Release(unit);
+            OnEnemyDeath.Invoke();
+        }
 
         private void DestroyEnemy(OptimizedUnit enemy)
         {

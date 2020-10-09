@@ -39,6 +39,19 @@ namespace Game.Scripts
         private void LoadNextLevel()
         {
             CurrentLevel = Instantiate(levels[currentLevelId]);
+            CurrentLevel.OnLevelLoad += OnLevelLoad;
+            CurrentLevel.OnEnemyDeath += OnEnemyDeath;
+        }
+
+        private void OnLevelLoad()
+        {
+            // todo
+            CurrentLevel.OnLevelLoad -= OnLevelLoad;
+        }
+
+        private void OnEnemyDeath()
+        {
+            // todo
         }
     }
 }
