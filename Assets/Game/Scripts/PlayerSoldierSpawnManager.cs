@@ -65,6 +65,16 @@ namespace Game.Scripts
             }
         }
 
+        public void OnLevelComplete()
+        {
+            var soldiers = soldiersPool.GetActiveObjects();
+            for (int i = 0; i < soldiers.Count; i++)
+            {
+                // todo play level complete animation, for now just die
+                StartCoroutine(soldiers[i].die());
+            }
+        }
+
         private void TacticPhaseUpdate()
         {
             var touchCount = TouchManager.TouchCount;

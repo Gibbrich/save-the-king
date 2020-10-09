@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,9 +8,11 @@ namespace Game.Scripts
     public class LevelManager : MonoBehaviour
     {
         public List<Level> levels;
-        private int currentLevelId;
+        public float nextLevelLoadDelay = 2f;
+        private int nextLevelId = 0;
         private UIManager uiManager;
         private PlayerSoldierSpawnManager playerSoldierSpawnManager;
+        private King king;
 
         public Level CurrentLevel { get; private set; }
 
@@ -17,8 +20,8 @@ namespace Game.Scripts
         {
             uiManager = FindObjectOfType<UIManager>();
             playerSoldierSpawnManager = FindObjectOfType<PlayerSoldierSpawnManager>();
+            king = FindObjectOfType<King>();
             LoadNextLevel();
-            UpdateMaxAvailableSoldiersCount(0);
         }
         
         public void UpdateSpawnedSoldiers(int soldiersAmount)
@@ -38,20 +41,46 @@ namespace Game.Scripts
 
         private void LoadNextLevel()
         {
-            CurrentLevel = Instantiate(levels[currentLevelId]);
+            if (CurrentLevel)
+            {
+                Destroy(CurrentLevel.gameObject);
+            }
+            CurrentLevel = Instantiate(levels[nextLevelId]);
+            UpdateMaxAvailableSoldiersCount(0);
             CurrentLevel.OnLevelLoad += OnLevelLoad;
             CurrentLevel.OnEnemyDeath += OnEnemyDeath;
+            nextLevelId++;
+            if (nextLevelId >= levels.Count)
+            {
+                nextLevelId = 0;
+            }
         }
 
         private void OnLevelLoad()
         {
-            // todo
+            // todo - update UI - level progress
             CurrentLevel.OnLevelLoad -= OnLevelLoad;
         }
 
         private void OnEnemyDeath()
         {
-            // todo
+            // todo - update level progress
+            if (CurrentLevel.GetRemainedEnemies() == 0)
+            {
+                playerSoldierSpawnManager.OnLevelComplete();
+                // todo - launch level complete king animation
+                // refresh King hp
+                // todo - set king position to default one
+                king.unit.Enable();
+
+                StartCoroutine(ScheduleNextLevelLoad());
+            }
+        }
+
+        private IEnumerator ScheduleNextLevelLoad()
+        {
+            yield return new WaitForSecondsRealtime(nextLevelLoadDelay);
+            LoadNextLevel();
         }
     }
 }
