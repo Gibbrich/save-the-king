@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Game.Scripts.UI
 {
-    public class BattleStartController : MonoBehaviour
+    public class AutoHideUiAnimatableElement : MonoBehaviour
     {
         public float hideDelay;
         public UiAnimatableElement element;

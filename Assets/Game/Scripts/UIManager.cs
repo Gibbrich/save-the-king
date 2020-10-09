@@ -9,10 +9,10 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public UiAnimatableElement backgroundPanel;
-    public BattleStartController startBattleImage;
+    public AutoHideUiAnimatableElement startBattleImage;
     public UiAnimatableElement victoryBanner;
     public UiAnimatableElement levelFailedBanner;
-    public UiAnimatableElement protectTheKingLabel;
+    public AutoHideUiAnimatableElement protectTheKingLabel;
     public UiAnimatableElement placeHumansLabel;
     public ProgressBarController levelProgress;
     public AvailableToSpawnController availableSoldiersToSpawn;
@@ -40,6 +40,7 @@ public class UIManager : MonoBehaviour
                 );
             case UIManagerState.StartBattle startBattle:
                 return new UIState(
+                    isProtectKingLableVisible: true,
                     isProgressBarVisible: true,
                     isStartBattleImageVisible: true
                 );
