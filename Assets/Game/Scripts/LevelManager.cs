@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,41 +7,80 @@ namespace Game.Scripts
 {
     public class LevelManager : MonoBehaviour
     {
-        public UIManager uiManager;
-        public int maxAvailableSoldiers;
-        public List<EnemySpawner> spawners;
-        public PlayerSoldierSpawnManager playerSoldierSpawnManager;
+        public List<Level> levels;
+        public float nextLevelLoadDelay = 2f;
+        private int nextLevelId = 0;
+        private UIManager uiManager;
+        private PlayerSoldierSpawnManager playerSoldierSpawnManager;
+        private King king;
 
-        public int SpawnedSoldiers { get; private set; }
-
-        public LevelPhase Phase { get; private set; } = LevelPhase.TACTIC;
+        public Level CurrentLevel { get; private set; }
 
         private void Start()
         {
-            UpdateMaxAvailableSoldiersCount(0);
+            uiManager = FindObjectOfType<UIManager>();
+            playerSoldierSpawnManager = FindObjectOfType<PlayerSoldierSpawnManager>();
+            king = FindObjectOfType<King>();
+            LoadNextLevel();
         }
-
-        public void UpdateMaxAvailableSoldiersCount(int upcomingSoldiers)
-        {
-            var availableSoldiersLeft = GetSpawnPointsLimit() - upcomingSoldiers;
-            uiManager.SetAvailableSoldiersToSpawnAmount(availableSoldiersLeft);
-        }
-
+        
         public void UpdateSpawnedSoldiers(int soldiersAmount)
         {
-            SpawnedSoldiers += soldiersAmount;
-            if (SpawnedSoldiers == maxAvailableSoldiers)
+            var result = CurrentLevel.UpdateSpawnedSoldiers(soldiersAmount);
+            if (result)
             {
-                Phase = LevelPhase.BATTLE;
-                for (int i = 0; i < spawners.Count; i++)
-                {
-                    spawners[i].OnBattleStart();
-                }
-
                 playerSoldierSpawnManager.OnBattleStart();
             }
         }
+        
+        public void UpdateMaxAvailableSoldiersCount(int upcomingSoldiers)
+        {
+            var availableSoldiersLeft = CurrentLevel.GetSpawnPointsLimit() - upcomingSoldiers;
+            uiManager.SetAvailableSoldiersToSpawnAmount(availableSoldiersLeft);
+        }
 
-        public int GetSpawnPointsLimit() => maxAvailableSoldiers - SpawnedSoldiers;
+        private void LoadNextLevel()
+        {
+            if (CurrentLevel)
+            {
+                Destroy(CurrentLevel.gameObject);
+            }
+            CurrentLevel = Instantiate(levels[nextLevelId]);
+            UpdateMaxAvailableSoldiersCount(0);
+            CurrentLevel.OnLevelLoad += OnLevelLoad;
+            CurrentLevel.OnEnemyDeath += OnEnemyDeath;
+            nextLevelId++;
+            if (nextLevelId >= levels.Count)
+            {
+                nextLevelId = 0;
+            }
+        }
+
+        private void OnLevelLoad()
+        {
+            // todo - update UI - level progress
+            CurrentLevel.OnLevelLoad -= OnLevelLoad;
+        }
+
+        private void OnEnemyDeath()
+        {
+            // todo - update level progress
+            if (CurrentLevel.GetRemainedEnemies() == 0)
+            {
+                playerSoldierSpawnManager.OnLevelComplete();
+                // todo - launch level complete king animation
+                // refresh King hp
+                // todo - set king position to default one
+                king.unit.Enable();
+
+                StartCoroutine(ScheduleNextLevelLoad());
+            }
+        }
+
+        private IEnumerator ScheduleNextLevelLoad()
+        {
+            yield return new WaitForSecondsRealtime(nextLevelLoadDelay);
+            LoadNextLevel();
+        }
     }
 }
