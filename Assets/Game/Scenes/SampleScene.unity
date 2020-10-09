@@ -445,11 +445,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
-    - target: {fileID: 1357587345307777592, guid: d41db3cad66d74464a564961d486b394,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1357587345307777596, guid: d41db3cad66d74464a564961d486b394,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -555,36 +550,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1357587345307777596, guid: d41db3cad66d74464a564961d486b394,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1357587345307777596, guid: d41db3cad66d74464a564961d486b394,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1357587345307777596, guid: d41db3cad66d74464a564961d486b394,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1357587345307777599, guid: d41db3cad66d74464a564961d486b394,
-        type: 3}
-      propertyPath: m_RenderMode
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1357587345307777599, guid: d41db3cad66d74464a564961d486b394,
         type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 963194227}
-    - target: {fileID: 1357587345307777599, guid: d41db3cad66d74464a564961d486b394,
-        type: 3}
-      propertyPath: m_PlaneDistance
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d41db3cad66d74464a564961d486b394, type: 3}
 --- !u!1 &963194225
@@ -881,7 +851,7 @@ MonoBehaviour:
   levels:
   - {fileID: 7145008783724439005, guid: fa36efeb9cc14446fbe66dc89ea913a5, type: 3}
   - {fileID: 8717385364041314740, guid: 89853086349b5c04597265d857185e9d, type: 3}
-  nextLevelLoadDelay: 2
+  nextLevelLoadDelay: 3
 --- !u!4 &1561859678
 Transform:
   m_ObjectHideFlags: 0

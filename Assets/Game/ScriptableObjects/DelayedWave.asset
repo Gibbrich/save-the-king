@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f8352ec19ea4572adc91ce9896c9679, type: 3}
   m_Name: DelayedWave
   m_EditorClassIdentifier: 
-  enemiesInRow: 1
-  enemiesInColumn: 1
-  spawnDelay: 13
+  enemiesInRow: 2
+  enemiesInColumn: 2
+  spawnDelay: 11
