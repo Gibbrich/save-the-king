@@ -779,7 +779,6 @@ GameObject:
   - component: {fileID: 3145426359586027964}
   - component: {fileID: 3301190563922020601}
   - component: {fileID: 4682842347091150765}
-  - component: {fileID: 7958150905523148441}
   m_Layer: 0
   m_Name: PlayerHuman
   m_TagString: Knight
@@ -999,18 +998,6 @@ MonoBehaviour:
   hitEffect: {fileID: 2669135768363122321}
   swordEnd: {fileID: 6781056564363585604}
 --- !u!114 &4682842347091150765
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3863136614459551049}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 13ef5f21fcc343c09616ca652c014cf2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7958150905523148441
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

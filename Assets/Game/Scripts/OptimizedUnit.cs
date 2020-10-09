@@ -178,9 +178,13 @@ namespace Game.Scripts
                 {
                     agent.SetDestination(attackTarget.transform.position);
                 }
-            } else if (navigationTarget.HasValue && IsTargetWithinStoppingDistance(navigationTarget.Value, navigationStoppingDistance + 0.2f))
+            } 
+            else if (navigationTarget.HasValue)
             {
-                stateMachine.CurrentState = SoldierState.IDLE;
+                if (IsTargetWithinStoppingDistance(navigationTarget.Value, navigationStoppingDistance + 0.2f))
+                {
+                    stateMachine.CurrentState = SoldierState.IDLE;
+                }
             }
             else
             {
