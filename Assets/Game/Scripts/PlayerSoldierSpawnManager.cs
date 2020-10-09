@@ -10,7 +10,6 @@ namespace Game.Scripts
     [RequireComponent(typeof(LineRenderer))]
     public class PlayerSoldierSpawnManager : MonoBehaviour
     {
-        public LevelManager levelManager;
         public GameObject king;
         public GameObject spawnPointPrefab;
         public OptimizedUnit soldierPrefab;
@@ -19,6 +18,7 @@ namespace Game.Scripts
         public float spawnPointDistance = 0.5f;
         public float soldierRotationOffset = 90f;
 
+        private LevelManager levelManager;
         private LineRenderer lineRenderer;
         private List<Vector3> points;
         private float minDistanceSquare;
@@ -33,6 +33,7 @@ namespace Game.Scripts
 
         private void Start()
         {
+            levelManager = FindObjectOfType<LevelManager>();
             lineRenderer = GetComponent<LineRenderer>();
             points = new List<Vector3>();
             spawnPointsHolder = new SpawnPointsHolder(spawnPointDistance);
@@ -51,7 +52,7 @@ namespace Game.Scripts
 
         private void Update()
         {
-            switch (levelManager.Phase)
+            switch (levelManager.CurrentLevel.Phase)
             {
                 case LevelPhase.TACTIC:
                     TacticPhaseUpdate();
@@ -80,7 +81,7 @@ namespace Game.Scripts
                 }
                 else
                 {
-                    if (spawnPointsHolder.SpawnPoints.Count < levelManager.GetSpawnPointsLimit())
+                    if (spawnPointsHolder.SpawnPoints.Count < levelManager.CurrentLevel.GetSpawnPointsLimit())
                     {
                         AddPointIfNeed(touch.position);
                     }
@@ -245,7 +246,7 @@ namespace Game.Scripts
                 spawnPoint.transform.position = spawnPointsHolder.SpawnPoints[spawnPointsHolder.SpawnPoints.Count - spawnPointIdOffset];
             }
 
-            if (levelManager.Phase == LevelPhase.TACTIC)
+            if (levelManager.CurrentLevel.Phase == LevelPhase.TACTIC)
             {
                 levelManager.UpdateMaxAvailableSoldiersCount(spawnPointsHolder.SpawnPoints.Count);
             }
@@ -255,10 +256,10 @@ namespace Game.Scripts
 
         private int GetSpawnPointsLimit()
         {
-            switch (levelManager.Phase)
+            switch (levelManager.CurrentLevel.Phase)
             {
                 case LevelPhase.TACTIC:
-                    return levelManager.GetSpawnPointsLimit();
+                    return levelManager.CurrentLevel.GetSpawnPointsLimit();
                 case LevelPhase.BATTLE:
                     return soldiersPool.GetActiveObjectsCount();
                 default:

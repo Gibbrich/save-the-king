@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using Gamelogic.Extensions;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Game.Scripts
 {
     public class EnemySpawner : MonoBehaviour
     {
-        public LevelManager levelManager;
+        private LevelManager levelManager;
         public OptimizedUnit enemyPrefab;
         public float distanceBetweenEnemies;
         public List<Wave> waves;
@@ -22,11 +23,12 @@ namespace Game.Scripts
         {
             enemyPool = new Pool<OptimizedUnit>(50, CreateEnemy, DestroyEnemy, WakeUpEnemy, SetToSleepEnemy);
             king = FindObjectOfType<King>();
+            levelManager = FindObjectOfType<LevelManager>();
         }
 
         private void Update()
         {
-            if (levelManager.Phase == LevelPhase.BATTLE && 
+            if (levelManager.CurrentLevel.Phase == LevelPhase.BATTLE && 
                 waves.Count > 0 && 
                 currentWaveId < waves.Count && 
                 Time.timeSinceLevelLoad - lastSpawnTime >= waves[currentWaveId].spawnDelay &&

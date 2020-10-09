@@ -6,41 +6,39 @@ namespace Game.Scripts
 {
     public class LevelManager : MonoBehaviour
     {
-        public UIManager uiManager;
-        public int maxAvailableSoldiers;
-        public List<EnemySpawner> spawners;
-        public PlayerSoldierSpawnManager playerSoldierSpawnManager;
+        public List<Level> levels;
+        private int currentLevelId;
+        private UIManager uiManager;
+        private PlayerSoldierSpawnManager playerSoldierSpawnManager;
 
-        public int SpawnedSoldiers { get; private set; }
-
-        public LevelPhase Phase { get; private set; } = LevelPhase.TACTIC;
+        public Level CurrentLevel { get; private set; }
 
         private void Start()
         {
+            uiManager = FindObjectOfType<UIManager>();
+            playerSoldierSpawnManager = FindObjectOfType<PlayerSoldierSpawnManager>();
+            LoadNextLevel();
             UpdateMaxAvailableSoldiersCount(0);
         }
-
-        public void UpdateMaxAvailableSoldiersCount(int upcomingSoldiers)
-        {
-            var availableSoldiersLeft = GetSpawnPointsLimit() - upcomingSoldiers;
-            uiManager.SetAvailableSoldiersToSpawnAmount(availableSoldiersLeft);
-        }
-
+        
         public void UpdateSpawnedSoldiers(int soldiersAmount)
         {
-            SpawnedSoldiers += soldiersAmount;
-            if (SpawnedSoldiers == maxAvailableSoldiers)
+            var result = CurrentLevel.UpdateSpawnedSoldiers(soldiersAmount);
+            if (result)
             {
-                Phase = LevelPhase.BATTLE;
-                for (int i = 0; i < spawners.Count; i++)
-                {
-                    spawners[i].OnBattleStart();
-                }
-
                 playerSoldierSpawnManager.OnBattleStart();
             }
         }
+        
+        public void UpdateMaxAvailableSoldiersCount(int upcomingSoldiers)
+        {
+            var availableSoldiersLeft = CurrentLevel.GetSpawnPointsLimit() - upcomingSoldiers;
+            uiManager.SetAvailableSoldiersToSpawnAmount(availableSoldiersLeft);
+        }
 
-        public int GetSpawnPointsLimit() => maxAvailableSoldiers - SpawnedSoldiers;
+        private void LoadNextLevel()
+        {
+            CurrentLevel = Instantiate(levels[currentLevelId]);
+        }
     }
 }
