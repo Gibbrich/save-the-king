@@ -820,7 +820,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10f33f9a3014453d857d0ad5deec67e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHitPoints: 230
+  maxHitPoints: 280
 --- !u!114 &2549756956432417732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -846,7 +846,6 @@ MonoBehaviour:
   - {fileID: 8661223774264331038}
   - {fileID: 5638144887972631518}
   deathEffect: {fileID: 975861425140038292}
-  hitEffect: {fileID: 0}
   swordEnd: {fileID: 0}
 --- !u!136 &7254101609411885287
 CapsuleCollider:

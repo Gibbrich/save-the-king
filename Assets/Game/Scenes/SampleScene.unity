@@ -422,7 +422,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 845123914}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10.08}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1048700343}
@@ -444,6 +444,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 1357587345307777592, guid: d41db3cad66d74464a564961d486b394,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1357587345307777596, guid: d41db3cad66d74464a564961d486b394,
         type: 3}
@@ -555,6 +560,16 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 963194227}
+    - target: {fileID: 1618347646320237605, guid: d41db3cad66d74464a564961d486b394,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.000015258789
+      objectReference: {fileID: 0}
+    - target: {fileID: 2089367730155343929, guid: d41db3cad66d74464a564961d486b394,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.000015258789
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d41db3cad66d74464a564961d486b394, type: 3}
 --- !u!1 &963194225
@@ -849,8 +864,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levels:
+  - {fileID: 2482443728939276702, guid: f0e0b970d72fdd24588dffacfdc9e4f4, type: 3}
+  - {fileID: 2482443728939276702, guid: ba6d46a7e586d654fb88c6bc841d024f, type: 3}
+  - {fileID: 6008885818233912234, guid: ab6a2ef97ddc1c44fa492145c2f57037, type: 3}
+  - {fileID: 791827810764231749, guid: f62aebac481aed341a84978b7ae908d3, type: 3}
   - {fileID: 7145008783724439005, guid: fa36efeb9cc14446fbe66dc89ea913a5, type: 3}
+  - {fileID: 7436159830180834668, guid: 239656722c4ac06418dfc449c5fdbb3e, type: 3}
+  - {fileID: 6008885818233912234, guid: 562cfa729091bc740a4655305d3535d6, type: 3}
   - {fileID: 8717385364041314740, guid: 89853086349b5c04597265d857185e9d, type: 3}
+  - {fileID: 7436159830180834668, guid: a15ed4ff6126a3c49bce1af73c5a0342, type: 3}
+  - {fileID: 8717385364041314740, guid: bd82d3a991bd5e04082a4be41b1f0e5b, type: 3}
+  - {fileID: 7436159830180834668, guid: b414de37040f1b44dbeb60847ce86bf0, type: 3}
+  - {fileID: 8717385364041314740, guid: e0d3285d67c852b4fa1daa34df66104e, type: 3}
+  - {fileID: 7436159830180834668, guid: 73a60ab1316e8c54bb80d99229d26bbd, type: 3}
+  - {fileID: 6008885818233912234, guid: 78f5b6217b92cbc4d99ee86d619050fd, type: 3}
+  - {fileID: 8717385364041314740, guid: 76e20bf475cc8154c8c2c690d53353b8, type: 3}
+  - {fileID: 7436159830180834668, guid: a5415dc15211987469e1e1c59b52f0b6, type: 3}
   nextLevelLoadDelay: 3
 --- !u!4 &1561859678
 Transform:
