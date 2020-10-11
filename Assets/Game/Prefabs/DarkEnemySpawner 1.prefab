@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2198678138481463556}
   - component: {fileID: 2198678138481463557}
   m_Layer: 0
-  m_Name: EnemySpawner
+  m_Name: DarkEnemySpawner 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e79286cafe3f4a4dacd6956c9e721920, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 3572172651815642849, guid: 85f84adb3ca148b488b9803fc181e253,
+  enemyPrefab: {fileID: 3572172651815642849, guid: e9e7582951066d341a393efe7123ef48,
     type: 3}
   distanceBetweenEnemies: 0.5
   waves: []
