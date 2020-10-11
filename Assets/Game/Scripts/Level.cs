@@ -6,7 +6,10 @@ namespace Game.Scripts
 {
     public class Level : MonoBehaviour
     {
+        private static readonly Vector3 DEFAULT_KING_POSITION = new Vector3(-0.8f, 0f, -3.05f);
+        
         public int maxAvailableSoldiers;
+        public Vector3 startKingPosition = DEFAULT_KING_POSITION;
         
         private EnemySpawner[] spawners;
 
@@ -68,6 +71,14 @@ namespace Game.Scripts
             for (int i = 0; i < spawners.Length; i++)
             {
                 spawners[i].OnKingDeath();
+            }
+        }
+
+        public void OnLevelReload()
+        {
+            for (int i = 0; i < spawners.Length; i++)
+            {
+                spawners[i].OnLevelReload();
             }
         }
     }

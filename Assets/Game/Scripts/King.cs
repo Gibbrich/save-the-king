@@ -13,13 +13,13 @@ namespace Game.Scripts
         private void Start()
         {
             unit.Enable();
-            unit.OnDeath = _ => OnDeath();
+            unit.OnDeath = (_, __) => OnDeath();
         }
 
         private void OnDeath()
         {
             OnKingDeath.Invoke();
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
 
         public void OnVictory()
@@ -27,11 +27,11 @@ namespace Game.Scripts
             unit.OnVictory();
         }
 
-        public void Refresh()
+        public void Refresh(Vector3 kingPosition)
         {
-            // refresh King hp
             unit.Enable();
-            // todo - set king position to default one
+            gameObject.SetActive(true);
+            transform.position = kingPosition;
         }
     }
 }

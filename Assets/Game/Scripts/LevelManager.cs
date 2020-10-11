@@ -20,6 +20,9 @@ namespace Game.Scripts
         private void Start()
         {
             uiManager = FindObjectOfType<UIManager>();
+            uiManager.OnRestartButtonClick += OnRestartLevelButtonClick;
+            uiManager.OnNextLevelButtonClick += OnNextLevelButtonClick;
+            
             playerSoldierSpawnManager = FindObjectOfType<PlayerSoldierSpawnManager>();
             king = FindObjectOfType<King>();
             king.OnKingDeath += OnKingDeath;
@@ -60,7 +63,21 @@ namespace Game.Scripts
             }
             
             uiManager.SetState(new UIManager.UIManagerState.PlaceHumans());
-            king.Refresh();
+            king.Refresh(CurrentLevel.startKingPosition);
+        }
+
+        private void ReloadLevel()
+        {
+            if (CurrentLevel)
+            {
+                Destroy(CurrentLevel.gameObject);
+            }
+            CurrentLevel = Instantiate(levels[nextLevelId - 1]);
+            UpdateMaxAvailableSoldiersCount(0);
+            CurrentLevel.OnLevelLoad += OnLevelLoad;
+            CurrentLevel.OnEnemyDeath += OnEnemyDeath;
+            uiManager.SetState(new UIManager.UIManagerState.PlaceHumans());
+            king.Refresh(CurrentLevel.startKingPosition);
         }
 
         private void OnLevelLoad()
@@ -80,7 +97,6 @@ namespace Game.Scripts
                 uiManager.SetState(new UIManager.UIManagerState.Victory());
                 playerSoldierSpawnManager.OnLevelComplete();
                 king.OnVictory();
-                // StartCoroutine(ScheduleNextLevelLoad());
             }
         }
 
@@ -88,13 +104,32 @@ namespace Game.Scripts
         {
             yield return new WaitForSecondsRealtime(nextLevelLoadDelay);
             LoadNextLevel();
-            playerSoldierSpawnManager.OnLevelStart();
         }
 
         private void OnKingDeath()
         {
             uiManager.SetState(new UIManager.UIManagerState.Loose());
             CurrentLevel.OnKingDeath();
+        }
+
+        private void OnNextLevelButtonClick()
+        {
+            playerSoldierSpawnManager.OnLevelStart();
+            uiManager.SetState(new UIManager.UIManagerState.PlaceHumans());
+            StartCoroutine(ScheduleNextLevelLoad());
+        }
+
+        private void OnRestartLevelButtonClick()
+        {
+            CurrentLevel.OnLevelReload();
+            uiManager.SetState(new UIManager.UIManagerState.PlaceHumans());
+            StartCoroutine(ScheduleLevelReload());
+        }
+
+        private IEnumerator ScheduleLevelReload()
+        {
+            yield return new WaitForSecondsRealtime(nextLevelLoadDelay);
+            ReloadLevel();
         }
     }
 }

@@ -38,7 +38,7 @@ namespace Game.Scripts
 
         private bool isInitialized;
         private bool isDeadTriggered;
-        [CanBeNull] public Action<OptimizedUnit> OnDeath = unit => { Destroy(unit.gameObject); };
+        [CanBeNull] public Action<OptimizedUnit, bool> OnDeath = (unit, _) => { Destroy(unit.gameObject); };
         
         private static readonly int State = Animator.StringToHash("State");
         private static readonly int IdleState = 0;
@@ -164,6 +164,7 @@ namespace Game.Scripts
         private void MoveStop()
         {
             source.Stop();
+            source.clip = null;
         }
 
         private void MoveUpdate()
@@ -267,6 +268,7 @@ namespace Game.Scripts
         private void AttackStop()
         {
             source.Stop();
+            source.clip = null;
             
             if (angerEmojiController)
             {
@@ -346,14 +348,15 @@ namespace Game.Scripts
             collider.enabled = false;
         }
 
-        public IEnumerator die()
+        public IEnumerator die(bool shouldNotifyDeath = true)
         {
+            stateMachine.CurrentState = SoldierState.IDLE;
             isDeadTriggered = true;
             deathEffect.Play();
             Disable();
             SetVisibility(false);
             yield return new WaitForSeconds(deathEffect.main.duration);
-            OnDeath?.Invoke(this);
+            OnDeath?.Invoke(this, shouldNotifyDeath);
         }
     }
 }

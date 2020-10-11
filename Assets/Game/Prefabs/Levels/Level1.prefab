@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxAvailableSoldiers: 20
+  startKingPosition: {x: -0.8, y: 0, z: -3.05}
 --- !u!1001 &7729896248389240355
 PrefabInstance:
   m_ObjectHideFlags: 0

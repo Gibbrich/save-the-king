@@ -4,6 +4,7 @@ using System.Linq;
 using Gamelogic.Extensions;
 using InControl;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Game.Scripts
 {
@@ -99,7 +100,7 @@ namespace Game.Scripts
                 }
                 else
                 {
-                    if (spawnPointsHolder.SpawnPoints.Count < levelManager.CurrentLevel.GetSpawnPointsLimit())
+                    if (!EventSystem.current.IsPointerOverGameObject() && spawnPointsHolder.SpawnPoints.Count < levelManager.CurrentLevel.GetSpawnPointsLimit())
                     {
                         AddPointIfNeed(touch.position);
                     }
@@ -131,7 +132,7 @@ namespace Game.Scripts
                 }
                 else
                 {
-                    if (spawnPointsHolder.SpawnPoints.Count < soldiersPool.GetActiveObjectsCount())
+                    if (!EventSystem.current.IsPointerOverGameObject() && spawnPointsHolder.SpawnPoints.Count < soldiersPool.GetActiveObjectsCount())
                     {
                         AddPointIfNeed(touch.position);
                     }
@@ -218,7 +219,7 @@ namespace Game.Scripts
             return unit;
         }
 
-        private void ReleaseToPool(OptimizedUnit unit) => soldiersPool.Release(unit);
+        private void ReleaseToPool(OptimizedUnit unit, bool shouldNotifyDeath) => soldiersPool.Release(unit);
 
         private void WakeUpSoldier(OptimizedUnit soldier)
         {
