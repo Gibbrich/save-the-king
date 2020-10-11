@@ -21,6 +21,8 @@ namespace Game.Scripts
 
         public event Action OnLevelLoad = () => { };
         public event Action OnEnemyDeath = () => { };
+        
+        public event Action OnEnemyDeathTriggered = () => { };
 
         private void Start()
         {
@@ -29,6 +31,7 @@ namespace Game.Scripts
             for (int i = 0; i < spawners.Length; i++)
             {
                 spawners[i].OnEnemyDeath += () => OnEnemyDeath.Invoke();
+                spawners[i].OnEnemyDeathTriggered += () => OnEnemyDeathTriggered.Invoke();
             }
 
             TotalEnemiesCount = GetRemainedEnemies();

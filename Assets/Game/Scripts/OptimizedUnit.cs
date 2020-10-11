@@ -39,6 +39,8 @@ namespace Game.Scripts
         private bool isInitialized;
         private bool isDeadTriggered;
         [CanBeNull] public Action<OptimizedUnit, bool> OnDeath = (unit, _) => { Destroy(unit.gameObject); };
+
+        public event Action OnDeathTriggered = () => { }; 
         
         private static readonly int State = Animator.StringToHash("State");
         private static readonly int IdleState = 0;
@@ -355,6 +357,7 @@ namespace Game.Scripts
             deathEffect.Play();
             Disable();
             SetVisibility(false);
+            OnDeathTriggered.Invoke();
             yield return new WaitForSeconds(deathEffect.main.duration);
             OnDeath?.Invoke(this, shouldNotifyDeath);
         }
