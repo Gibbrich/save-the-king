@@ -847,7 +847,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.2
-  m_Speed: 3.7
+  m_Speed: 4
   m_Acceleration: 10
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -981,7 +981,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10f33f9a3014453d857d0ad5deec67e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHitPoints: 55
+  maxHitPoints: 50
 --- !u!114 &3572172651815642849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -996,7 +996,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackRange: 1.3
   shouldMoveToEnemy: 1
-  damage: 10
+  damage: 9
   attackTag: Knight
   attackAudio: {fileID: 8300000, guid: 19c7077c998d6194397011ec1aecceea, type: 3}
   runAudio: {fileID: 8300000, guid: cd41989856d1c6e4abe027a567d456cb, type: 3}
@@ -1007,7 +1007,7 @@ MonoBehaviour:
   - {fileID: 8661223774264331038}
   - {fileID: 5638144887972631518}
   deathEffect: {fileID: 5556719849371107851}
-  swordEnd: {fileID: 1831648997807256961}
+  victoryEffect: {fileID: 0}
 --- !u!114 &-3818634266046471349
 MonoBehaviour:
   m_ObjectHideFlags: 0
