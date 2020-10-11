@@ -183,15 +183,50 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 495881020067075423, guid: 2662d9a1b4f578f478772de48f47de2e,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3098196263893395342, guid: 2662d9a1b4f578f478772de48f47de2e,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 963194227}
     - target: {fileID: 3863136614459551049, guid: 2662d9a1b4f578f478772de48f47de2e,
         type: 3}
       propertyPath: m_Name
       value: KingHuman
       objectReference: {fileID: 0}
+    - target: {fileID: 5315088875220827456, guid: 2662d9a1b4f578f478772de48f47de2e,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5315088875220827456, guid: 2662d9a1b4f578f478772de48f47de2e,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6662736960155657945, guid: 2662d9a1b4f578f478772de48f47de2e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7876167176420913696, guid: 2662d9a1b4f578f478772de48f47de2e,
         type: 3}
       propertyPath: m_CullingMode
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8797469560319807578, guid: 2662d9a1b4f578f478772de48f47de2e,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8999201192274873527, guid: 2662d9a1b4f578f478772de48f47de2e,
+        type: 3}
+      propertyPath: m_Value
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2662d9a1b4f578f478772de48f47de2e, type: 3}
@@ -341,7 +376,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 2.3509887e-38, z: -2.407486e-35, w: 5.0706036e+30}
+  m_BoundingSphereOverride: {x: 1e-45, y: 1.0554096e-28, z: 4.5787e-41, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
