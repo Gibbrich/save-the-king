@@ -873,7 +873,7 @@ MonoBehaviour:
   - {fileID: 6008885818233912234, guid: 78f5b6217b92cbc4d99ee86d619050fd, type: 3}
   - {fileID: 8717385364041314740, guid: 76e20bf475cc8154c8c2c690d53353b8, type: 3}
   - {fileID: 7436159830180834668, guid: a5415dc15211987469e1e1c59b52f0b6, type: 3}
-  nextLevelLoadDelay: 3
+  nextLevelLoadDelay: 0
 --- !u!4 &1561859678
 Transform:
   m_ObjectHideFlags: 0
