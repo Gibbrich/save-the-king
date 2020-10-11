@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2198678138481463556}
   - component: {fileID: 2198678138481463557}
   m_Layer: 0
-  m_Name: DarkEnemySpawner 1
+  m_Name: KnightEnemySpawner 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,10 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e79286cafe3f4a4dacd6956c9e721920, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 3572172651815642849, guid: e9e7582951066d341a393efe7123ef48,
+  enemyPrefab: {fileID: 545837902535703226, guid: 25591d343e0843441ba15c0089030cee,
     type: 3}
   distanceBetweenEnemies: 0.5
-  waves: []
+  waves:
+  - {fileID: 11400000, guid: 05fbed5a25f34994d8e7bac357f41531, type: 2}
   soldierRotationOffset: 90
 --- !u!1 &5433523508063694991
 GameObject:
@@ -108,7 +109,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 375c38c8617c54e4b8c13d24b4ae291a, type: 2}
+  - {fileID: 2100000, guid: dc40e2beb02262d49a59386868513fb0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
