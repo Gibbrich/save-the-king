@@ -60,6 +60,7 @@ namespace Game.Scripts
             }
             
             uiManager.SetState(new UIManager.UIManagerState.PlaceHumans());
+            king.Refresh();
         }
 
         private void OnLevelLoad()
@@ -78,12 +79,8 @@ namespace Game.Scripts
             {
                 uiManager.SetState(new UIManager.UIManagerState.Victory());
                 playerSoldierSpawnManager.OnLevelComplete();
-                // todo - launch level complete king animation
-                // refresh King hp
-                // todo - set king position to default one
-                king.unit.Enable();
-
-                StartCoroutine(ScheduleNextLevelLoad());
+                king.OnVictory();
+                // StartCoroutine(ScheduleNextLevelLoad());
             }
         }
 
@@ -91,11 +88,13 @@ namespace Game.Scripts
         {
             yield return new WaitForSecondsRealtime(nextLevelLoadDelay);
             LoadNextLevel();
+            playerSoldierSpawnManager.OnLevelStart();
         }
 
         private void OnKingDeath()
         {
             uiManager.SetState(new UIManager.UIManagerState.Loose());
+            CurrentLevel.OnKingDeath();
         }
     }
 }

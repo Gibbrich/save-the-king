@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     public UiAnimatableElement backgroundPanel;
     public AutoHideUiAnimatableElement startBattleImage;
     public UiAnimatableElement victoryBanner;
+    public GameObject victoryEffect;
     public UiAnimatableElement levelFailedBanner;
     public AutoHideUiAnimatableElement protectTheKingLabel;
     public UiAnimatableElement placeHumansLabel;
@@ -77,10 +78,12 @@ public class UIManager : MonoBehaviour
         if (state.isVictoryBannerVisible)
         {
             victoryBanner.Show(true);
+            victoryEffect.SetActive(true);
         }
         else
         {
             victoryBanner.Hide(true);
+            victoryEffect.SetActive(false);
         }
 
         if (state.isLevelFailedLableVisible)

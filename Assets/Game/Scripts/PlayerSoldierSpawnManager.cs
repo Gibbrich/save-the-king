@@ -70,7 +70,15 @@ namespace Game.Scripts
             var soldiers = soldiersPool.GetActiveObjects();
             for (int i = 0; i < soldiers.Count; i++)
             {
-                // todo play level complete animation, for now just die
+                soldiers[i].OnVictory();
+            }
+        }
+
+        public void OnLevelStart()
+        {
+            var soldiers = soldiersPool.GetActiveObjects();
+            for (int i = 0; i < soldiers.Count; i++)
+            {
                 StartCoroutine(soldiers[i].die());
             }
         }

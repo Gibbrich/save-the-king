@@ -22,7 +22,7 @@ namespace Game.Scripts
         public float navigationStoppingDistance = 0.1f;
         public List<GameObject> renderingObjects;
         public ParticleSystem deathEffect;
-        public GameObject swordEnd;
+        public ParticleSystem victoryEffect;
 
         private Health attackTarget;
         private Vector3? navigationTarget;
@@ -44,6 +44,7 @@ namespace Game.Scripts
         private static readonly int IdleState = 0;
         private static readonly int AttackState = 1;
         private static readonly int MoveState = 2;
+        private static readonly int VictoryState = 4;
 
 
         void Start()
@@ -68,6 +69,19 @@ namespace Game.Scripts
             stateMachine.AddState(SoldierState.ATTACK, AttackStart, AttackUpdate, AttackStop);
             stateMachine.AddState(SoldierState.MOVE, MoveStart, MoveUpdate, MoveStop);
             stateMachine.CurrentState = SoldierState.IDLE;
+        }
+
+        public void OnVictory()
+        {
+            stateMachine.CurrentState = SoldierState.IDLE;
+            animator.SetInteger(State, VictoryState);
+
+            if (victoryEffect)
+            {
+                var victoryEffectMain = victoryEffect.main;
+                victoryEffectMain.loop = true;
+                victoryEffect.Play();
+            }
         }
 
         public SoldierState GetState() => stateMachine.CurrentState;
@@ -289,6 +303,7 @@ namespace Game.Scripts
             
             isDeadTriggered = false;
             health.CurrentHitPoints = health.maxHitPoints;
+            stateMachine.CurrentState = SoldierState.IDLE;
             //enable all the components
             agent.enabled = true;
             this.enabled = true;
@@ -297,6 +312,12 @@ namespace Game.Scripts
             for (int i = 0; i < renderingObjects.Count; i++)
             {
                 renderingObjects[i].SetActive(true);
+            }
+
+            if (victoryEffect)
+            {
+                var victoryEffectMain = victoryEffect.main;
+                victoryEffectMain.loop = false;
             }
         }
 

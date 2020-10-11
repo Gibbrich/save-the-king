@@ -62,5 +62,13 @@ namespace Game.Scripts
 
             return remainedEnemies;
         }
+
+        public void OnKingDeath()
+        {
+            for (int i = 0; i < spawners.Length; i++)
+            {
+                spawners[i].OnKingDeath();
+            }
+        }
     }
 }

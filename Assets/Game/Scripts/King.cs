@@ -21,5 +21,17 @@ namespace Game.Scripts
             OnKingDeath.Invoke();
             Destroy(gameObject);
         }
+
+        public void OnVictory()
+        {
+            unit.OnVictory();
+        }
+
+        public void Refresh()
+        {
+            // refresh King hp
+            unit.Enable();
+            // todo - set king position to default one
+        }
     }
 }

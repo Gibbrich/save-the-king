@@ -59,6 +59,15 @@ namespace Game.Scripts
             lastSpawnTime = Time.timeSinceLevelLoad;
         }
 
+        public void OnKingDeath()
+        {
+            var optimizedUnits = enemyPool.GetActiveObjects();
+            for (int i = 0; i < optimizedUnits.Count; i++)
+            {
+                optimizedUnits[i].OnVictory();
+            }
+        }
+
         private void SpawnWave()
         {
             var position = new Vector2(transform.position.x, transform.position.z);
