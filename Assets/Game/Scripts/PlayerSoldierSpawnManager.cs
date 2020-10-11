@@ -4,6 +4,7 @@ using System.Linq;
 using Gamelogic.Extensions;
 using InControl;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Game.Scripts
 {
@@ -70,7 +71,15 @@ namespace Game.Scripts
             var soldiers = soldiersPool.GetActiveObjects();
             for (int i = 0; i < soldiers.Count; i++)
             {
-                // todo play level complete animation, for now just die
+                soldiers[i].OnVictory();
+            }
+        }
+
+        public void OnLevelStart()
+        {
+            var soldiers = soldiersPool.GetActiveObjects();
+            for (int i = 0; i < soldiers.Count; i++)
+            {
                 StartCoroutine(soldiers[i].die());
             }
         }
@@ -91,7 +100,7 @@ namespace Game.Scripts
                 }
                 else
                 {
-                    if (spawnPointsHolder.SpawnPoints.Count < levelManager.CurrentLevel.GetSpawnPointsLimit())
+                    if (!EventSystem.current.IsPointerOverGameObject() && spawnPointsHolder.SpawnPoints.Count < levelManager.CurrentLevel.GetSpawnPointsLimit())
                     {
                         AddPointIfNeed(touch.position);
                     }
@@ -123,7 +132,7 @@ namespace Game.Scripts
                 }
                 else
                 {
-                    if (spawnPointsHolder.SpawnPoints.Count < soldiersPool.GetActiveObjectsCount())
+                    if (!EventSystem.current.IsPointerOverGameObject() && spawnPointsHolder.SpawnPoints.Count < soldiersPool.GetActiveObjectsCount())
                     {
                         AddPointIfNeed(touch.position);
                     }
@@ -210,7 +219,7 @@ namespace Game.Scripts
             return unit;
         }
 
-        private void ReleaseToPool(OptimizedUnit unit) => soldiersPool.Release(unit);
+        private void ReleaseToPool(OptimizedUnit unit, bool shouldNotifyDeath) => soldiersPool.Release(unit);
 
         private void WakeUpSoldier(OptimizedUnit soldier)
         {

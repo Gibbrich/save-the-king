@@ -22,7 +22,7 @@ namespace Game.Scripts
         public float navigationStoppingDistance = 0.1f;
         public List<GameObject> renderingObjects;
         public ParticleSystem deathEffect;
-        public GameObject swordEnd;
+        public ParticleSystem victoryEffect;
 
         private Health attackTarget;
         private Vector3? navigationTarget;
@@ -38,12 +38,13 @@ namespace Game.Scripts
 
         private bool isInitialized;
         private bool isDeadTriggered;
-        [CanBeNull] public Action<OptimizedUnit> OnDeath = unit => { Destroy(unit.gameObject); };
+        [CanBeNull] public Action<OptimizedUnit, bool> OnDeath = (unit, _) => { Destroy(unit.gameObject); };
         
         private static readonly int State = Animator.StringToHash("State");
         private static readonly int IdleState = 0;
         private static readonly int AttackState = 1;
         private static readonly int MoveState = 2;
+        private static readonly int VictoryState = 4;
 
 
         void Start()
@@ -68,6 +69,19 @@ namespace Game.Scripts
             stateMachine.AddState(SoldierState.ATTACK, AttackStart, AttackUpdate, AttackStop);
             stateMachine.AddState(SoldierState.MOVE, MoveStart, MoveUpdate, MoveStop);
             stateMachine.CurrentState = SoldierState.IDLE;
+        }
+
+        public void OnVictory()
+        {
+            stateMachine.CurrentState = SoldierState.IDLE;
+            animator.SetInteger(State, VictoryState);
+
+            if (victoryEffect)
+            {
+                var victoryEffectMain = victoryEffect.main;
+                victoryEffectMain.loop = true;
+                victoryEffect.Play();
+            }
         }
 
         public SoldierState GetState() => stateMachine.CurrentState;
@@ -150,6 +164,7 @@ namespace Game.Scripts
         private void MoveStop()
         {
             source.Stop();
+            source.clip = null;
         }
 
         private void MoveUpdate()
@@ -253,6 +268,7 @@ namespace Game.Scripts
         private void AttackStop()
         {
             source.Stop();
+            source.clip = null;
             
             if (angerEmojiController)
             {
@@ -289,6 +305,7 @@ namespace Game.Scripts
             
             isDeadTriggered = false;
             health.CurrentHitPoints = health.maxHitPoints;
+            stateMachine.CurrentState = SoldierState.IDLE;
             //enable all the components
             agent.enabled = true;
             this.enabled = true;
@@ -297,6 +314,12 @@ namespace Game.Scripts
             for (int i = 0; i < renderingObjects.Count; i++)
             {
                 renderingObjects[i].SetActive(true);
+            }
+
+            if (victoryEffect)
+            {
+                var victoryEffectMain = victoryEffect.main;
+                victoryEffectMain.loop = false;
             }
         }
 
@@ -325,14 +348,15 @@ namespace Game.Scripts
             collider.enabled = false;
         }
 
-        public IEnumerator die()
+        public IEnumerator die(bool shouldNotifyDeath = true)
         {
+            stateMachine.CurrentState = SoldierState.IDLE;
             isDeadTriggered = true;
             deathEffect.Play();
             Disable();
             SetVisibility(false);
             yield return new WaitForSeconds(deathEffect.main.duration);
-            OnDeath?.Invoke(this);
+            OnDeath?.Invoke(this, shouldNotifyDeath);
         }
     }
 }

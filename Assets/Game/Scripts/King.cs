@@ -13,13 +13,25 @@ namespace Game.Scripts
         private void Start()
         {
             unit.Enable();
-            unit.OnDeath = _ => OnDeath();
+            unit.OnDeath = (_, __) => OnDeath();
         }
 
         private void OnDeath()
         {
             OnKingDeath.Invoke();
-            Destroy(gameObject);
+            gameObject.SetActive(false);
+        }
+
+        public void OnVictory()
+        {
+            unit.OnVictory();
+        }
+
+        public void Refresh(Vector3 kingPosition)
+        {
+            unit.Enable();
+            gameObject.SetActive(true);
+            transform.position = kingPosition;
         }
     }
 }

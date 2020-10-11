@@ -994,7 +994,7 @@ MonoBehaviour:
   - {fileID: 8661223774264331038}
   - {fileID: 5638144887972631518}
   deathEffect: {fileID: 2736450153317719518}
-  swordEnd: {fileID: 6781056564363585604}
+  victoryEffect: {fileID: 4351790075847120012}
 --- !u!114 &4682842347091150765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2338,6 +2338,12 @@ PrefabInstance:
 --- !u!4 &5086087490348094762 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2866452892762659757, guid: 0b3b450134f9c064a8fe4402aeb55ee6,
+    type: 3}
+  m_PrefabInstance: {fileID: 7012885376289459847}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &4351790075847120012 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6716674763658615307, guid: 0b3b450134f9c064a8fe4402aeb55ee6,
     type: 3}
   m_PrefabInstance: {fileID: 7012885376289459847}
   m_PrefabAsset: {fileID: 0}

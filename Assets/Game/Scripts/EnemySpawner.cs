@@ -59,6 +59,24 @@ namespace Game.Scripts
             lastSpawnTime = Time.timeSinceLevelLoad;
         }
 
+        public void OnKingDeath()
+        {
+            var optimizedUnits = enemyPool.GetActiveObjects();
+            for (int i = 0; i < optimizedUnits.Count; i++)
+            {
+                optimizedUnits[i].OnVictory();
+            }
+        }
+
+        public void OnLevelReload()
+        {
+            var optimizedUnits = enemyPool.GetActiveObjects();
+            for (int i = 0; i < optimizedUnits.Count; i++)
+            {
+                StartCoroutine(optimizedUnits[i].die(false));
+            }
+        }
+
         private void SpawnWave()
         {
             var position = new Vector2(transform.position.x, transform.position.z);
@@ -98,10 +116,13 @@ namespace Game.Scripts
             return unit;
         }
         
-        private void ReleaseToPool(OptimizedUnit unit)
+        private void ReleaseToPool(OptimizedUnit unit, bool shouldNotifyDeath)
         {
             enemyPool.Release(unit);
-            OnEnemyDeath.Invoke();
+            if (shouldNotifyDeath)
+            {
+                OnEnemyDeath.Invoke();
+            }
         }
 
         private void DestroyEnemy(OptimizedUnit enemy)
