@@ -17,6 +17,17 @@ public class UIManager : MonoBehaviour
     public UiAnimatableElement placeHumansLabel;
     public ProgressBarController levelProgress;
     public AvailableToSpawnController availableSoldiersToSpawn;
+    public AnimatableButton restartButton;
+    public AnimatableButton nextLevelButton;
+
+    public event Action OnRestartButtonClick = () => { };
+    public event Action OnNextLevelButtonClick = () => { };
+
+    private void Start()
+    {
+        restartButton.OnButtonClick += () => OnRestartButtonClick.Invoke();
+        nextLevelButton.OnButtonClick += () => OnNextLevelButtonClick.Invoke();
+    }
 
     public void SetState(UIManagerState state)
     {
@@ -31,7 +42,8 @@ public class UIManager : MonoBehaviour
             case UIManagerState.Loose loose:
                 return new UIState(
                     isLevelFailedLableVisible: true,
-                    isBackgroundPanelVisible: true
+                    isBackgroundPanelVisible: true,
+                    isRestartButtonVisible: true
                 );
             case UIManagerState.PlaceHumans placeHumans:
                 return new UIState(
@@ -48,7 +60,8 @@ public class UIManager : MonoBehaviour
             case UIManagerState.Victory victory:
                 return new UIState(
                     isVictoryBannerVisible: true,
-                    isBackgroundPanelVisible: true
+                    isBackgroundPanelVisible: true,
+                    isNextLevelButtonVisible: true
                 );
             default:
                 throw new ArgumentOutOfRangeException(nameof(state));
@@ -130,6 +143,24 @@ public class UIManager : MonoBehaviour
         {
             availableSoldiersToSpawn.Hide(true);
         }
+
+        if (state.isRestartButtonVisible)
+        {
+            restartButton.Show(true);
+        }
+        else
+        {
+            restartButton.Hide(true);
+        }
+
+        if (state.isNextLevelButtonVisible)
+        {
+            nextLevelButton.Show(true);
+        }
+        else
+        {
+            nextLevelButton.Hide(true);
+        }
     }
 
     public void SetAvailableSoldiersToSpawnAmount(int amount)
@@ -176,6 +207,8 @@ public class UIManager : MonoBehaviour
         public readonly bool isAvailableToSpawnBannerVisible;
         public readonly bool isBackgroundPanelVisible;
         public readonly bool isPlaceHumansLabelVisible;
+        public readonly bool isNextLevelButtonVisible;
+        public readonly bool isRestartButtonVisible;
 
         public UIState(
             bool isStartBattleImageVisible = false,
@@ -185,7 +218,9 @@ public class UIManager : MonoBehaviour
             bool isProgressBarVisible = false,
             bool isAvailableToSpawnBannerVisible = false,
             bool isBackgroundPanelVisible = false,
-            bool isPlaceHumansLabelVisible = false
+            bool isPlaceHumansLabelVisible = false,
+            bool isNextLevelButtonVisible = false,
+            bool isRestartButtonVisible = false
         )
         {
             this.isStartBattleImageVisible = isStartBattleImageVisible;
@@ -196,6 +231,8 @@ public class UIManager : MonoBehaviour
             this.isAvailableToSpawnBannerVisible = isAvailableToSpawnBannerVisible;
             this.isBackgroundPanelVisible = isBackgroundPanelVisible;
             this.isPlaceHumansLabelVisible = isPlaceHumansLabelVisible;
+            this.isNextLevelButtonVisible = isNextLevelButtonVisible;
+            this.isRestartButtonVisible = isRestartButtonVisible;
         }
     }
 }
