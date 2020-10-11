@@ -59,6 +59,7 @@ namespace Game.Scripts
             UpdateMaxAvailableSoldiersCount(0);
             CurrentLevel.OnLevelLoad += OnLevelLoad;
             CurrentLevel.OnEnemyDeath += OnEnemyDeath;
+            CurrentLevel.OnEnemyDeathTriggered += OnEnemyDeathTriggered;
             nextLevelId++;
             visibleLevel++;
             if (nextLevelId >= levels.Count)
@@ -95,7 +96,6 @@ namespace Game.Scripts
         private void OnEnemyDeath()
         {
             var remainedEnemies = CurrentLevel.GetRemainedEnemies();
-            uiManager.UpdateLevelProgress(CurrentLevel.TotalEnemiesCount - remainedEnemies);
 
             if (remainedEnemies == 0)
             {
@@ -104,6 +104,12 @@ namespace Game.Scripts
                 king.OnVictory();
                 camera.OnLevelEnd();
             }
+        }
+
+        private void OnEnemyDeathTriggered()
+        {
+            var remainedEnemies = CurrentLevel.GetRemainedEnemies();
+            uiManager.UpdateLevelProgress(CurrentLevel.TotalEnemiesCount - remainedEnemies);
         }
 
         private IEnumerator ScheduleNextLevelLoad()

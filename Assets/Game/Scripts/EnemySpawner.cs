@@ -20,6 +20,7 @@ namespace Game.Scripts
         private King king;
 
         public event Action OnEnemyDeath = () => { };
+        public event Action OnEnemyDeathTriggered = () => { };
 
         private void Start()
         {
@@ -44,7 +45,15 @@ namespace Game.Scripts
 
         public int GetRemainedEnemiesCount()
         {
-            var currentlyActive = enemyPool.GetActiveObjectsCount();
+            var currentlyActive = 0;
+            var enemies = enemyPool.GetActiveObjects();
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                if (!enemies[i].health.IsDead())
+                {
+                    currentlyActive++;
+                }
+            }
             for (int i = nextWaveId; i < waves.Count; i++)
             {
                 var wave = waves[i];
@@ -113,6 +122,7 @@ namespace Game.Scripts
             var unit = Instantiate(enemyPrefab, transform);
             unit.Disable();
             unit.OnDeath = ReleaseToPool;
+            unit.OnDeathTriggered += OnEnemyBeforeDeath;
             return unit;
         }
         
@@ -128,6 +138,7 @@ namespace Game.Scripts
         private void DestroyEnemy(OptimizedUnit enemy)
         {
             enemy.OnDeath = null;
+            enemy.OnDeathTriggered -= OnEnemyBeforeDeath;
             Destroy(enemy.gameObject);
         }
 
@@ -142,5 +153,7 @@ namespace Game.Scripts
             enemy.Disable();
             enemy.gameObject.SetActive(false);
         }
+
+        private void OnEnemyBeforeDeath() => OnEnemyDeathTriggered.Invoke();
     }
 }
