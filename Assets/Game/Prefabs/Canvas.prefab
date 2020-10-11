@@ -2871,6 +2871,11 @@ PrefabInstance:
       propertyPath: InitialModule.startLifetime.minScalar
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 198183601560427922, guid: bf188218a0d2c5f48ba32ba806b0ffef,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 198802042904314914, guid: bf188218a0d2c5f48ba32ba806b0ffef,
         type: 3}
       propertyPath: scalingMode
@@ -3004,7 +3009,7 @@ PrefabInstance:
     - target: {fileID: 8170366420831514472, guid: bf188218a0d2c5f48ba32ba806b0ffef,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 511
+      value: 900
       objectReference: {fileID: 0}
     - target: {fileID: 8170366420831514472, guid: bf188218a0d2c5f48ba32ba806b0ffef,
         type: 3}
