@@ -9,11 +9,13 @@ namespace Game.Scripts
     {
         public List<Level> levels;
         public float nextLevelLoadDelay = 2f;
+        
         private int nextLevelId = 0;
         private int visibleLevel;
         private UIManager uiManager;
         private PlayerSoldierSpawnManager playerSoldierSpawnManager;
         private King king;
+        private AnimatableCamera camera;
 
         public Level CurrentLevel { get; private set; }
 
@@ -24,6 +26,7 @@ namespace Game.Scripts
             uiManager.OnNextLevelButtonClick += OnNextLevelButtonClick;
             
             playerSoldierSpawnManager = FindObjectOfType<PlayerSoldierSpawnManager>();
+            camera = FindObjectOfType<AnimatableCamera>();
             king = FindObjectOfType<King>();
             king.OnKingDeath += OnKingDeath;
             LoadNextLevel();
@@ -36,6 +39,7 @@ namespace Game.Scripts
             {
                 playerSoldierSpawnManager.OnBattleStart();
                 uiManager.SetState(new UIManager.UIManagerState.StartBattle());
+                camera.OnBattleStart();
             }
         }
         
@@ -84,6 +88,7 @@ namespace Game.Scripts
         {
             uiManager.UpdateLevelInfo(visibleLevel, CurrentLevel.TotalEnemiesCount);
             uiManager.UpdateLevelProgress(0);
+            camera.OnLevelLoad();
             CurrentLevel.OnLevelLoad -= OnLevelLoad;
         }
 
@@ -97,6 +102,7 @@ namespace Game.Scripts
                 uiManager.SetState(new UIManager.UIManagerState.Victory());
                 playerSoldierSpawnManager.OnLevelComplete();
                 king.OnVictory();
+                camera.OnLevelEnd();
             }
         }
 
@@ -110,6 +116,7 @@ namespace Game.Scripts
         {
             uiManager.SetState(new UIManager.UIManagerState.Loose());
             CurrentLevel.OnKingDeath();
+            camera.OnLevelEnd();
         }
 
         private void OnNextLevelButtonClick()
