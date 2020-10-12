@@ -883,9 +883,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: cd41989856d1c6e4abe027a567d456cb, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 19c7077c998d6194397011ec1aecceea, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.466
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -998,7 +998,7 @@ MonoBehaviour:
   shouldMoveToEnemy: 1
   damage: 9
   attackTag: Knight
-  attackAudio: {fileID: 8300000, guid: 19c7077c998d6194397011ec1aecceea, type: 3}
+  attackAudio: {fileID: 0}
   runAudio: {fileID: 8300000, guid: cd41989856d1c6e4abe027a567d456cb, type: 3}
   health: {fileID: 3668544839087094414}
   attackTargetStopDistance: 1.1

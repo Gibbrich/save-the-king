@@ -1121,7 +1121,7 @@ MonoBehaviour:
   shouldMoveToEnemy: 0
   damage: 50
   attackTag: Enemy
-  attackAudio: {fileID: 8300000, guid: 19c7077c998d6194397011ec1aecceea, type: 3}
+  attackAudio: {fileID: 8300000, guid: 890beb4d8f17526408abe40932d072f8, type: 3}
   runAudio: {fileID: 8300000, guid: cd41989856d1c6e4abe027a567d456cb, type: 3}
   health: {fileID: 7932958786857731412}
   attackTargetStopDistance: 0
@@ -1193,7 +1193,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.611
   m_Pitch: 1
   Loop: 0
   Mute: 0
