@@ -9,6 +9,7 @@ TagManager:
   - Battle ground
   - Grid cell
   - Floor
+  - Spawner
   layers:
   - Default
   - TransparentFX

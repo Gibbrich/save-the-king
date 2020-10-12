@@ -51,6 +51,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxAvailableSoldiers: 20
+  startKingPosition: {x: -0.8, y: 0, z: -3.05}
 --- !u!1001 &326883213700758103
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -61,7 +62,7 @@ PrefabInstance:
     - target: {fileID: 1008464742835843864, guid: 7dc01248ff9004d46a0b2cb15cae7b9a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.86
+      value: 2.55
       objectReference: {fileID: 0}
     - target: {fileID: 1008464742835843864, guid: 7dc01248ff9004d46a0b2cb15cae7b9a,
         type: 3}
@@ -121,7 +122,7 @@ PrefabInstance:
     - target: {fileID: 1008464742835843864, guid: 7dc01248ff9004d46a0b2cb15cae7b9a,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 3.576705
+      value: 4.3338933
       objectReference: {fileID: 0}
     - target: {fileID: 1008464742835843864, guid: 7dc01248ff9004d46a0b2cb15cae7b9a,
         type: 3}
@@ -861,7 +862,7 @@ PrefabInstance:
     - target: {fileID: 1008464742835843864, guid: 7dc01248ff9004d46a0b2cb15cae7b9a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.47
+      value: -3.96
       objectReference: {fileID: 0}
     - target: {fileID: 1008464742835843864, guid: 7dc01248ff9004d46a0b2cb15cae7b9a,
         type: 3}
@@ -921,7 +922,7 @@ PrefabInstance:
     - target: {fileID: 1008464742835843864, guid: 7dc01248ff9004d46a0b2cb15cae7b9a,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 3.576705
+      value: 4.3338933
       objectReference: {fileID: 0}
     - target: {fileID: 1008464742835843864, guid: 7dc01248ff9004d46a0b2cb15cae7b9a,
         type: 3}

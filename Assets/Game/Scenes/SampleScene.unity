@@ -968,9 +968,9 @@ MonoBehaviour:
     type: 3}
   soldierPrefab: {fileID: 3301190563922020601, guid: d39321e906b3b684abdb5e0f73e0598a,
     type: 3}
-  minPointDistance: 0.43
+  minPointDistance: 0.47
   lineRenderHeight: 0.2
-  spawnPointDistance: 0.43
+  spawnPointDistance: 0.47
   soldierRotationOffset: 90
 --- !u!120 &1906208469
 LineRenderer:

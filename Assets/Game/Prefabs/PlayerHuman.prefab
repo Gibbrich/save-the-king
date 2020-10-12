@@ -872,7 +872,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: cd41989856d1c6e4abe027a567d456cb, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.411
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -985,7 +985,7 @@ MonoBehaviour:
   shouldMoveToEnemy: 0
   damage: 12
   attackTag: Enemy
-  attackAudio: {fileID: 8300000, guid: 19c7077c998d6194397011ec1aecceea, type: 3}
+  attackAudio: {fileID: 8300000, guid: 890beb4d8f17526408abe40932d072f8, type: 3}
   runAudio: {fileID: 8300000, guid: cd41989856d1c6e4abe027a567d456cb, type: 3}
   health: {fileID: 3145426359586027964}
   attackTargetStopDistance: 1.1
@@ -2335,15 +2335,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b3b450134f9c064a8fe4402aeb55ee6, type: 3}
---- !u!4 &5086087490348094762 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2866452892762659757, guid: 0b3b450134f9c064a8fe4402aeb55ee6,
-    type: 3}
-  m_PrefabInstance: {fileID: 7012885376289459847}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &4351790075847120012 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 6716674763658615307, guid: 0b3b450134f9c064a8fe4402aeb55ee6,
+    type: 3}
+  m_PrefabInstance: {fileID: 7012885376289459847}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5086087490348094762 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2866452892762659757, guid: 0b3b450134f9c064a8fe4402aeb55ee6,
     type: 3}
   m_PrefabInstance: {fileID: 7012885376289459847}
   m_PrefabAsset: {fileID: 0}
