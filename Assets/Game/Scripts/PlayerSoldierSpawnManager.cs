@@ -95,6 +95,11 @@ namespace Game.Scripts
                     if (spawnPointsHolder.SpawnPoints.Count > 0)
                     {
                         ResetSpawnLineState();
+                        var units = soldiersPool.GetActiveObjects();
+                        for (int i = 0; i < units.Count; i++)
+                        {
+                            units[i].GetComponent<Soldier>().ChangeMaterial(false);
+                        }
                         levelManager.StartBattleIfNeed();
                     }
                 }
@@ -250,6 +255,7 @@ namespace Game.Scripts
                     soldier.transform.position = point;
                     soldier.transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
                     soldier.SetVisibility(true);
+                    soldier.GetComponent<Soldier>().ChangeMaterial(true);
                     
                     levelManager.UpdateSpawnedSoldiers(1);
                     levelManager.UpdateMaxAvailableSoldiersCount();
