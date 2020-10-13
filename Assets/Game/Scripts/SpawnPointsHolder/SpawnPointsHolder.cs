@@ -49,7 +49,7 @@ namespace Game.Scripts
         {
             var previousSpawnPoint = SpawnPoints[SpawnPoints.Count - 1];
             var distanceToPreviousSpawnPointSquare = (linePosition - previousSpawnPoint).sqrMagnitude;
-            return distanceToPreviousSpawnPointSquare >= spawnPointDistanceSquare && SpawnPoints.Count < pointsToSpawnLimit;
+            return distanceToPreviousSpawnPointSquare >= spawnPointDistanceSquare && pointsToSpawnLimit > 0;
         }
     }
 }

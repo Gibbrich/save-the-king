@@ -94,13 +94,14 @@ namespace Game.Scripts
                 {
                     if (spawnPointsHolder.SpawnPoints.Count > 0)
                     {
-                        SpawnSoldiers();
                         ResetSpawnLineState();
+                        levelManager.StartBattleIfNeed();
                     }
                 }
                 else
                 {
-                    if (!EventSystem.current.IsPointerOverGameObject() && spawnPointsHolder.SpawnPoints.Count < levelManager.CurrentLevel.GetSpawnPointsLimit())
+                    var b = levelManager.CurrentLevel.GetAvailableSoldiersToSpawn() > 0;
+                    if (!EventSystem.current.IsPointerOverGameObject() && b)
                     {
                         AddPointIfNeed(touch.position);
                     }
@@ -232,30 +233,6 @@ namespace Game.Scripts
             soldier.gameObject.SetActive(false);
         }
 
-        private void SpawnSoldiers()
-        {
-            var midPointId = points.Count / 2;
-            var midPoint = points[midPointId];
-            var midPoint2d = new Vector2(midPoint.x, midPoint.z);
-            
-            var kingPosition = king.transform.position;
-            var kingPosition2d = new Vector2(kingPosition.x, kingPosition.z);
-            
-            var direction = midPoint2d - kingPosition2d;
-            var angleDeg = soldierRotationOffset - Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-            for (int i = 0; i < spawnPointsHolder.SpawnPoints.Count; i++)
-            {
-                var point = spawnPointsHolder.SpawnPoints[i];
-                var soldier = soldiersPool.GetNewObject();
-                soldier.transform.position = point;
-                soldier.transform.rotation = Quaternion.AngleAxis(angleDeg, Vector3.up);
-                soldier.SetVisibility(true);
-            }
-
-            levelManager.UpdateSpawnedSoldiers(spawnPointsHolder.SpawnPoints.Count);
-        }
-
         private int AddSpawnPointsIfNeed(Vector3 linePosition)
         {
             var result = spawnPointsHolder.AddSpawnPointsIfNeed(linePosition, GetSpawnPointsLimit());
@@ -263,11 +240,19 @@ namespace Game.Scripts
             {
                 var spawnPoint = spawnPointPool.GetNewObject();
                 var spawnPointIdOffset = result - i;
-                spawnPoint.transform.position = spawnPointsHolder.SpawnPoints[spawnPointsHolder.SpawnPoints.Count - spawnPointIdOffset];
+                var id = spawnPointsHolder.SpawnPoints.Count - spawnPointIdOffset;
+                spawnPoint.transform.position = spawnPointsHolder.SpawnPoints[id];
                 
                 if (levelManager.CurrentLevel.Phase == LevelPhase.TACTIC)
                 {
-                    levelManager.UpdateMaxAvailableSoldiersCount(spawnPointsHolder.SpawnPoints.Count);
+                    var point = spawnPointsHolder.SpawnPoints[id];
+                    var soldier = soldiersPool.GetNewObject();
+                    soldier.transform.position = point;
+                    soldier.transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
+                    soldier.SetVisibility(true);
+                    
+                    levelManager.UpdateSpawnedSoldiers(1);
+                    levelManager.UpdateMaxAvailableSoldiersCount();
                 }
             }
 
@@ -279,7 +264,7 @@ namespace Game.Scripts
             switch (levelManager.CurrentLevel.Phase)
             {
                 case LevelPhase.TACTIC:
-                    return levelManager.CurrentLevel.GetSpawnPointsLimit();
+                    return levelManager.CurrentLevel.GetAvailableSoldiersToSpawn();
                 case LevelPhase.BATTLE:
                     return soldiersPool.GetActiveObjectsCount();
                 default:
