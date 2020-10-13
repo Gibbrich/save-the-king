@@ -108,7 +108,12 @@ namespace Game.Scripts
                         var units = soldiersPool.GetActiveObjects();
                         for (int i = 0; i < units.Count; i++)
                         {
-                            units[i].GetComponent<Soldier>().ChangeMaterial(false);
+                            var unit = units[i];
+                            var isMaterialChanged = unit.GetComponent<Soldier>().ChangeMaterial(false);
+                            if (isMaterialChanged)
+                            {
+                                unit.OnSpawn();
+                            }
                         }
                         levelManager.StartBattleIfNeed();
                     }

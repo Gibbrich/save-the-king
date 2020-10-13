@@ -8,10 +8,17 @@ namespace Game.Scripts
         public Material spawnMaterial;
         public Renderer meshRenderer;
 
-        public void ChangeMaterial(bool isSpawn)
+        public bool isNormalMaterialActive = true;
+
+        public bool ChangeMaterial(bool isSpawn)
         {
             var material = isSpawn ? spawnMaterial : normalMaterial;
             meshRenderer.material = material;
+
+            var isChanged = isNormalMaterialActive == isSpawn;
+            isNormalMaterialActive = !isSpawn;
+            
+            return isChanged;
         }
     }
 }
