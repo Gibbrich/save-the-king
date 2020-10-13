@@ -38,23 +38,23 @@ namespace Game.Scripts
             OnLevelLoad.Invoke();
         }
 
-        public bool UpdateSpawnedSoldiers(int soldiersAmount)
+        public void UpdateSpawnedSoldiers(int soldiersAmount)
         {
             SpawnedSoldiers += soldiersAmount;
-            var shouldStartBattle = SpawnedSoldiers == maxAvailableSoldiers;
-            if (shouldStartBattle)
-            {
-                Phase = LevelPhase.BATTLE;
-                for (int i = 0; i < spawners.Length; i++)
-                {
-                    spawners[i].OnBattleStart();
-                }
-            }
-
-            return shouldStartBattle;
         }
 
-        public int GetSpawnPointsLimit() => maxAvailableSoldiers - SpawnedSoldiers;
+        public bool ShouldStartBattle() => SpawnedSoldiers == maxAvailableSoldiers;
+
+        public void StartBattle()
+        {
+            Phase = LevelPhase.BATTLE;
+            for (int i = 0; i < spawners.Length; i++)
+            {
+                spawners[i].OnBattleStart();
+            }
+        }
+
+        public int GetAvailableSoldiersToSpawn() => maxAvailableSoldiers - SpawnedSoldiers;
 
         public int GetRemainedEnemies()
         {

@@ -86,6 +86,14 @@ namespace Game.Scripts
             }
         }
 
+        public void OnSpawn()
+        {
+            if (victoryEffect)
+            {
+                victoryEffect.Play();
+            }
+        }
+
         public SoldierState GetState() => stateMachine.CurrentState;
 
         public void MoveToNavigationTarget(Vector3 navigationTarget)

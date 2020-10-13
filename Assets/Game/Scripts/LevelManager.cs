@@ -34,19 +34,23 @@ namespace Game.Scripts
         
         public void UpdateSpawnedSoldiers(int soldiersAmount)
         {
-            var result = CurrentLevel.UpdateSpawnedSoldiers(soldiersAmount);
-            if (result)
+            CurrentLevel.UpdateSpawnedSoldiers(soldiersAmount);
+        }
+
+        public void StartBattleIfNeed()
+        {
+            if (CurrentLevel.ShouldStartBattle())
             {
+                CurrentLevel.StartBattle();
                 playerSoldierSpawnManager.OnBattleStart();
                 uiManager.SetState(new UIManager.UIManagerState.StartBattle());
                 camera.OnBattleStart();
             }
         }
         
-        public void UpdateMaxAvailableSoldiersCount(int upcomingSoldiers)
+        public void UpdateMaxAvailableSoldiersCount()
         {
-            var availableSoldiersLeft = CurrentLevel.GetSpawnPointsLimit() - upcomingSoldiers;
-            uiManager.SetAvailableSoldiersToSpawnAmount(availableSoldiersLeft);
+            uiManager.SetAvailableSoldiersToSpawnAmount(CurrentLevel.GetAvailableSoldiersToSpawn());
         }
 
         private void LoadNextLevel()
@@ -56,7 +60,7 @@ namespace Game.Scripts
                 Destroy(CurrentLevel.gameObject);
             }
             CurrentLevel = Instantiate(levels[nextLevelId]);
-            UpdateMaxAvailableSoldiersCount(0);
+            UpdateMaxAvailableSoldiersCount();
             CurrentLevel.OnLevelLoad += OnLevelLoad;
             CurrentLevel.OnEnemyDeath += OnEnemyDeath;
             CurrentLevel.OnEnemyDeathTriggered += OnEnemyDeathTriggered;
@@ -78,7 +82,7 @@ namespace Game.Scripts
                 Destroy(CurrentLevel.gameObject);
             }
             CurrentLevel = Instantiate(levels[nextLevelId - 1]);
-            UpdateMaxAvailableSoldiersCount(0);
+            UpdateMaxAvailableSoldiersCount();
             CurrentLevel.OnLevelLoad += OnLevelLoad;
             CurrentLevel.OnEnemyDeath += OnEnemyDeath;
             uiManager.SetState(new UIManager.UIManagerState.PlaceHumans());
