@@ -18,6 +18,7 @@ namespace Game.Scripts
         public float lineRenderHeight = 0.5f;
         public float spawnPointDistance = 0.5f;
         public float soldierRotationOffset = 90f;
+        public int anglesToSnapSpawnedSoldier = 8;
 
         private LevelManager levelManager;
         private LineRenderer lineRenderer;
@@ -31,6 +32,7 @@ namespace Game.Scripts
         private GameObject spawnPointsParent;
         private GameObject soldiersParent;
         private SpawnPointsHolder spawnPointsHolder;
+        private List<Quaternion> snapAngles;
 
         private void Start()
         {
@@ -49,6 +51,14 @@ namespace Game.Scripts
             
             spawnPointPool = new Pool<GameObject>(50, CreateSpawnPoint, Destroy, WakeUpSpawnPoint, SetToSleepSpawnPoint);
             soldiersPool = new Pool<OptimizedUnit>(50, CreateSoldier, DestroySoldier, WakeUpSoldier, SetAsleepSoldier);
+
+            snapAngles = new List<Quaternion>();
+            var segment = 360.0f / anglesToSnapSpawnedSoldier;
+            for (int i = 0; i < anglesToSnapSpawnedSoldier; i++)
+            {
+                var quaternion = Quaternion.AngleAxis(i * segment, Vector3.up);
+                snapAngles.Add(quaternion);
+            }
         }
 
         private void Update()
@@ -250,19 +260,46 @@ namespace Game.Scripts
                 
                 if (levelManager.CurrentLevel.Phase == LevelPhase.TACTIC)
                 {
-                    var point = spawnPointsHolder.SpawnPoints[id];
-                    var soldier = soldiersPool.GetNewObject();
-                    soldier.transform.position = point;
-                    soldier.transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
-                    soldier.SetVisibility(true);
-                    soldier.GetComponent<Soldier>().ChangeMaterial(true);
-                    
-                    levelManager.UpdateSpawnedSoldiers(1);
-                    levelManager.UpdateMaxAvailableSoldiersCount();
+                    SpawnSoldier(spawnPointsHolder.SpawnPoints[id]);
                 }
             }
 
             return result;
+        }
+
+        private void SpawnSoldier(Vector3 position)
+        {
+            var position2d = new Vector2(position.x, position.z);
+            
+            var kingPosition = king.transform.position;
+            var kingPosition2d = new Vector2(kingPosition.x, kingPosition.z);
+            
+            var direction = position2d - kingPosition2d;
+            var angleDeg = soldierRotationOffset - Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+            var rotationBackToKing = Quaternion.AngleAxis(angleDeg, Vector3.up);
+
+            var smallestAngle = float.MaxValue;
+            var rotation = snapAngles[0];
+            for (int i = 0; i < anglesToSnapSpawnedSoldier; i++)
+            {
+                var angle = Quaternion.Angle(snapAngles[i], rotationBackToKing);
+                var absAngle = Mathf.Abs(angle);
+                if (absAngle < smallestAngle)
+                {
+                    smallestAngle = absAngle;
+                    rotation = snapAngles[i];
+                }
+            }
+
+            var soldier = soldiersPool.GetNewObject();
+            soldier.transform.position = position;
+            soldier.transform.rotation = rotation;
+            soldier.SetVisibility(true);
+            soldier.GetComponent<Soldier>().ChangeMaterial(true);
+                    
+            levelManager.UpdateSpawnedSoldiers(1);
+            levelManager.UpdateMaxAvailableSoldiersCount();
         }
 
         private int GetSpawnPointsLimit()
