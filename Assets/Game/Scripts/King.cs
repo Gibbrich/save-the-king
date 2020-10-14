@@ -7,10 +7,9 @@ namespace Game.Scripts
     [RequireComponent(typeof(OptimizedUnit))]
     public class King : MonoBehaviour
     {
+        public HealthBar healthBar;
         public OptimizedUnit unit;
-        public Slider healthBar;
 
-        private Camera camera;
         private bool wasAttacked;
 
         public event Action OnKingDeath = () => { };
@@ -18,16 +17,13 @@ namespace Game.Scripts
 
         private void Start()
         {
-            camera = Camera.main;
             unit.Enable();
             unit.OnDeath = (_, __) => OnDeath();
         }
 
         private void Update()
         {
-            healthBar.transform.LookAt(2 * transform.position - camera.transform.position);
             var health = unit.health;
-            healthBar.value = health.CurrentHitPoints;
 
             if (!wasAttacked && !Mathf.Approximately(health.CurrentHitPoints, health.maxHitPoints))
             {
@@ -40,6 +36,7 @@ namespace Game.Scripts
         {
             OnKingDeath.Invoke();
             gameObject.SetActive(false);
+            healthBar.gameObject.SetActive(false);
         }
 
         public void OnVictory()
@@ -52,8 +49,7 @@ namespace Game.Scripts
             unit.Enable();
             gameObject.SetActive(true);
             transform.position = kingPosition;
-            healthBar.maxValue = unit.health.maxHitPoints;
-            healthBar.value = unit.health.CurrentHitPoints;
+            healthBar.gameObject.SetActive(true);
             wasAttacked = false;
         }
     }

@@ -114,6 +114,7 @@ namespace Game.Scripts
 
             if (remainedEnemies == 0)
             {
+                uiManager.HideTutorialHand();
                 uiManager.SetState(new UIManager.UIManagerState.Victory());
                 playerSoldierSpawnManager.OnLevelComplete();
                 king.OnVictory();
@@ -135,14 +136,16 @@ namespace Game.Scripts
 
         private void OnKingDeath()
         {
+            uiManager.HideTutorialHand();
             uiManager.SetState(new UIManager.UIManagerState.Loose());
+            playerSoldierSpawnManager.KillAllSoldiers();
             CurrentLevel.OnKingDeath();
             camera.OnLevelEnd();
         }
 
         private void OnNextLevelButtonClick()
         {
-            playerSoldierSpawnManager.OnLevelStart();
+            playerSoldierSpawnManager.KillAllSoldiers();
             uiManager.SetState(new UIManager.UIManagerState.PlaceHumans());
             StartCoroutine(ScheduleNextLevelLoad());
         }
