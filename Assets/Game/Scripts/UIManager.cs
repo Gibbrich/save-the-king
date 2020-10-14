@@ -185,6 +185,11 @@ public class UIManager : MonoBehaviour
         tutorialHandController.Show(isBattle);
     }
 
+    public void HideTutorialHand()
+    {
+        tutorialHandController.Hide();
+    }
+
     public abstract class UIManagerState
     {
         public sealed class Victory : UIManagerState
