@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f8352ec19ea4572adc91ce9896c9679, type: 3}
   m_Name: CrowdDefaultWave 3
   m_EditorClassIdentifier: 
-  enemiesInRow: 15
-  enemiesInColumn: 2
+  enemiesInRow: 12
+  enemiesInColumn: 4
   spawnDelay: 1

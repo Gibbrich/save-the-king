@@ -136,7 +136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   angryEmojiEffect: {fileID: 6894863700450181635}
-  angerEmojiSpawnProbability: 0.017
+  angerEmojiSpawnProbability: 0
   spawnInterval: 3
 --- !u!1 &735431140216242737
 GameObject:
@@ -1023,6 +1023,7 @@ MonoBehaviour:
   normalMaterial: {fileID: 2100000, guid: a6762e5e9597f43418e007b3a3001a6d, type: 2}
   spawnMaterial: {fileID: 2100000, guid: 0232bcfbe578e41f6b41a7323ba4143f, type: 2}
   meshRenderer: {fileID: 9095000067785335383}
+  isNormalMaterialActive: 1
 --- !u!1 &4324070059215658109
 GameObject:
   m_ObjectHideFlags: 0
