@@ -49,7 +49,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af78bc64f3dae4aecb0813b813184ad5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxAvailableSoldiers: 40
+  maxAvailableSoldiers: 30
+  startKingPosition: {x: -0.8, y: 0, z: -3.05}
 --- !u!1001 &366725159355174309
 PrefabInstance:
   m_ObjectHideFlags: 0
