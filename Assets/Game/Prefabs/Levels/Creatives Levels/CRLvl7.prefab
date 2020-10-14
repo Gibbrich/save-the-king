@@ -55,7 +55,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af78bc64f3dae4aecb0813b813184ad5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxAvailableSoldiers: 25
+  maxAvailableSoldiers: 20
   startKingPosition: {x: -0.8, y: 0, z: -3.05}
 --- !u!1001 &334614734517682688
 PrefabInstance:
@@ -128,7 +128,7 @@ PrefabInstance:
         type: 3}
       propertyPath: waves.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 1e9202714735d46f190b6118d0ffb196,
+      objectReference: {fileID: 11400000, guid: 9a8d8253471fe7b4184f093a35f91f99,
         type: 2}
     - target: {fileID: 2198678138481463558, guid: 6cd6d21489d8fc947b84e030dfa4bb22,
         type: 3}
@@ -975,7 +975,7 @@ PrefabInstance:
         type: 3}
       propertyPath: waves.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 1e9202714735d46f190b6118d0ffb196,
+      objectReference: {fileID: 11400000, guid: 9a8d8253471fe7b4184f093a35f91f99,
         type: 2}
     - target: {fileID: 2198678138481463558, guid: 6cd6d21489d8fc947b84e030dfa4bb22,
         type: 3}
@@ -1061,7 +1061,7 @@ PrefabInstance:
         type: 3}
       propertyPath: waves.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 05fbed5a25f34994d8e7bac357f41531,
+      objectReference: {fileID: 11400000, guid: b46a38c7489d86848bf36541244ea69e,
         type: 2}
     - target: {fileID: 2198678138481463558, guid: 6cd6d21489d8fc947b84e030dfa4bb22,
         type: 3}

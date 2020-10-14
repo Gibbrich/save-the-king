@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3791502543795534597}
   - component: {fileID: 7145008783724439005}
   m_Layer: 0
-  m_Name: CRLvl3
+  m_Name: CRLvl5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -56,7 +56,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af78bc64f3dae4aecb0813b813184ad5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxAvailableSoldiers: 40
+  maxAvailableSoldiers: 30
+  startKingPosition: {x: -0.8, y: 0, z: -3.05}
 --- !u!1001 &912611184741445266
 PrefabInstance:
   m_ObjectHideFlags: 0
