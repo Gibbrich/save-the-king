@@ -837,8 +837,8 @@ MonoBehaviour:
   shouldMoveToEnemy: 0
   damage: 50
   attackTag: Enemy
-  attackAudio: {fileID: 8300000, guid: 890beb4d8f17526408abe40932d072f8, type: 3}
-  runAudio: {fileID: 8300000, guid: cd41989856d1c6e4abe027a567d456cb, type: 3}
+  attackAudio: {fileID: 0}
+  runAudio: {fileID: 0}
   health: {fileID: 7932958786857731412}
   attackTargetStopDistance: 0
   navigationStoppingDistance: 0.1
@@ -895,8 +895,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f0669b467d1486f897000c8a347b500, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit: {fileID: 2549756956432417732}
   healthBar: {fileID: 0}
+  unit: {fileID: 2549756956432417732}
 --- !u!82 &4634659553801600640
 AudioSource:
   m_ObjectHideFlags: 0

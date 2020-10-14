@@ -871,7 +871,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: cd41989856d1c6e4abe027a567d456cb, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 0.411
   m_Pitch: 1
@@ -986,8 +986,8 @@ MonoBehaviour:
   shouldMoveToEnemy: 0
   damage: 12
   attackTag: Enemy
-  attackAudio: {fileID: 8300000, guid: 890beb4d8f17526408abe40932d072f8, type: 3}
-  runAudio: {fileID: 8300000, guid: cd41989856d1c6e4abe027a567d456cb, type: 3}
+  attackAudio: {fileID: 0}
+  runAudio: {fileID: 0}
   health: {fileID: 3145426359586027964}
   attackTargetStopDistance: 1.1
   navigationStoppingDistance: 0.1
@@ -1023,6 +1023,7 @@ MonoBehaviour:
   normalMaterial: {fileID: 2100000, guid: a6762e5e9597f43418e007b3a3001a6d, type: 2}
   spawnMaterial: {fileID: 2100000, guid: 0232bcfbe578e41f6b41a7323ba4143f, type: 2}
   meshRenderer: {fileID: 9095000067785335383}
+  isNormalMaterialActive: 1
 --- !u!1 &4324070059215658109
 GameObject:
   m_ObjectHideFlags: 0

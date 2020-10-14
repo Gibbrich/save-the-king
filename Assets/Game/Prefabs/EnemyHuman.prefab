@@ -999,7 +999,7 @@ MonoBehaviour:
   damage: 9
   attackTag: Knight
   attackAudio: {fileID: 0}
-  runAudio: {fileID: 8300000, guid: cd41989856d1c6e4abe027a567d456cb, type: 3}
+  runAudio: {fileID: 0}
   health: {fileID: 3668544839087094414}
   attackTargetStopDistance: 1.1
   navigationStoppingDistance: 0.1
