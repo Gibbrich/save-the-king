@@ -29,6 +29,7 @@ namespace Game.Scripts
             camera = FindObjectOfType<AnimatableCamera>();
             king = FindObjectOfType<King>();
             king.OnKingDeath += OnKingDeath;
+            king.OnKingAttacked += OnKingAttacked;
             LoadNextLevel();
         }
         
@@ -73,6 +74,7 @@ namespace Game.Scripts
             
             uiManager.SetState(new UIManager.UIManagerState.PlaceHumans());
             king.Refresh(CurrentLevel.startKingPosition);
+            ShowTacticsTutorialIfNeed();
         }
 
         private void ReloadLevel()
@@ -87,6 +89,15 @@ namespace Game.Scripts
             CurrentLevel.OnEnemyDeath += OnEnemyDeath;
             uiManager.SetState(new UIManager.UIManagerState.PlaceHumans());
             king.Refresh(CurrentLevel.startKingPosition);
+            ShowTacticsTutorialIfNeed();
+        }
+
+        private void ShowTacticsTutorialIfNeed()
+        {
+            if (CurrentLevel.shouldShowTacticsTutorial)
+            {
+                uiManager.ShowTutorialHand(false);
+            }
         }
 
         private void OnLevelLoad()
@@ -147,6 +158,11 @@ namespace Game.Scripts
         {
             yield return new WaitForSecondsRealtime(nextLevelLoadDelay);
             ReloadLevel();
+        }
+
+        private void OnKingAttacked()
+        {
+            uiManager.ShowTutorialHand(true);
         }
     }
 }

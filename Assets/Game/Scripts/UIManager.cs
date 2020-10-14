@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Game.Scripts;
 using Game.Scripts.ui;
 using Game.Scripts.UI;
 using UnityEngine;
@@ -19,6 +20,7 @@ public class UIManager : MonoBehaviour
     public AvailableToSpawnController availableSoldiersToSpawn;
     public AnimatableButton restartButton;
     public AnimatableButton nextLevelButton;
+    public TutorialHandController tutorialHandController;
 
     public event Action OnRestartButtonClick = () => { };
     public event Action OnNextLevelButtonClick = () => { };
@@ -176,6 +178,11 @@ public class UIManager : MonoBehaviour
     public void UpdateLevelProgress(int currentProgress)
     {
         levelProgress.UpdateLevelProgress(currentProgress);
+    }
+
+    public void ShowTutorialHand(bool isBattle)
+    {
+        tutorialHandController.Show(isBattle);
     }
 
     public abstract class UIManagerState
