@@ -85,7 +85,7 @@ namespace Game.Scripts
             }
         }
 
-        public void OnLevelStart()
+        public void KillAllSoldiers()
         {
             var soldiers = soldiersPool.GetActiveObjects();
             for (int i = 0; i < soldiers.Count; i++)

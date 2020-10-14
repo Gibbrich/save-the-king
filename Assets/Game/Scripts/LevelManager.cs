@@ -136,13 +136,14 @@ namespace Game.Scripts
         private void OnKingDeath()
         {
             uiManager.SetState(new UIManager.UIManagerState.Loose());
+            playerSoldierSpawnManager.KillAllSoldiers();
             CurrentLevel.OnKingDeath();
             camera.OnLevelEnd();
         }
 
         private void OnNextLevelButtonClick()
         {
-            playerSoldierSpawnManager.OnLevelStart();
+            playerSoldierSpawnManager.KillAllSoldiers();
             uiManager.SetState(new UIManager.UIManagerState.PlaceHumans());
             StartCoroutine(ScheduleNextLevelLoad());
         }
