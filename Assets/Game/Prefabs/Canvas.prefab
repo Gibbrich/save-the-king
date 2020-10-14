@@ -843,6 +843,7 @@ MonoBehaviour:
   availableSoldiersToSpawn: {fileID: 2237344462688164046}
   restartButton: {fileID: 1355000828974210349}
   nextLevelButton: {fileID: 6382858234698751607}
+  tutorialHandController: {fileID: 5197950907497496313}
 --- !u!1 &1357587345426169856
 GameObject:
   m_ObjectHideFlags: 0
@@ -1586,7 +1587,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1620,6 +1621,7 @@ MonoBehaviour:
   speed: 1
   offset: {x: 20, y: -50}
   angleToChangeVisibility: 45
+  startPositionOffset: 3
 --- !u!95 &8709099690271468719
 Animator:
   serializedVersion: 3

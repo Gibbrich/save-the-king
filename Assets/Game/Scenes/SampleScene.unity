@@ -657,6 +657,16 @@ PrefabInstance:
       propertyPath: speed
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 5197950907497496313, guid: d41db3cad66d74464a564961d486b394,
+        type: 3}
+      propertyPath: startPositionOffset
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5197950907497496313, guid: d41db3cad66d74464a564961d486b394,
+        type: 3}
+      propertyPath: battleCircleRadius
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 6475403671156622656, guid: d41db3cad66d74464a564961d486b394,
         type: 3}
       propertyPath: m_LocalScale.x
