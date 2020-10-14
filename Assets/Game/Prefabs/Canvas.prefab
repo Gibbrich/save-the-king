@@ -843,6 +843,7 @@ MonoBehaviour:
   availableSoldiersToSpawn: {fileID: 2237344462688164046}
   restartButton: {fileID: 1355000828974210349}
   nextLevelButton: {fileID: 6382858234698751607}
+  tutorialHandController: {fileID: 5197950907497496313}
 --- !u!1 &1357587345426169856
 GameObject:
   m_ObjectHideFlags: 0
@@ -1535,13 +1536,16 @@ GameObject:
   - component: {fileID: 6443108804951627844}
   - component: {fileID: 5007135966845903240}
   - component: {fileID: 622609946431593050}
+  - component: {fileID: 5197950907497496313}
+  - component: {fileID: 8709099690271468719}
+  - component: {fileID: 6260910058053560150}
   m_Layer: 5
   m_Name: TutorHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6443108804951627844
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1583,7 +1587,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1598,6 +1602,58 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5197950907497496313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6004636433918343189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d6685bf4c3c4a77a9f9b39afc5a5703, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  element: {fileID: 6260910058053560150}
+  king: {fileID: 0}
+  tacticsCircleRadius: 200
+  battleCircleRadius: 1
+  speed: 1
+  offset: {x: 20, y: -50}
+  angleToChangeVisibility: 45
+  startPositionOffset: 3
+--- !u!95 &8709099690271468719
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6004636433918343189}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: d20bd3757d3224d199e5f35aad290e92, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &6260910058053560150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6004636433918343189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d6da1b44061486faf4f64be9b72df18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 8709099690271468719}
 --- !u!1 &6886975719332887563
 GameObject:
   m_ObjectHideFlags: 0
@@ -2437,15 +2493,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf188218a0d2c5f48ba32ba806b0ffef, type: 3}
---- !u!1 &7158046547942027310 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1702015823946804, guid: bf188218a0d2c5f48ba32ba806b0ffef,
-    type: 3}
-  m_PrefabInstance: {fileID: 7156350170875892762}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1311267022489533298 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8170366420831514472, guid: bf188218a0d2c5f48ba32ba806b0ffef,
+    type: 3}
+  m_PrefabInstance: {fileID: 7156350170875892762}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7158046547942027310 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1702015823946804, guid: bf188218a0d2c5f48ba32ba806b0ffef,
     type: 3}
   m_PrefabInstance: {fileID: 7156350170875892762}
   m_PrefabAsset: {fileID: 0}
@@ -2603,6 +2659,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f19d73f2611d642dab94a1f741fc1c21, type: 3}
+--- !u!224 &4889920729264832449 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4588003454687736738, guid: f19d73f2611d642dab94a1f741fc1c21,
+    type: 3}
+  m_PrefabInstance: {fileID: 8968813292685053027}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &8863833286336789583 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 537345913692647468, guid: f19d73f2611d642dab94a1f741fc1c21,
@@ -2615,9 +2677,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7609ab4a30ea4729bd24bce6bab4ac11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &4889920729264832449 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 4588003454687736738, guid: f19d73f2611d642dab94a1f741fc1c21,
-    type: 3}
-  m_PrefabInstance: {fileID: 8968813292685053027}
-  m_PrefabAsset: {fileID: 0}

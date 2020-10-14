@@ -10,6 +10,7 @@ namespace Game.Scripts
         
         public int maxAvailableSoldiers;
         public Vector3 startKingPosition = DEFAULT_KING_POSITION;
+        public bool shouldShowTacticsTutorial;
         
         private EnemySpawner[] spawners;
 
