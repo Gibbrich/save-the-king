@@ -230,6 +230,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2662d9a1b4f578f478772de48f47de2e, type: 3}
+--- !u!114 &21236150 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6021317938058663041, guid: 2662d9a1b4f578f478772de48f47de2e,
+    type: 3}
+  m_PrefabInstance: {fileID: 21236149}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 391521354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f0669b467d1486f897000c8a347b500, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &177528617
 GameObject:
   m_ObjectHideFlags: 0
@@ -376,7 +388,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 9.4e-44, z: 5.224e-42, w: 1.04e-43}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -634,6 +646,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Material
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5197950907497496313, guid: d41db3cad66d74464a564961d486b394,
+        type: 3}
+      propertyPath: king
+      value: 
+      objectReference: {fileID: 21236150}
+    - target: {fileID: 5197950907497496313, guid: d41db3cad66d74464a564961d486b394,
+        type: 3}
+      propertyPath: speed
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 6475403671156622656, guid: d41db3cad66d74464a564961d486b394,
         type: 3}
@@ -972,6 +994,7 @@ MonoBehaviour:
   lineRenderHeight: 0.2
   spawnPointDistance: 0.47
   soldierRotationOffset: 90
+  anglesToSnapSpawnedSoldier: 8
 --- !u!120 &1906208469
 LineRenderer:
   m_ObjectHideFlags: 0
